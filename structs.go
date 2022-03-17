@@ -1,4 +1,4 @@
-package structs
+package main
 
 // Ant
 type Ant struct {
