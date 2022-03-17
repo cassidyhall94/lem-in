@@ -76,7 +76,7 @@ func (g *Graph) Print() {
 func main() {
 	test := &Graph{}
 
-	for i := 0; 9 < 5; i++ {
+	for i := 0; i < 5; i++ {
 		test.AddVertex(i)
 	}
 	test.AddEdge(1, 2)
