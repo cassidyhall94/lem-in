@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"structs"
 )
 
 // Graph represents an adjaceny list graph
@@ -74,6 +75,28 @@ func (g *Graph) Print() {
 }
 
 func main() {
+if len(os.Args) != 2 {
+		log.Fatal("The file name is missing")
+		os.Exit(1)
+	}
+
+	data := dataparser.LoadData(os.Args[1])
+	generationData := dataparser.ReadData(data)
+	farm.GenerateFarm(generationData)
+
+	var allPaths [][]*structs.Room
+	paths.FindAllPossiblePaths(make([]*structs.Room, 0), structs.FARM[structs.STARTROOMID], 0, &allPaths, &structs.FARM[structs.STARTROOMID])
+	utils.SortPaths(&allPaths)
+
+	allCombinations := paths.FindCombinations(allPaths)
+	bestCombination := paths.FindBestComb(allCombinations)
+
+	antsList := ants.SpawnAnts(bestCombination)
+	ants.MakeStep(antsList)
+
+
+
+
 	test := &Graph{}
 
 	for i := 0; i < 5; i++ {
