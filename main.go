@@ -2,6 +2,8 @@ package main
 
 import (
 	"fmt"
+	"log"
+	"os"
 	"structs"
 )
 
@@ -75,7 +77,7 @@ func (g *Graph) Print() {
 }
 
 func main() {
-if len(os.Args) != 2 {
+	if len(os.Args) != 2 {
 		log.Fatal("The file name is missing")
 		os.Exit(1)
 	}
@@ -93,9 +95,6 @@ if len(os.Args) != 2 {
 
 	antsList := ants.SpawnAnts(bestCombination)
 	ants.MakeStep(antsList)
-
-
-
 
 	test := &Graph{}
 
