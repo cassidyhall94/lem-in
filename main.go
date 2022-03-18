@@ -19,7 +19,7 @@ type Vertex struct {
 // AddVertex adds a Vertex to the Graph
 func (g *Graph) AddVertex(k int) {
 	if contains(g.vertices, k) {
-		err := fmt.Errorf("Vertex %v not aded because it is an existing key", k)
+		err := fmt.Errorf("Vertex %v not added because it is an existing key", k)
 		fmt.Println(err.Error())
 	} else {
 		g.vertices = append(g.vertices, &Vertex{key: k})
