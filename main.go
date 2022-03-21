@@ -12,7 +12,7 @@ type Graph struct {
 // Vertex represents a graph vertex
 type Vertex struct {
 	// room is the vertex identifer (room name/number in text file)
-	room     []rune
+	room     string
 	// adjacent is the rooms that are connected by an edge/tunnel/link
 	adjacent []*Vertex
 }
