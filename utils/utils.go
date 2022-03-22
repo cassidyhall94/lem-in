@@ -12,6 +12,17 @@ func CheckError(err error) {
 	}
 }
 
+// Reset farm to defaults
+func ResetFarm() {
+	for i := 0; i < len(structs.FARM); i++ {
+		if (structs.FARM)[i].IsStart {
+			(structs.FARM)[i].Ants = (structs.ANTCOUNTER)
+		} else {
+			(structs.FARM)[i].Ants = 0
+		}
+	}
+}
+
 // Sort paths by length
 func SortPathsByLength(paths *[][]*structs.Room) {
 	l := len(*paths)
