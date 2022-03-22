@@ -13,7 +13,6 @@ import (
 // Loads data from the file and saves it into variable
 func LoadData(fileName string) [][]byte {
 	data, err := os.ReadFile(os.Args[1])
-
 	if err != nil {
 		log.Fatalf("failed to open: %s", fileName)
 	}

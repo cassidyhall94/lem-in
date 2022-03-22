@@ -3,7 +3,7 @@ package main
 import (
 	"fmt"
 	dataparser "lem-in/data-parser"
-	structs "lem-in/structs"
+	farm "lem-in/farm"
 	"log"
 	"os"
 )
@@ -89,15 +89,15 @@ func main() {
 	generationData := dataparser.ReadData(data)
 	farm.GenerateFarm(generationData)
 
-	var allPaths [][]*structs.Room
-	paths.FindAllPossiblePaths(make([]*structs.Room, 0), structs.FARM[structs.STARTROOMID], 0, &allPaths, &structs.FARM[structs.STARTROOMID])
-	utils.SortPaths(&allPaths)
+	// var allPaths [][]*structs.Room
+	// paths.FindAllPossiblePaths(make([]*structs.Room, 0), structs.FARM[structs.STARTROOMID], 0, &allPaths, &structs.FARM[structs.STARTROOMID])
+	// utils.SortPaths(&allPaths)
 
-	allCombinations := paths.FindCombinations(allPaths)
-	bestCombination := paths.FindBestComb(allCombinations)
+	// allCombinations := paths.FindCombinations(allPaths)
+	// bestCombination := paths.FindBestComb(allCombinations)
 
-	antsList := ants.SpawnAnts(bestCombination)
-	ants.MakeStep(antsList)
+	// antsList := ants.SpawnAnts(bestCombination)
+	// ants.MakeStep(antsList)
 
 	// test := &Graph{}
 
