@@ -2,18 +2,16 @@ package dataparser
 
 import (
 	"bytes"
+	"fmt"
 	structs "lem-in/structs"
-	"lem-in/utils"
 	"log"
 	"os"
-	"strconv"
 	"strings"
 )
 
 // Loads data from the file and saves it into variable
 func LoadData(fileName string) [][]byte {
 	data, err := os.ReadFile(os.Args[1])
-
 	if err != nil {
 		log.Fatalf("failed to open: %s", fileName)
 	}
@@ -27,12 +25,22 @@ func LoadData(fileName string) [][]byte {
 // Reads and checks data from loaded data to make generation data for future farm
 func ReadData(data [][]byte) structs.GenerationData {
 	var result structs.GenerationData
-
 	var err error
-	structs.ANTCOUNTER, err = strconv.Atoi(string(data[0]))
-	utils.CheckError(err)
 
-	if structs.ANTCOUNTER <= 0 {
+	stringdata := string(data[0])
+
+	for i, slicedata := range stringdata {
+		structs.ANTCOUNTER = string(slicedata[i])
+	}
+
+	if err != nil {
+		fmt.Printf("ANTCOUNTER error: %+v", err)
+		// utils.CheckError(err)
+	}
+
+	// fmt.Println(structs.ANTCOUNTER)
+
+	if structs.ANTCOUNTER == "" {
 		log.Fatal("Invalid number of Ants!")
 	}
 
@@ -42,10 +50,10 @@ func ReadData(data [][]byte) structs.GenerationData {
 		if strings.Contains(string(data[i]), "##") {
 			if string(data[i]) == "##start" {
 				startFound = true
-				result.StartIndex = i - commentsCounter
+				// result.StartIndex = i - commentsCounter
 			} else if string(data[i]) == "##end" {
 				endFound = true
-				result.EndIndex = i - commentsCounter
+				// result.EndIndex = i - commentsCounter
 			} else {
 				log.Fatal("Invalid start or end data format!")
 			}

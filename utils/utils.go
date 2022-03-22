@@ -3,12 +3,11 @@ package utils
 import (
 	"fmt"
 	structs "lem-in/structs"
-	"log"
 )
 
 func CheckError(err error) {
 	if err != nil {
-		log.Fatal("Invalid data format!")
+		fmt.Printf("Invalid Data Format err:%+v", err)
 	}
 }
 
