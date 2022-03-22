@@ -5,3 +5,5 @@ https://www.geeksforgeeks.org/difference-between-bfs-and-dfs/
 https://www.youtube.com/watch?v=bSZ57h7GN2w
 https://medium.com/nerd-for-tech/dfs-bfs-introduction-26a65fca2344
 https://www.youtube.com/watch?v=vf-cxgUXcMk
+
+https://go.dev/blog/go1.13-errors
