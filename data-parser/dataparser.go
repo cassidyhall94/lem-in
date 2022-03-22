@@ -1,7 +1,6 @@
 package dataparser
 
 import (
-	"bytes"
 	"fmt"
 	structs "lem-in/structs"
 	"log"
@@ -10,27 +9,33 @@ import (
 )
 
 // Loads data from the file and saves it into variable
-func LoadData(fileName string) [][]byte {
+func LoadData(fileName string) []byte {
 	data, err := os.ReadFile(os.Args[1])
 	if err != nil {
 		log.Fatalf("failed to open: %s", fileName)
 	}
 
-	sep := []byte{13, 10}
-	transformedData := bytes.Split(data, sep)
+	// sep := []byte{13, 10}
+	// transformedData := bytes.Split(data, sep)
 
-	return transformedData
+	return data
 }
 
 // Reads and checks data from loaded data to make generation data for future farm
-func ReadData(data [][]byte) structs.GenerationData {
+func ReadData(data []byte) structs.GenerationData {
 	var result structs.GenerationData
 	var err error
 
-	stringdata := string(data[0])
+	stringdata := string(data)
+	fmt.Println(stringdata)
 
-	for i, slicedata := range stringdata {
-		structs.ANTCOUNTER = string(slicedata[i])
+	for _, slicedata := range stringdata {
+		stringslicedata := string(slicedata)
+		// splitstring := strings.SplitAfter(stringslicedata, "\n")
+		datarune := stringslicedata[0]
+		fmt.Print(string(datarune))
+		structs.ANTCOUNTER = string(datarune)
+		// fmt.Print(string(structs.ANTCOUNTER))
 	}
 
 	if err != nil {

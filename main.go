@@ -2,7 +2,6 @@ package main
 
 import (
 	"fmt"
-	dataparser "lem-in/data-parser"
 	"log"
 	"os"
 )
@@ -84,9 +83,9 @@ func main() {
 		os.Exit(1)
 	}
 
-	data := dataparser.LoadData(os.Args[1])
-	generationData := dataparser.ReadData(data)
-	fmt.Printf("Generation Data: %+v", generationData)
+	// data := dataparser.LoadData(os.Args[1])
+	// generationData := dataparser.ReadData(data)
+	// fmt.Printf("Generation Data: %+v", generationData)
 
 	// var allPaths [][]*structs.Room
 	// paths.FindAllPossiblePaths(make([]*structs.Room, 0), structs.FARM[structs.STARTROOMID], 0, &allPaths, &structs.FARM[structs.STARTROOMID])
