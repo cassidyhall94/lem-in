@@ -8,8 +8,6 @@
 
 7. Load data from the file and save it into variable
 8. Read and check data from loaded data to make generation data for future farm
-10.Restore farm to defaults, when MakeStep in mode 1 is ended
-11. Sort paths by length
 12. Find all paths from start to end
 13. Find all possible combinations without intersects
 14. Check intersects between two paths
