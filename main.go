@@ -15,22 +15,24 @@ type Graph struct {
 
 // Vertex represents a graph vertex
 type Vertex struct {
-	key      int
+	// room is the vertex identifer (room name/number in text file)
+	room string
+	// adjacent is the rooms that are connected by an edge/tunnel/link
 	adjacent []*Vertex
 }
 
 // AddVertex adds a Vertex to the Graph
-func (g *Graph) AddVertex(k int) {
+func (g *Graph) AddVertex(k string) {
 	if contains(g.vertices, k) {
 		err := fmt.Errorf("Vertex %v not added because it is an existing key", k)
 		fmt.Println(err.Error())
 	} else {
-		g.vertices = append(g.vertices, &Vertex{key: k})
+		g.vertices = append(g.vertices, &Vertex{room: k})
 	}
 }
 
 // AddEdge adds an edge to the graph
-func (g *Graph) AddEdge(from, to int) {
+func (g *Graph) AddEdge(from, to string) {
 	// get vertex
 	fromVertex := g.getVertex(from)
 	toVertex := g.getVertex(to)
@@ -48,9 +50,9 @@ func (g *Graph) AddEdge(from, to int) {
 }
 
 // getVertex returns a pointer to the Vertex with a key integer
-func (g *Graph) getVertex(k int) *Vertex {
+func (g *Graph) getVertex(k string) *Vertex {
 	for i, v := range g.vertices {
-		if v.key == k {
+		if v.room == k {
 			return g.vertices[i]
 		}
 	}
@@ -58,9 +60,9 @@ func (g *Graph) getVertex(k int) *Vertex {
 }
 
 // contains
-func contains(s []*Vertex, k int) bool {
+func contains(s []*Vertex, k string) bool {
 	for _, v := range s {
-		if k == v.key {
+		if k == v.room {
 			return true
 		}
 	}
@@ -70,9 +72,9 @@ func contains(s []*Vertex, k int) bool {
 // Print will print the adjacent list for each vertex of the graph
 func (g *Graph) Print() {
 	for _, v := range g.vertices {
-		fmt.Printf("\nVertex %v:", v.key)
+		fmt.Printf("\nVertex %v:", v.room)
 		for _, v := range v.adjacent {
-			fmt.Printf("%v", v.key)
+			fmt.Printf("%v", v.room)
 		}
 	}
 }
@@ -97,11 +99,11 @@ func main() {
 	antsList := ants.SpawnAnts(bestCombination)
 	ants.MakeStep(antsList)
 
-	test := &Graph{}
+	// test := &Graph{}
 
-	for i := 0; i < 5; i++ {
-		test.AddVertex(i)
-	}
-	test.AddEdge(1, 2)
-	test.Print()
+	// for i := 0; i < 5; i++ {
+	// 	test.AddVertex(i)
+	// }
+	// test.AddEdge(1, 2)
+	// test.Print()
 }

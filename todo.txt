@@ -8,7 +8,6 @@
 
 7. Load data from the file and save it into variable
 8. Read and check data from loaded data to make generation data for future farm
-9. Decode paths list into room names
 10.Restore farm to defaults, when MakeStep in mode 1 is ended
 11. Sort paths by length
 12. Find all paths from start to end
