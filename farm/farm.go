@@ -3,6 +3,7 @@ package farm
 import (
 	structs "lem-in/structs"
 	utils "lem-in/utils"
+	"log"
 	"strconv"
 	"strings"
 )
@@ -30,6 +31,34 @@ func GenerateFarm(data structs.GenerationData) {
 
 		structs.FARM = append(structs.FARM, roomToAdd)
 	}
+	ConnectRooms(data.Links)
 }
 
 // Connect all rooms based on links from the file
+func ConnectRooms(links []string) {
+	for i := 0; i < len(links); i++ {
+		splitData := strings.Split(links[i], "-")
+		for j := 0; j < len(structs.FARM); j++ {
+			if structs.FARM[j].Name == splitData[0] {
+				for k := 0; k < len(structs.FARM); k++ {
+					if structs.FARM[k].Name == splitData[1] {
+						if structs.FARM[k].Name == structs.FARM[j].Name {
+							log.Fatal("Invalid data format")
+						}
+						structs.FARM[j].Links = append(structs.FARM[j].Links, &structs.FARM[k])
+						structs.FARM[k].Links = append(structs.FARM[k].Links, &structs.FARM[j])
+						break
+					}
+					if k == len(structs.FARM)-1 {
+						log.Fatal("Invalid data format. Room not found")
+					}
+
+				}
+				break
+			}
+			if j == len(structs.FARM)-1 {
+				log.Fatal("Invalid data format. Room not found")
+			}
+		}
+	}
+}

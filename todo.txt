@@ -14,7 +14,5 @@
 15. Check intersects between existing combination and path
 16. Find best combination between all combinaitons and calculates best suitable path for each ant
 17. Make maps
-18. Generate farm based on generation data
-19. Connect all rooms based on links from the file
 20. Make list of ants with own path, current room and id
 21. Make ants (from ants list) to move from start to end prints each ant step
