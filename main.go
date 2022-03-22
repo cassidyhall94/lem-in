@@ -2,9 +2,10 @@ package main
 
 import (
 	"fmt"
+	dataparser "lem-in/data-parser"
+	structs "lem-in/structs"
 	"log"
 	"os"
-	"structs"
 )
 
 // Graph represents an adjaceny list graph
