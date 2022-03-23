@@ -109,7 +109,26 @@ func SearchBestCombination(r [][][]*structs.Room) [][]*structs.Room {
 
 	for _, paths := range r {
 		var pathCombination [][]*structs.Room
-
+		antPosition := make([]int, len(paths))
+		var currentIndex = 0
+		var nextPathId int
+		var updateNextPathId bool = true
+		for i := 0; i < structs.ANTCOUNTER; i++ {
+			if i == 0 {
+					pathCombination = append(pathCombination, paths[0])
+					currentIndex = 0
+					antPosition[currentIndex]++
+					continue
+			}	
+			for {
+					if updateNextPathId {
+						if len(paths) == currentIndex+1 {
+								nextPathId = 0
+					} else {
+								nextPathId = currentIndex + 1
+					}
+					updateNextPathId = false
+				}
 		
 }
 

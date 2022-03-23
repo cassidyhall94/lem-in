@@ -2,8 +2,8 @@ package main
 
 import (
 	// "fmt"
-	dataparser "lem-in/data-parser"
 	farm "lem-in/farm"
+	dataparser "lem-in/internal/data-parser"
 	paths "lem-in/paths"
 	structs "lem-in/structs"
 	utils "lem-in/utils"

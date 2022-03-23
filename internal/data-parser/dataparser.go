@@ -70,8 +70,6 @@ func ReadData(fileLines []string) structs.GenerationData {
 			}
 			continue
 		}
-
-		// is link
 		maybeLink := strings.Contains(fileLine, "-")
 		if maybeLink {
 			links = append(links, fileLine)

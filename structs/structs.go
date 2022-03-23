@@ -34,15 +34,6 @@ type PathStuct struct {
 	Paths    [][]*Room
 }
 
-var (
-	ANTCOUNTER  string // Amount of ants to spawn
-	STARTROOMID int
-	ENDROOMID   int
-	FARM        []Room
-)
-
-var (
-	BEST_TURNS_RES        int
-	BEST_PATH             [][]*Room
-	BEST_ROOMS_IN_USE_RES int
-)
+// BEST_TURNS_RES        int
+// BEST_PATH             [][]*Room
+// var BEST_ROOMS_IN_USE_RES int
