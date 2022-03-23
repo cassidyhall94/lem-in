@@ -99,12 +99,4 @@ func main() {
 
 	// antsList := ants.SpawnAnts(bestCombination)
 	// ants.MakeStep(antsList)
-
-	// test := &Graph{}
-
-	// for i := 0; i < 5; i++ {
-	// 	test.AddVertex(i)
-	// }
-	// test.AddEdge(1, 2)
-	// test.Print()
 }

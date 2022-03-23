@@ -40,7 +40,7 @@ func ReadData(fileLines []string) structs.GenerationData {
 		if len(fileLine) == 0 {
 			continue
 		}
-		
+
 		// Do nothing with comments (#) unless its start/end
 		if string(fileLine[0]) == "#" {
 			if fileLine == "##start" {
@@ -70,8 +70,6 @@ func ReadData(fileLines []string) structs.GenerationData {
 			}
 			continue
 		}
-
-		// is link
 		maybeLink := strings.Contains(fileLine, "-")
 		if maybeLink {
 			links = append(links, fileLine)
