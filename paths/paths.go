@@ -101,3 +101,15 @@ func DivideWithinCombinations(path []*structs.Room, findComb [][]*structs.Room) 
 	}
 	return false
 }
+
+// Find best combination and calculate best path for each ant
+func SearchBestCombination(r [][][]*structs.Room) [][]*structs.Room {
+	var topScore int
+	var topPath [][]*structs.Room
+
+	for _, paths := range r {
+		var pathCombination [][]*structs.Room
+
+		
+}
+

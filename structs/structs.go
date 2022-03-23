@@ -38,7 +38,7 @@ var (
 	ANTCOUNTER  string // Amount of ants to spawn
 	STARTROOMID int
 	ENDROOMID   int
-	FARM        []Room // Farm
+	FARM        []Room
 )
 
 var (
