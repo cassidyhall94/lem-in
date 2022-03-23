@@ -12,7 +12,9 @@ import (
 var FARM []structs.Room
 
 // Generate farm based on generation data
-func GenerateFarm(data structs.GenerationData) {
+
+func GenerateFarm(data structs.GenerationData) (structs.GenerationData, int, int, int) {
+	ants, rooms, links, start, end := 0, []string{}, []string{}, 0, 0
 	var err error
 	var ANTCOUNTER int // Amount of ants to spawn
 	var STARTROOMID int
@@ -44,6 +46,16 @@ func GenerateFarm(data structs.GenerationData) {
 		FARM = append(FARM, roomToAdd)
 	}
 	ConnectRooms(data.Links)
+	return structs.GenerationData{
+			NumberOfAnts: ants,
+			Rooms:        rooms,
+			Links:        links,
+			StartIndex:   start,
+			EndIndex:     end,
+		},
+		STARTROOMID,
+		ENDROOMID,
+		ANTCOUNTER
 }
 
 // Connect all rooms based on links from the file
