@@ -4,9 +4,8 @@ import (
 	// "fmt"
 	dataparser "lem-in/data-parser"
 	farm "lem-in/farm"
-	structs "lem-in/structs"
-
 	paths "lem-in/paths"
+	structs "lem-in/structs"
 	utils "lem-in/utils"
 	"log"
 	"os"

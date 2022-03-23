@@ -4,7 +4,7 @@ import (
 	"lem-in/structs"
 )
 
-// Finds all paths from start to end
+// Find all paths from start to end
 func FindPaths(path []*structs.Room, currentRoom structs.Room, step int, paths *[][]*structs.Room, previousRoom *structs.Room) {
 	if currentRoom.IsEnd {
 		var skip bool
@@ -53,4 +53,51 @@ func FindPaths(path []*structs.Room, currentRoom structs.Room, step int, paths *
 			*paths = append((*paths)[:i], (*paths)[i+1:]...)
 		}
 	}
+}
+
+// Find all possible combinations
+func SearchCombinations(paths [][]*structs.Room) [][][]*structs.Room {
+	var result [][][]*structs.Room
+
+	for i := 0; i < len(paths); i++ {
+		var findComb [][]*structs.Room
+		findComb = append(findComb, paths[i])
+		for j := i + 1; j < len(paths); j++ {
+			if !Divide(paths[i][:len(paths[i])-1], paths[j][:len(paths[j])-1]) &&
+				!DivideWithinCombinations(paths[j][:len(paths[j])-1], findComb) {
+				result = append(result, findComb)
+				findComb = append(findComb, paths[j])
+			}
+		}
+
+		result = append(result, findComb)
+	}
+
+	return result
+}
+
+// Check division between two paths
+func Divide(currentPath, pathToCheck []*structs.Room) bool {
+	for i := 0; i < len(currentPath); i++ {
+		for j := i + 1; j < len(pathToCheck); j++ {
+			if currentPath[i].Name == pathToCheck[j].Name {
+				return true
+			}
+		}
+	}
+	return false
+}
+
+// Check division between existing SearchCombinations and paths
+func DivideWithinCombinations(path []*structs.Room, findComb [][]*structs.Room) bool {
+	for i := 0; i < len(findComb); i++ {
+		for j := 0; j < len(path); j++ {
+			for k := 0; k < len(findComb[i]); k++ {
+				if path[j] == findComb[i][k] {
+					return true
+				}
+			}
+		}
+	}
+	return false
 }
