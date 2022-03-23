@@ -21,10 +21,11 @@ type Room struct {
 
 // Data to generate future farm
 type GenerationData struct {
-	Rooms      []string
-	Links      []string
-	StartIndex int
-	EndIndex   int
+	NumberOfAnts int
+	Rooms        []string
+	Links        []string
+	StartIndex   int
+	EndIndex     int
 }
 
 // Structurized paths by links in start room
@@ -34,7 +35,7 @@ type PathStuct struct {
 }
 
 var (
-	ANTCOUNTER  int // Amount of ants to spawn
+	ANTCOUNTER  string // Amount of ants to spawn
 	STARTROOMID int
 	ENDROOMID   int
 	FARM        []Room // Farm

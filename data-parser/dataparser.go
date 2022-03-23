@@ -1,72 +1,87 @@
 package dataparser
 
 import (
-	"bytes"
+	"bufio"
+	"fmt"
 	structs "lem-in/structs"
-	"lem-in/utils"
-	"log"
 	"os"
 	"strconv"
 	"strings"
 )
 
 // Loads data from the file and saves it into variable
-func LoadData(fileName string) [][]byte {
-	data, err := os.ReadFile(os.Args[1])
+func LoadData(fileName string) ([]string, error) {
+	file, err := os.Open(fileName)
 	if err != nil {
-		log.Fatalf("failed to open: %s", fileName)
+		return nil, fmt.Errorf("file open error: %w", err)
+	}
+	defer file.Close()
+
+	scanner := bufio.NewScanner(file)
+	ret := []string{}
+
+	for scanner.Scan() {
+		ret = append(ret, scanner.Text())
 	}
 
-	sep := []byte{13, 10}
-	transformedData := bytes.Split(data, sep)
+	if err := scanner.Err(); err != nil {
+		return nil, fmt.Errorf("file scanner error: %w", err)
+	}
 
-	return transformedData
+	return ret, nil
 }
 
 // Reads and checks data from loaded data to make generation data for future farm
-func ReadData(data [][]byte) structs.GenerationData {
-	var result structs.GenerationData
+func ReadData(fileLines []string) structs.GenerationData {
+	ants, rooms, links, start, end := 0, []string{}, []string{}, 0, 0
+	foundStart, foundEnd := false, false
+	for _, fileLine := range fileLines {
+		// Ignore blank lines
+		if len(fileLine) == 0 {
+			continue
+		}
 
-	var err error
-	structs.ANTCOUNTER, err = strconv.Atoi(string(data[0]))
-	utils.CheckError(err)
-
-	if structs.ANTCOUNTER <= 0 {
-		log.Fatal("Invalid number of Ants!")
-	}
-
-	var startFound, endFound bool
-	var commentsCounter int = 1
-	for i := 1; i < len(data); i++ {
-		if strings.Contains(string(data[i]), "##") {
-			if string(data[i]) == "##start" {
-				startFound = true
-				result.StartIndex = i - commentsCounter
-			} else if string(data[i]) == "##end" {
-				endFound = true
-				result.EndIndex = i - commentsCounter
-			} else {
-				log.Fatal("Invalid start or end data format!")
+		// Do nothing with comments (#) unless its start/end
+		if string(fileLine[0]) == "#" {
+			if fileLine == "##start" {
+				foundStart = true
+			} else if fileLine == "##end" {
+				foundEnd = true
 			}
-			commentsCounter++
-			continue
-		} else if strings.Contains(string(data[i]), "#") {
-			commentsCounter++
 			continue
 		}
 
-		if strings.Count(string(data[i]), " ") == 2 {
-			result.Rooms = append(result.Rooms, string(data[i]))
-		} else if strings.Count(string(data[i]), "-") == 1 {
-			result.Links = append(result.Links, string(data[i]))
-		} else {
-			log.Fatal("Invalid link data format!")
+		a, err := strconv.Atoi(fileLine)
+		if err == nil {
+			ants = a
+			continue
+		}
+
+		maybeRoom := strings.Split(fileLine, " ")
+		if len(maybeRoom) == 3 {
+			rooms = append(rooms, maybeRoom[0])
+			if foundStart {
+				start = len(rooms) - 1
+				foundStart = false
+			}
+			if foundEnd {
+				end = len(rooms) - 1
+				foundEnd = false
+			}
+			continue
+		}
+
+		// is link
+		maybeLink := strings.Contains(fileLine, "-")
+		if maybeLink {
+			links = append(links, fileLine)
 		}
 	}
-
-	if !startFound || !endFound {
-		log.Fatal("Invalid data, no start or end room found")
+	return structs.GenerationData{
+		NumberOfAnts: ants,
+		Rooms:        rooms,
+		Links:        links,
+		StartIndex:   start,
+		EndIndex:     end,
 	}
-
-	return result
 }
