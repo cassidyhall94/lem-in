@@ -129,6 +129,24 @@ func SearchBestCombination(r [][][]*structs.Room) [][]*structs.Room {
 					}
 					updateNextPathId = false
 				}
+				if len(paths) == 1 || paths[currentIndex][0].IsEnd {
+					pathCombination = append(pathCombination, paths[currentIndex])
+					antPosition[currentIndex]++
+					break
+				}
+				if antPosition[currentIndex]+len(paths[currentIndex]) <= len(paths[nextPathId])+antPosition[nextPathId] {
+					pathCombination = append(pathCombination, paths[currentIndex])
+					antPosition[currentIndex]++
+					break
+					} else {
+						pathCombination = append(pathCombination, paths[nextPathId])
+						antPosition[nextPathId]++
+						currentIndex = nextPathId
+						updateNextPathId = true
+						break
+					}
+					}
+					}
 		
 }
 
