@@ -9,7 +9,7 @@ import (
 	"os"
 )
 
-// Graph represents an adjaceny list graph
+// // Graph represents an adjaceny list graph
 // type Graph struct {
 // 	vertices []*Vertex
 // }

@@ -1,5 +1,11 @@
 package structs
 
+// Farm represents an adjaceny list graph
+type Farm struct {
+	Ants  []*Ant
+	Rooms []*Room
+}
+
 // Ant
 type Ant struct {
 	Id          int
@@ -8,7 +14,7 @@ type Ant struct {
 	RoomsPassed int
 }
 
-// Room in farm
+// Room in farm (Vertex in the graph)
 type Room struct {
 	Name    string
 	Ants    int
