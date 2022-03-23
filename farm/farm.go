@@ -9,13 +9,14 @@ import (
 	"strings"
 )
 
+var FARM []structs.Room
+
 // Generate farm based on generation data
 func GenerateFarm(data structs.GenerationData) {
 	var err error
 	var ANTCOUNTER int // Amount of ants to spawn
 	var STARTROOMID int
 	var ENDROOMID int
-	var FARM []structs.Room
 	for i := 0; i < len(data.Rooms); i++ {
 		var roomToAdd structs.Room
 		if i == data.StartIndex {
@@ -47,7 +48,6 @@ func GenerateFarm(data structs.GenerationData) {
 
 // Connect all rooms based on links from the file
 func ConnectRooms(links []string) {
-	var FARM []structs.Room
 	for i := 0; i < len(links); i++ {
 		splitData := strings.Split(links[i], "-")
 		for j := 0; j < len(FARM); j++ {
