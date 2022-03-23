@@ -22,10 +22,10 @@ type Room struct {
 // Data to generate future farm
 type GenerationData struct {
 	NumberOfAnts int
-	Rooms      []string
-	Links      []string
-	StartIndex int
-	EndIndex   int
+	Rooms        []string
+	Links        []string
+	StartIndex   int
+	EndIndex     int
 }
 
 // Structurized paths by links in start room
@@ -35,15 +35,15 @@ type PathStuct struct {
 }
 
 // kept for reference, where possible NO GLOBAL VARIABLES
-// var (
-// 	ANTCOUNTER  string // Amount of ants to spawn
-// 	STARTROOMID int
-// 	ENDROOMID   int
-// 	FARM        []Room // Farm
-// )
+var (
+	ANTCOUNTER  string // Amount of ants to spawn
+	STARTROOMID int
+	ENDROOMID   int
+	FARM        []Room // Farm
+)
 
-// var (
-// 	BEST_TURNS_RES        int
-// 	BEST_PATH             [][]*Room
-// 	BEST_ROOMS_IN_USE_RES int
-// )
+var (
+	BEST_TURNS_RES        int
+	BEST_PATH             [][]*Room
+	BEST_ROOMS_IN_USE_RES int
+)
