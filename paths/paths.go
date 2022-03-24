@@ -107,25 +107,27 @@ func SearchBestCombination(r [][][]*structs.Room) [][]*structs.Room {
 	var topScore int
 	var topPath [][]*structs.Room
 
+	var ANTCOUNTER int // Amount of ants to spawn
+
 	for _, paths := range r {
 		var pathCombination [][]*structs.Room
 		antPosition := make([]int, len(paths))
 		var currentIndex = 0
 		var nextPathId int
 		var updateNextPathId bool = true
-		for i := 0; i < structs.ANTCOUNTER; i++ {
+		for i := 0; i < ANTCOUNTER; i++ {
 			if i == 0 {
-					pathCombination = append(pathCombination, paths[0])
-					currentIndex = 0
-					antPosition[currentIndex]++
-					continue
-			}	
+				pathCombination = append(pathCombination, paths[0])
+				currentIndex = 0
+				antPosition[currentIndex]++
+				continue
+			}
 			for {
-					if updateNextPathId {
-						if len(paths) == currentIndex+1 {
-								nextPathId = 0
+				if updateNextPathId {
+					if len(paths) == currentIndex+1 {
+						nextPathId = 0
 					} else {
-								nextPathId = currentIndex + 1
+						nextPathId = currentIndex + 1
 					}
 					updateNextPathId = false
 				}
@@ -138,15 +140,29 @@ func SearchBestCombination(r [][][]*structs.Room) [][]*structs.Room {
 					pathCombination = append(pathCombination, paths[currentIndex])
 					antPosition[currentIndex]++
 					break
-					} else {
-						pathCombination = append(pathCombination, paths[nextPathId])
-						antPosition[nextPathId]++
-						currentIndex = nextPathId
-						updateNextPathId = true
-						break
-					}
-					}
-					}
-		
-}
+				} else {
+					pathCombination = append(pathCombination, paths[nextPathId])
+					antPosition[nextPathId]++
+					currentIndex = nextPathId
+					updateNextPathId = true
+					break
+				}
+			}
+		}
 
+		var currentScore int
+		for i := 0; i < len(paths); i++ {
+			temp := antPosition[i] + len(paths[i])
+			if currentScore == 0 || temp > currentScore {
+				currentScore = temp
+			}
+		}
+		if topScore == 0 || currentScore < topScore {
+			topScore = currentScore
+			topPath = pathCombination
+		}
+	}
+
+	return topPath
+
+}
