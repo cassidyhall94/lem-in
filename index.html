@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Lem-In</title>
+</head>
+
+<body>
+    <h1>Lem-In</h1>
+    <canvas id="network" width="1000" height="500"></canvas>
+    <script src="https://d3js.org/d3.v4.min.js"></script>
+    <script>
+        var graph = {
+            nodes: [
+                { name: "0", x: 189, y: 105 },
+                { name: "1", x: 483, y: 63 },
+                { name: "2", x: 336, y: 147 },
+                { name: "3", x: 336, y: 63 },
+                { name: "4", x: 336, y: 105 },
+                { name: "5", x: 189, y: 63 },
+                { name: "6", x: 21, y: 105 },
+                { name: "7", x: 84, y: 168 }
+            ],
+            links: [
+                { source: "0", target: "4" },
+                { source: "0", target: "6" },
+                { source: "1", target: "3" },
+                { source: "2", target: "1" },
+                { source: "3", target: "5" },
+                { source: "4", target: "2" },
+                { source: "4", target: "3" },
+                { source: "5", target: "2" },
+                { source: "6", target: "5" },
+                { source: "7", target: "2" },
+                { source: "7", target: "4" },
+                { source: "7", target: "6" },
+            ]
+        };
+        var canvas = d3.select("#network"),
+            width = canvas.attr("width"),
+            height = canvas.attr("height"),
+            r = 20,
+            ctx = canvas.node().getContext("2d");
+
+
+        simulation = d3.forceSimulation(graph.nodes)
+            .force('center', d3.forceCenter(width / 2, height / 2))
+            .force("link", d3.forceLink().links(graph.links));
+
+        //simulation.force("link").links(graph.links);
+
+        function update() {
+            ctx.clearRect(0, 0, width, height);
+
+            ctx.beginPath();
+            graph.links.forEach(drawLink);
+            ctx.stroke();
+
+            ctx.beginPath();
+            graph.nodes.forEach(drawNode);
+        }
+
+        function drawNode(d) {
+            ctx.moveTo(d.x, d.y);
+            ctx.arc(d.x, d.y, r, 0, 2 * Math.PI);
+            ctx.font = "30px Verdana";
+            ctx.fillStyle = "red";
+            ctx.fillText(d.name, d.x, d.y);
+        }
+
+        function drawLink(l) {
+            ctx.moveTo(l.source.x, l.source.y);
+            ctx.lineTo(l.target.x, l.target.y);
+        }
+
+        update();
+    </script>
+</body>
+
+</html>
