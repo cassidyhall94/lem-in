@@ -3,7 +3,7 @@ You're reading the data about the *structure* of an Ant Farm from a text file
 This structure contains:
 
 - Rooms: ID X_pos Y_pos
-    - Ant Farm's are normally 2D, X_pos and Y_pos are positions in space and bear no relation from one room to the next. Technically if 2 rooms have the same X & Y then they intersect and are 
+    - Ant Farm's are normally 2D, X_pos and Y_pos are positions in space and bear no relation from one room to the next. Technically if 2 rooms have the same X & Y then they intersect and this should probably throw an error but that's a problem for the visualiser...probably
 - Links: Room_ID-Room_ID
 - Comments: #some text, this is a comment
 - Start Comment, A special comment that says "the next line that is a room is the room that ants start in": ##start
