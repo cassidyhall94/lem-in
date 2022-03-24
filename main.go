@@ -1,11 +1,12 @@
 package main
 
 import (
-	"fmt"
+	"net/http"
+	"text/template"
 )
 
 // Graph represents an adjaceny list graph
-type Graph struct {
+/*type Graph struct {
 	vertices []*Vertex
 }
 
@@ -76,9 +77,43 @@ func (g *Graph) Print() {
 func main() {
 	test := &Graph{}
 
-	for i := 0; i < 5; i++ {
-		test.AddVertex(i)
-	}
-	test.AddEdge(1, 2)
-	test.Print()
+	antsList := ants.SpawnAnts(bestCombination)
+	ants.MakeStep(antsList)
+
+	// test := &Graph{}
+
+	// for i := 0; i < 5; i++ {
+	// 	test.AddVertex(i)
+	// }
+	// test.AddEdge(1, 2)
+	// test.Print()
+}*/
+
+type Todo struct {
+	Title string
+	Done  bool
+}
+
+type TodoPageData struct {
+	PageTitle string
+	Todos     []Todo
+}
+
+func main() {
+	fs := http.FileServer(http.Dir("web/static"))
+	http.Handle("/static/", http.StripPrefix("/static/", fs))
+
+	tmpl := template.Must(template.ParseFiles("index.html"))
+	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
+		data := TodoPageData{
+			PageTitle: "My TODO list",
+			Todos: []Todo{
+				{Title: "Task 1", Done: false},
+				{Title: "Task 2", Done: true},
+				{Title: "Task 3", Done: true},
+			},
+		}
+		tmpl.Execute(w, data)
+	})
+	http.ListenAndServe(":8080", nil)
 }
