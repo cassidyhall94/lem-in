@@ -13,7 +13,7 @@ var FARM []structs.Room
 
 // Generate farm based on generation data
 
-func GenerateFarm(data structs.GenerationData) (structs.Farm) {
+func GenerateFarm(data structs.GenerationData) structs.Farm {
 	var err error
 	var ANTCOUNTER int // Amount of ants to spawn
 	var STARTROOMID int
