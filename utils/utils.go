@@ -13,7 +13,7 @@ func CheckError(err error) {
 
 // Reset farm to defaults
 func ResetFarm() {
-	var ANTCOUNTER int // Amount of ants to spawn
+	var ANTCOUNTER int
 	var FARM []structs.Room
 	for i := 0; i < len(FARM); i++ {
 		if (FARM)[i].IsStart {

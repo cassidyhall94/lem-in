@@ -12,8 +12,8 @@ import (
 // Generate farm based on generation data
 func GenerateFarm(data structs.GenerationData) {
 	var err error
-	var ANTCOUNTER int // Amount of ants to spawn
-	var STARTROOMID int
+	var ANTCOUNTER int
+	// var STARTROOMID int
 	var ENDROOMID int
 	var FARM []structs.Room
 	for i := 0; i < len(data.Rooms); i++ {

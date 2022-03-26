@@ -2,6 +2,7 @@ package main
 
 import (
 	// "fmt"
+	ants "lem-in/ants"
 	farm "lem-in/farm"
 	dataparser "lem-in/internal/data-parser"
 	paths "lem-in/paths"
@@ -99,8 +100,8 @@ func main() {
 	differentCombinations := paths.SearchCombinations(allPaths)
 	bestCombination := paths.SearchBestCombination(differentCombinations)
 
-	antsList := ants.SpawnAnts(bestCombination)
-	ants.MakeStep(antsList)
+	antsList := ants.CreateAnts(bestCombination)
+	ants.CreateStep(antsList)
 
 	// test := &Graph{}
 

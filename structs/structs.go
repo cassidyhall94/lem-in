@@ -34,6 +34,11 @@ type PathStuct struct {
 	Paths    [][]*Room
 }
 
+var ANTCOUNTER int
+var STARTROOMID int
+var ENDROOMID int
+var FARM []Room
+
 // BEST_TURNS_RES        int
 // BEST_PATH             [][]*Room
 // var BEST_ROOMS_IN_USE_RES int
