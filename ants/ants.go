@@ -44,4 +44,10 @@ func CreateStep(ants []structs.Ant) {
 
 		fmt.Print("L", ants[i].Id, "-", ants[i].CurrentRoom.Name, " ")
 	}
+	if passed && structs.FARM[structs.ENDROOMID].Ants == structs.ANTCOUNTER {
+		return
+	} else {
+		fmt.Println("")
+		CreateStep(ants)
+	}
 }
