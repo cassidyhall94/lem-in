@@ -1,6 +1,7 @@
 package ants
 
 import (
+	"fmt"
 	"lem-in/structs"
 )
 
@@ -27,5 +28,20 @@ func CreateStep(ants []structs.Ant) {
 		if ants[i].CurrentRoom.IsEnd {
 			continue
 		}
+		nextRoomId := ants[i].RoomsPassed
+
+		if ants[i].Path[nextRoomId].Ants != 0 {
+			if !ants[i].Path[nextRoomId].IsEnd {
+				continue
+			}
+		}
+
+		ants[i].CurrentRoom.Ants--
+		ants[i].CurrentRoom = ants[i].Path[nextRoomId]
+		ants[i].CurrentRoom.Ants++
+		ants[i].RoomsPassed++
+		passed = false
+
+		fmt.Print("L", ants[i].Id, "-", ants[i].CurrentRoom.Name, " ")
 	}
 }
