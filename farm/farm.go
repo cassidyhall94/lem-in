@@ -32,31 +32,12 @@ func GenerateFarm(data structs.GenerationData) structs.Farm {
 	}
 }
 
-// Connect all rooms based on links from the file
-// func ConnectRooms(links []string) {
-// 	for i := 0; i < len(links); i++ {
-// 		splitData := strings.Split(links[i], "-")
-// 		for j := 0; j < len(FARM); j++ {
-// 			if FARM[j].Name == splitData[0] {
-// 				for k := 0; k < len(FARM); k++ {
-// 					if FARM[k].Name == splitData[1] {
-// 						if FARM[k].Name == FARM[j].Name {
-// 							log.Fatal("Invalid data format")
-// 						}
-// 						FARM[j].Links = append(FARM[j].Links, &FARM[k])
-// 						FARM[k].Links = append(FARM[k].Links, &FARM[j])
-// 						break
-// 					}
-// 					if k == len(FARM)-1 {
-// 						log.Fatal("Invalid data format. Room not found")
-// 					}
+// Using farm(rooms) found from generateFarm func, connect the farms(rooms) together using data(links) structs.GenerationData
+// range over farm to get room one at a time
+// match Farm.Rooms.Names with GenerationData.Rooms
+// if matched, store GenerationData.Links from matched room name
 
-// 				}
-// 				break
-// 			}
-// 			if j == len(FARM)-1 {
-// 				log.Fatal("Invalid data format. Room not found")
-// 			}
-// 		}
-// 	}
-// }
+func ConnectRooms(farm structs.Farm, data structs.GenerationData) structs.Farm {
+
+	return structs.Farm{}
+}

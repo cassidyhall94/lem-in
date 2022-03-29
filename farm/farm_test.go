@@ -1,9 +1,11 @@
 package farm
+
 import (
 	structs "lem-in/structs"
 	"reflect"
 	"testing"
 )
+
 func TestGenerateFarm(t *testing.T) {
 	type args struct {
 		data structs.GenerationData
@@ -16,7 +18,6 @@ func TestGenerateFarm(t *testing.T) {
 		{
 			name: "pass",
 			args: args{
-				// In this struct, room 0 is the start and room 1 is the end
 				data: structs.GenerationData{
 					NumberOfAnts: 3,
 					Rooms:        []string{"1", "0", "2"},
@@ -38,19 +39,19 @@ func TestGenerateFarm(t *testing.T) {
 				},
 				Rooms: []*structs.Room{
 					{
-						Name: "1",
+						Name:    "1",
 						IsStart: true,
-						IsEnd: false,
+						IsEnd:   false,
 					},
 					{
-						Name: "0",
+						Name:    "0",
 						IsStart: false,
-						IsEnd: true,
+						IsEnd:   true,
 					},
 					{
-						Name: "2",
+						Name:    "2",
 						IsStart: false,
-						IsEnd: false,
+						IsEnd:   false,
 					},
 				},
 			},
@@ -71,6 +72,75 @@ func TestGenerateFarm(t *testing.T) {
 			// This function, right now, doesn't generate links so your test should assume that none exist
 			if got := GenerateFarm(tt.args.data); !reflect.DeepEqual(got, tt.want) {
 				t.Errorf("GenerateFarm() = %+v, want %+v", got, tt.want)
+			}
+		})
+	}
+}
+
+func TestConnectRooms(t *testing.T) {
+	type args struct {
+		farm structs.Farm
+		data structs.GenerationData
+	}
+	tests := []struct {
+		name string
+		args args
+	}{
+		{
+			name: "pass",
+			args: args{
+				farm: structs.Farm{
+					Rooms: []*structs.Room{
+						{
+							Name:    "1",
+							IsStart: true,
+							IsEnd:   false,
+						},
+						{
+							Name:    "0",
+							IsStart: false,
+							IsEnd:   true,
+						},
+						{
+							Name:    "2",
+							IsStart: false,
+							IsEnd:   false,
+						},
+					},
+				},
+				data: structs.GenerationData{
+					Links: []string{"1-0", "1-2"},
+				},
+			},
+		},
+		{
+			name: "empty",
+			args: args{
+				farm: structs.Farm{},
+				data: structs.GenerationData{},
+			},
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			got := ConnectRooms(tt.args.farm, tt.args.data)
+			if tt.name == "pass" {
+				if reflect.DeepEqual(got, structs.Farm{}) {
+					t.Errorf("ConnectRooms() got %+v, wanted filled farm", got)
+				}
+				for _, room := range got.Rooms {
+					if room.Name == "1" && len(room.Links) != 2 {
+						t.Errorf("ConnectRooms() gave room 1 %d links, want 2", len(room.Links))
+					}
+					if room.Name == "0" && len(room.Links) != 1 {
+						t.Errorf("ConnectRooms() gave room 0 %d links, want 1", len(room.Links))
+					}
+				}
+			}
+			if tt.name == "empty" {
+				if !reflect.DeepEqual(got, structs.Farm{}) {
+					t.Errorf("ConnectRooms() got %+v, wanted %+v", got, structs.Farm{})
+				}
 			}
 		})
 	}

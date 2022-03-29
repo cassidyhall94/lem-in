@@ -36,7 +36,7 @@ type GenerationData struct {
 }
 
 // Structurized paths by links in start room
-type PathStuct struct {
+type PathStruct struct {
 	PathName string
 	Paths    [][]*Room
 }
