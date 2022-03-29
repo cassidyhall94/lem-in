@@ -3,23 +3,24 @@ package utils
 import (
 	"fmt"
 	structs "lem-in/structs"
+	"log"
 )
 
 func CheckError(err error) {
 	if err != nil {
-		fmt.Printf("Invalid Data Format err:%+v", err)
+		log.Fatal("Invalid data format!")
 	}
 }
 
 // Reset farm to defaults
 func ResetFarm() {
-	var ANTCOUNTER int
-	var FARM []structs.Room
-	for i := 0; i < len(FARM); i++ {
-		if (FARM)[i].IsStart {
-			(FARM)[i].Ants = ANTCOUNTER
+	// var ANTCOUNTER int
+	// var FARM []structs.Room
+	for i := 0; i < len(structs.FARM); i++ {
+		if (structs.FARM)[i].IsStart {
+			(structs.FARM)[i].Ants = structs.ANTCOUNTER
 		} else {
-			(FARM)[i].Ants = 0
+			(structs.FARM)[i].Ants = 0
 		}
 	}
 }

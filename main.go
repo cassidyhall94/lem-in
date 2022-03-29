@@ -89,7 +89,7 @@ func main() {
 		os.Exit(1)
 	}
 
-	data, _ := dataparser.LoadData(os.Args[1])
+	data := dataparser.LoadData(os.Args[1])
 	generationData := dataparser.ReadData(data)
 	farm.GenerateFarm(generationData)
 
