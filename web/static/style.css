@@ -1,0 +1,12 @@
+.h1 {
+    text-align: center;
+    font-family: "Monaco","Lucida Console", "Courier New", monospace;
+
+}
+
+.canvas-container {
+    padding: 0;
+    margin: auto;
+    display: block;
+    width: 800px;
+}

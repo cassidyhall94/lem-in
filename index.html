@@ -2,25 +2,32 @@
 <html>
 
 <head>
+    <link rel="stylesheet" href="web/static/style.css" />
     <meta charset="UTF-8">
     <title>Lem-In</title>
+    <script src="https://d3js.org/d3.v4.min.js"></script>
 </head>
 
 <body>
-    <h1>Lem-In</h1>
-    <canvas id="network" width="1000" height="500"></canvas>
-    <script src="https://d3js.org/d3.v4.min.js"></script>
+    <div id="h1">
+        <h1>Lem-In</h1>
+    </div>
+
+    <div id="1" class="canvas-container">
+        <canvas id="network1" width="600" height="300"></canvas>
+    </div>
     <script>
-        var graph = {
+
+        var graph1 = {
             nodes: [
-                { name: "0", x: 189, y: 105 },
-                { name: "1", x: 483, y: 63 },
-                { name: "2", x: 336, y: 147 },
-                { name: "3", x: 336, y: 63 },
-                { name: "4", x: 336, y: 105 },
-                { name: "5", x: 189, y: 63 },
-                { name: "6", x: 21, y: 105 },
-                { name: "7", x: 84, y: 168 }
+                { name: "0", x: 189, y: 105, group: "1" },
+                { name: "1", x: 483, y: 63, group: "2" },
+                { name: "2", x: 336, y: 147, group: "3" },
+                { name: "3", x: 336, y: 63, group: "3" },
+                { name: "4", x: 336, y: 105, group: "3" },
+                { name: "5", x: 189, y: 63, group: "3" },
+                { name: "6", x: 21, y: 105, group: "3" },
+                { name: "7", x: 84, y: 168, group: "3" }
             ],
             links: [
                 { source: "0", target: "4" },
@@ -37,36 +44,140 @@
                 { source: "7", target: "6" },
             ]
         };
-        var canvas = d3.select("#network"),
+
+        var graph2 = {
+            nodes: [
+                { name: "0", x: 189, y: 105, group: "1" },
+                { name: "1", x: 483, y: 63, group: "2" },
+                { name: "2", x: 336, y: 147, group: "4" },
+                { name: "3", x: 336, y: 63, group: "4" },
+                { name: "4", x: 336, y: 105, group: "3" },
+                { name: "5", x: 189, y: 63, group: "3" },
+                { name: "6", x: 21, y: 105, group: "3" },
+                { name: "7", x: 84, y: 168, group: "3" }
+            ],
+            links: [
+                { source: "0", target: "4" },
+                { source: "0", target: "6" },
+                { source: "1", target: "3" },
+                { source: "2", target: "1" },
+                { source: "3", target: "5" },
+                { source: "4", target: "2" },
+                { source: "4", target: "3" },
+                { source: "5", target: "2" },
+                { source: "6", target: "5" },
+                { source: "7", target: "2" },
+                { source: "7", target: "4" },
+                { source: "7", target: "6" },
+            ]
+        };
+
+        var graph3 = {
+            nodes: [
+                { name: "0", x: 189, y: 105, group: "1" },
+                { name: "1", x: 483, y: 63, group: "2" },
+                { name: "2", x: 336, y: 147, group: "3" },
+                { name: "3", x: 336, y: 63, group: "4" },
+                { name: "4", x: 336, y: 105, group: "4" },
+                { name: "5", x: 189, y: 63, group: "4" },
+                { name: "6", x: 21, y: 105, group: "3" },
+                { name: "7", x: 84, y: 168, group: "3" }
+            ],
+            links: [
+                { source: "0", target: "4" },
+                { source: "0", target: "6" },
+                { source: "1", target: "3" },
+                { source: "2", target: "1" },
+                { source: "3", target: "5" },
+                { source: "4", target: "2" },
+                { source: "4", target: "3" },
+                { source: "5", target: "2" },
+                { source: "6", target: "5" },
+                { source: "7", target: "2" },
+                { source: "7", target: "4" },
+                { source: "7", target: "6" },
+            ]
+        };
+
+        var graph4 = {
+            nodes: [
+                { name: "0", x: 189, y: 105, group: "1" },
+                { name: "1", x: 483, y: 63, group: "2" },
+                { name: "2", x: 336, y: 147, group: "3" },
+                { name: "3", x: 336, y: 63, group: "3" },
+                { name: "4", x: 336, y: 105, group: "4" },
+                { name: "5", x: 189, y: 63, group: "3" },
+                { name: "6", x: 21, y: 105, group: "4" },
+                { name: "7", x: 84, y: 168, group: "3" }
+            ],
+            links: [
+                { source: "0", target: "4" },
+                { source: "0", target: "6" },
+                { source: "1", target: "3" },
+                { source: "2", target: "1" },
+                { source: "3", target: "5" },
+                { source: "4", target: "2" },
+                { source: "4", target: "3" },
+                { source: "5", target: "2" },
+                { source: "6", target: "5" },
+                { source: "7", target: "2" },
+                { source: "7", target: "4" },
+                { source: "7", target: "6" },
+            ]
+        };
+
+        var graph5 = {
+            nodes: [
+                { name: "0", x: 189, y: 105, group: "1" },
+                { name: "1", x: 483, y: 63, group: "2" },
+                { name: "2", x: 336, y: 147, group: "3" },
+                { name: "3", x: 336, y: 63, group: "3" },
+                { name: "4", x: 336, y: 105, group: "3" },
+                { name: "5", x: 189, y: 63, group: "3" },
+                { name: "6", x: 21, y: 105, group: "3" },
+                { name: "7", x: 84, y: 168, group: "3" }
+            ],
+            links: [
+                { source: "0", target: "4" },
+                { source: "0", target: "6" },
+                { source: "1", target: "3" },
+                { source: "2", target: "1" },
+                { source: "3", target: "5" },
+                { source: "4", target: "2" },
+                { source: "4", target: "3" },
+                { source: "5", target: "2" },
+                { source: "6", target: "5" },
+                { source: "7", target: "2" },
+                { source: "7", target: "4" },
+                { source: "7", target: "6" },
+            ]
+        };
+
+
+        var color = d3.scaleOrdinal(d3.schemeCategory20);
+        var canvas = d3.select("#network1"),
             width = canvas.attr("width"),
             height = canvas.attr("height"),
             r = 20,
             ctx = canvas.node().getContext("2d");
 
 
-        simulation = d3.forceSimulation(graph.nodes)
-            .force('center', d3.forceCenter(width / 2, height / 2))
-            .force("link", d3.forceLink().links(graph.links));
+        function update(myGraph) {
+            simulation = d3.forceSimulation(myGraph.nodes)
+                .force('center', d3.forceCenter(width / 2, height / 2))
+                .force("link", d3.forceLink().links(myGraph.links));
 
-        //simulation.force("link").links(graph.links);
+            //simulation.force("link").links(graph.links);
 
-        function update() {
             ctx.clearRect(0, 0, width, height);
 
             ctx.beginPath();
-            graph.links.forEach(drawLink);
+            myGraph.links.forEach(drawLink);
+            ctx.setLineDash([20, 5]);
             ctx.stroke();
 
             ctx.beginPath();
-            graph.nodes.forEach(drawNode);
-        }
-
-        function drawNode(d) {
-            ctx.moveTo(d.x, d.y);
-            ctx.arc(d.x, d.y, r, 0, 2 * Math.PI);
-            ctx.font = "30px Verdana";
-            ctx.fillStyle = "red";
-            ctx.fillText(d.name, d.x, d.y);
+            myGraph.nodes.forEach(drawNode);
         }
 
         function drawLink(l) {
@@ -74,8 +185,37 @@
             ctx.lineTo(l.target.x, l.target.y);
         }
 
-        update();
+        function drawNode(d) {
+            ctx.moveTo(d.x, d.y);
+            //ctx.arc(d.x, d.y, r, 0, 2 * Math.PI);
+            ctx.fillStyle = color(d.group);
+            ctx.fill();
+            ctx.font = "30px Verdana";
+            ctx.fillText(d.name, d.x - 5, d.y);
+            //ctx.strokeStyle = color(d.group);
+        }
+
+        update(graph1);
+
+        setTimeout(function () {
+            update(graph2);
+        }, 2000);
+
+        setTimeout(function () {
+            update(graph3);
+        }, 4000);
+
+        setTimeout(function () {
+            update(graph4);
+        }, 6000);
+
+        setTimeout(function () {
+            update(graph5);
+        }, 8000);
+
     </script>
+
+
 </body>
 
 </html>
