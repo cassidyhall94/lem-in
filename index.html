@@ -57,18 +57,8 @@
                 { name: "7", x: 84, y: 168, group: "3" }
             ],
             links: [
-                { source: "0", target: "4" },
-                { source: "0", target: "6" },
                 { source: "1", target: "3" },
                 { source: "2", target: "1" },
-                { source: "3", target: "5" },
-                { source: "4", target: "2" },
-                { source: "4", target: "3" },
-                { source: "5", target: "2" },
-                { source: "6", target: "5" },
-                { source: "7", target: "2" },
-                { source: "7", target: "4" },
-                { source: "7", target: "6" },
             ]
         };
 
@@ -84,18 +74,9 @@
                 { name: "7", x: 84, y: 168, group: "3" }
             ],
             links: [
-                { source: "0", target: "4" },
-                { source: "0", target: "6" },
                 { source: "1", target: "3" },
-                { source: "2", target: "1" },
-                { source: "3", target: "5" },
-                { source: "4", target: "2" },
                 { source: "4", target: "3" },
                 { source: "5", target: "2" },
-                { source: "6", target: "5" },
-                { source: "7", target: "2" },
-                { source: "7", target: "4" },
-                { source: "7", target: "6" },
             ]
         };
 
@@ -112,17 +93,8 @@
             ],
             links: [
                 { source: "0", target: "4" },
-                { source: "0", target: "6" },
-                { source: "1", target: "3" },
-                { source: "2", target: "1" },
-                { source: "3", target: "5" },
-                { source: "4", target: "2" },
                 { source: "4", target: "3" },
-                { source: "5", target: "2" },
                 { source: "6", target: "5" },
-                { source: "7", target: "2" },
-                { source: "7", target: "4" },
-                { source: "7", target: "6" },
             ]
         };
 
@@ -140,16 +112,6 @@
             links: [
                 { source: "0", target: "4" },
                 { source: "0", target: "6" },
-                { source: "1", target: "3" },
-                { source: "2", target: "1" },
-                { source: "3", target: "5" },
-                { source: "4", target: "2" },
-                { source: "4", target: "3" },
-                { source: "5", target: "2" },
-                { source: "6", target: "5" },
-                { source: "7", target: "2" },
-                { source: "7", target: "4" },
-                { source: "7", target: "6" },
             ]
         };
 
@@ -193,15 +155,14 @@
             ctx.arc(d.x, d.y, r, 0, 2 * Math.PI);
             //ctx.fillStyle = color(d.group);
             ctx.fill();
-            ctx.font = "30px Verdana";
             //ctx.fillText(d.name, d.x - 5, d.y);
             //ctx.strokeStyle = color(d.group);
 
             //ctx = canvas.getContext("2d");
-            ctx.font = '8pt Calibri';
+            ctx.font = '12pt Monaco';
             ctx.fillStyle = 'white';
             ctx.textAlign = 'center';
-            ctx.fillText(d.name, d.x - 5, d.y);
+            ctx.fillText(d.name, d.x - 2, d.y + 3);
         }
 
         update(graph1);
