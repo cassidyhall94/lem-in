@@ -1,7 +1,6 @@
 package farm
 
 import (
-	"fmt"
 	structs "lem-in/structs"
 )
 
@@ -41,13 +40,15 @@ func GenerateFarm(data structs.GenerationData) structs.Farm {
 // add links back into the farm.Room after appending
 
 func ConnectRooms(farm structs.Farm, data structs.GenerationData) structs.Farm {
-	farm = GenerateFarm(data)
-	// farmRooms := farm.Rooms
 	for _, dataLink := range data.Links {
-		for _, farmRooms := range farm.Rooms {
-			var linksToAdd []structs.Farm
-			stringFarmRooms := fmt.Sprintf("%#v", farmRooms)
-			if dataLink == stringFarmRooms {
+		for _, farmRoomA := range farm.Rooms {
+			if farmRoomA.Name == dataLink {
+				for _, farmRoomB := range farm.Rooms {
+					if farmRoomB.Name == dataLink {
+						linksToAdd := farmRoomB.Links
+						linksToAdd = append(linksToAdd, farmRoomA)
+					}
+				}
 			}
 		}
 	}
