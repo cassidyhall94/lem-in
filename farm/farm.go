@@ -1,6 +1,7 @@
 package farm
 
 import (
+	"fmt"
 	structs "lem-in/structs"
 )
 
@@ -33,18 +34,20 @@ func GenerateFarm(data structs.GenerationData) structs.Farm {
 }
 
 // Using farm(rooms) found from generateFarm func, connect the farms(rooms) together using data(links) structs.GenerationData
-// range over farm to get room one at a time
-// match Farm.Rooms.Names with GenerationData.Rooms
-// if matched, store GenerationData.Links from matched room name and return filled structs.Farm
+
+// range over data.Links for each link
+// find corresponding rooms in farm.rooms, save the links in a helper variable before appending
+// append &RoomB to RoomA.Links and &RoomsA to RoomB.Links
+// add links back into the farm.Room after appending
 
 func ConnectRooms(farm structs.Farm, data structs.GenerationData) structs.Farm {
-	// sliceRoom := []*structs.Room.Links{}
 	farm = GenerateFarm(data)
-	farmRooms := farm.Rooms
-	for _, roomSlice := range farmRooms {
-		for _, dataRooms := range data.Rooms {
-			if roomSlice.Name == dataRooms {
-				roomSlice.Links = append(roomSlice.Links, &data.Links)
+	// farmRooms := farm.Rooms
+	for _, dataLink := range data.Links {
+		for _, farmRooms := range farm.Rooms {
+			var linksToAdd []structs.Farm
+			stringFarmRooms := fmt.Sprintf("%#v", farmRooms)
+			if dataLink == stringFarmRooms {
 			}
 		}
 	}
