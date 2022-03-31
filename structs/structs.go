@@ -22,8 +22,8 @@ type Room struct {
 	Y_pos   int
 	IsStart bool
 	IsEnd   bool
-	//links do not have to start in the start room, 0-1 and 1-0 are interchangable
-	Links   []*Room
+	// links do not have to start in the start room, 0-1 and 1-0 are interchangable
+	Links []*Room
 }
 
 // Data to generate future farm
@@ -41,7 +41,9 @@ type PathStruct struct {
 	Paths    [][]*Room
 }
 
-// var ANTCOUNTER int
-// var STARTROOMID int
-// var ENDROOMID int
-// var FARM []Room
+var (
+	ANTCOUNTER  int
+	STARTROOMID int
+	ENDROOMID   int
+	FARM        []Room
+)

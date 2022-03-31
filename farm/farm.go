@@ -32,6 +32,25 @@ func GenerateFarm(data structs.GenerationData) structs.Farm {
 	}
 }
 
+// Using farm(rooms) found from generateFarm func, connect the farms(rooms) together using data(links) structs.GenerationData
+// range over farm to get room one at a time
+// match Farm.Rooms.Names with GenerationData.Rooms
+// if matched, store GenerationData.Links from matched room name and return filled structs.Farm
+
+func ConnectRooms(farm structs.Farm, data structs.GenerationData) structs.Farm {
+	// sliceRoom := []*structs.Room.Links{}
+	farm = GenerateFarm(data)
+	farmRooms := farm.Rooms
+	for _, roomSlice := range farmRooms {
+		for _, dataRooms := range data.Rooms {
+			if roomSlice.Name == dataRooms {
+				roomSlice.Links = append(roomSlice.Links, &data.Links)
+			}
+		}
+	}
+	return structs.Farm{}
+}
+
 // func GenerateFarm(data structs.GenerationData) {
 // 	var err error
 // 	// var ANTCOUNTER int
@@ -60,16 +79,6 @@ func GenerateFarm(data structs.GenerationData) structs.Farm {
 // 	}
 // 	ConnectRooms(data.Links)
 // }
-
-// Using farm(rooms) found from generateFarm func, connect the farms(rooms) together using data(links) structs.GenerationData
-// range over farm to get room one at a time
-// match Farm.Rooms.Names with GenerationData.Rooms
-// if matched, store GenerationData.Links from matched room name
-
-func ConnectRooms(farm structs.Farm, data structs.GenerationData) structs.Farm {
-
-	return structs.Farm{}
-}
 
 // func ConnectRooms(links []string) {
 // 	// var FARM []structs.Room
