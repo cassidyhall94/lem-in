@@ -88,7 +88,6 @@ func main() {
 
 	data, _ := dataparser.LoadData(os.Args[1])
 	generationData := dataparser.ReadData(data)
-	// fmt.Printf("Generation Data: %+v\n", generationData)
 	farm.GenerateFarm(generationData)
 
 	// var allPaths [][]*structs.Room
@@ -98,6 +97,6 @@ func main() {
 	// differentCombinations := paths.SearchCombinations(allPaths)
 	// bestCombination := paths.SearchBestCombination(differentCombinations)
 
-	// antsList := ants.SpawnAnts(bestCombination)
-	// ants.MakeStep(antsList)
+	// antsList := ants.CreateAnts(bestCombination)
+	// ants.CreateStep(antsList)
 }

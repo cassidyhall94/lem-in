@@ -5,14 +5,7 @@
 5. Start and end rooms can hold unlimited amount of ants, but all other rooms rooms in between can only have one ant at a time
 6. Choose the right path depending on how many ants you have
 
-
-7. Load data from the file and save it into variable
-8. Read and check data from loaded data to make generation data for future farm
-12. Find all paths from start to end
-13. Find all possible combinations without intersects
-14. Check intersects between two paths
-15. Check intersects between existing combination and path
-16. Find best combination between all combinaitons and calculates best suitable path for each ant
-17. Make maps
-20. Make list of ants with own path, current room and id
-21. Make ants (from ants list) to move from start to end prints each ant step
+7. Find best combination between all combinaitons and calculates best suitable path for each ant
+8. Make maps
+9. Make list of ants with own path, current room and id
+10. Make ants (from ants list) to move from start to end prints each ant step

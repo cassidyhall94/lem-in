@@ -107,11 +107,11 @@ func SearchBestCombination(r [][][]*structs.Room) [][]*structs.Room {
 	var topScore int
 	var topPath [][]*structs.Room
 
-	var ANTCOUNTER int // Amount of ants to spawn
+	var ANTCOUNTER int
 	for _, paths := range r {
 		var pathCombination [][]*structs.Room
 		antPosition := make([]int, len(paths))
-		currentIndex := 0
+		var currentIndex = 0
 		var nextPathId int
 		var updateNextPathId bool = true
 		for i := 0; i < ANTCOUNTER; i++ {
@@ -163,4 +163,5 @@ func SearchBestCombination(r [][][]*structs.Room) [][]*structs.Room {
 	}
 
 	return topPath
+
 }
