@@ -1,6 +1,7 @@
 package farm
 
 import (
+	"fmt"
 	"reflect"
 	"testing"
 
@@ -130,6 +131,8 @@ func TestConnectRooms(t *testing.T) {
 					t.Errorf("ConnectRooms() got %+v, wanted filled farm", got)
 				}
 				for _, room := range got.Rooms {
+					fmt.Printf("Room name: %s\n", room.Name)
+					fmt.Printf("Room length: %d\n", len(room.Links))
 					if room.Name == "1" && len(room.Links) != 2 {
 						t.Errorf("ConnectRooms() gave room 1 %d links, want 2", len(room.Links))
 					}

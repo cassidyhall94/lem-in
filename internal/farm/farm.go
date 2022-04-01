@@ -42,7 +42,6 @@ func GenerateFarm(data structs.GenerationData) structs.Farm {
 // add links back into the farm.Room after appending
 
 func ConnectRooms(farm structs.Farm, data structs.GenerationData) structs.Farm {
-	var linksToAdd []*structs.Room
 	for _, dataLink := range data.Links {
 		for _, farmRoomA := range farm.Rooms {
 			splitDataLink := strings.Split(dataLink, "-")
@@ -55,15 +54,12 @@ func ConnectRooms(farm structs.Farm, data structs.GenerationData) structs.Farm {
 						roomBVar := farmRoomB.Links
 						roomBVar = append(roomBVar, farmRoomA)
 						farmRoomB.Links = roomBVar
-						linksToAdd = roomBVar
 					}
 				}
 			}
 		}
 	}
-	return structs.Farm{
-		Rooms: linksToAdd,
-	}
+	return farm
 }
 
 // func GenerateFarm(data structs.GenerationData) {
