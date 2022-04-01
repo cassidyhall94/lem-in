@@ -4,10 +4,14 @@ import (
 	"git.learn.01founders.co/Cassidy.Hall94/lem-in/internal/structs"
 )
 
-// make an ordered slice of rooms in PathStruct, such that the order is from first room to last room with the fewest hops (hop is moving from one linked room to another) 
+// make an ordered slice of rooms in PathStruct, such that the order is from first room to last room with the fewest hops (hop is moving from one linked room to another)
 // https://www.google.com/search?q=golang+depth+first+search&rlz=1C1GCEA_enGB836GB836&sxsrf=APq-WBvYPQdQxobvj7KLhFfbFA1YYjclaw%3A1648817105896&ei=0fNGYt2bNsXB8gKjpI3gCw&oq=golang+depth+first+sear&gs_lcp=Cgdnd3Mtd2l6EAMYADIFCAAQgAQ6BwgjELADECc6BwgAELADEB46BAgjECc6BQgAEJECOgoIABCABBCHAhAUOg0IABCABBCHAhDJAxAUOgUIABCSAzoGCAAQFhAeOggIABAWEAoQHjoFCCEQoAE6BwghEAoQoAFKBAhBGAFKBAhGGABQ6QZY50RgkExoB3AAeACAAVWIAecKkgECMjKYAQCgAQHIAQLAAQE&sclient=gws-wiz
 // func for finding all the paths from start to end using farm.room, room.Links(take in farm.rooms and loop over it and its links), and gives you [][]*Room
 // func for finding the shortest path from all valid paths
+
+func findAllPaths(farm structs.Farm) [][]*structs.Room {
+	return [][]*structs.Room{}
+}
 
 // Find all paths from start to end
 func FindPaths(path []*structs.Room, currentRoom structs.Room, step int, paths *[][]*structs.Room, previousRoom *structs.Room) {
@@ -116,7 +120,7 @@ func SearchBestCombination(r [][][]*structs.Room) [][]*structs.Room {
 	for _, paths := range r {
 		var pathCombination [][]*structs.Room
 		antPosition := make([]int, len(paths))
-		var currentIndex = 0
+		currentIndex := 0
 		var nextPathId int
 		var updateNextPathId bool = true
 		for i := 0; i < ANTCOUNTER; i++ {
@@ -168,5 +172,4 @@ func SearchBestCombination(r [][][]*structs.Room) [][]*structs.Room {
 	}
 
 	return topPath
-
 }
