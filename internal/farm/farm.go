@@ -1,6 +1,8 @@
 package farm
 
 import (
+	"strings"
+
 	structs "git.learn.01founders.co/Cassidy.Hall94/lem-in/internal/structs"
 )
 
@@ -40,19 +42,26 @@ func GenerateFarm(data structs.GenerationData) structs.Farm {
 // add links back into the farm.Room after appending
 
 func ConnectRooms(farm structs.Farm, data structs.GenerationData) structs.Farm {
+	var linksToAdd []*structs.Room
 	for _, dataLink := range data.Links {
 		for _, farmRoomA := range farm.Rooms {
-			if farmRoomA.Name == dataLink {
-				for _, farmRoomB := range farm.Rooms {
-					if farmRoomB.Name == dataLink {
-						linksToAdd := farmRoomB.Links
-						linksToAdd = append(linksToAdd, farmRoomA)
+			splitDataLink := strings.Split(dataLink, "-")
+			for _, splitLink := range splitDataLink {
+				if farmRoomA.Name == splitLink {
+					for _, farmRoomB := range farm.Rooms {
+						if farmRoomB.Name == splitLink {
+							farmRoomA.Links = append(farmRoomA.Links, farmRoomB)
+							farmRoomB.Links = append(farmRoomB.Links, farmRoomA)
+							linksToAdd = farmRoomB.Links
+						}
 					}
 				}
 			}
 		}
 	}
-	return structs.Farm{}
+	return structs.Farm{
+		Rooms: linksToAdd,
+	}
 }
 
 // func GenerateFarm(data structs.GenerationData) {
