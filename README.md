@@ -4,3 +4,4 @@ Links are defined by "name1-name2" (For example "1-2", "2-8") -##start assigns r
 Examples: cat maps/example01.txt go run . maps/example01.txt
 
 https://go.dev/blog/go1.13-errors
+https://github.com/golang-standards/project-layout
