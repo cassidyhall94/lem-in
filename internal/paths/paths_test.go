@@ -4,12 +4,19 @@ import (
 	"reflect"
 	"testing"
 
+	dataparser "git.learn.01founders.co/Cassidy.Hall94/lem-in/internal/data-parser"
+	"git.learn.01founders.co/Cassidy.Hall94/lem-in/internal/farm"
 	"git.learn.01founders.co/Cassidy.Hall94/lem-in/internal/structs"
 )
 
 // func for finding all the paths from start to end using farm.room, room.Links(take in farm.rooms and loop over it and its links), and gives you [][]*Room
 
 func Test_findAllPaths(t *testing.T) {
+	data, _ := dataparser.LoadData("fixtures/test4.txt")
+	generationData := dataparser.ReadData(data)
+	filledFarm := farm.GenerateFarm(generationData)
+	linkedFarm := farm.ConnectRooms(filledFarm, generationData)
+
 	type args struct {
 		farm structs.Farm
 	}
@@ -21,30 +28,12 @@ func Test_findAllPaths(t *testing.T) {
 		{
 			name: "pass",
 			args: args{
-				farm: structs.Farm{
-					Rooms: []*structs.Room{
-						{
-							Name:    "1",
-							IsStart: true,
-							IsEnd:   false,
-							Links: []*structs.Room{
-								
-							},
-						},
-						{
-							Name:    "0",
-							IsStart: false,
-							IsEnd:   true,
-						},
-						{
-							Name:    "2",
-							IsStart: false,
-							IsEnd:   false,
-						},
-					},
-				}
-			}
-		}
+				farm: linkedFarm,
+			},
+			want: [][]*structs.Room{
+				
+			},
+		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {

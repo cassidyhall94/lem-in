@@ -89,8 +89,8 @@ func main() {
 
 	data, _ := dataparser.LoadData(os.Args[1])
 	generationData := dataparser.ReadData(data)
-	filledfarm := farm.GenerateFarm(generationData)
-	farm.ConnectRooms(filledfarm, generationData)
+	filledFarm := farm.GenerateFarm(generationData)
+	farm.ConnectRooms(filledFarm, generationData)
 
 	// var allPaths [][]*structs.Room
 	// paths.FindPaths(make([]*structs.Room, 0), structs.FARM[structs.STARTROOMID], 0, &allPaths, &structs.FARM[structs.STARTROOMID])
