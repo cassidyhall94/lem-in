@@ -46,14 +46,16 @@ func ConnectRooms(farm structs.Farm, data structs.GenerationData) structs.Farm {
 	for _, dataLink := range data.Links {
 		for _, farmRoomA := range farm.Rooms {
 			splitDataLink := strings.Split(dataLink, "-")
-			for _, splitLink := range splitDataLink {
-				if farmRoomA.Name == splitLink {
-					for _, farmRoomB := range farm.Rooms {
-						if farmRoomB.Name == splitLink {
-							farmRoomA.Links = append(farmRoomA.Links, farmRoomB)
-							farmRoomB.Links = append(farmRoomB.Links, farmRoomA)
-							linksToAdd = farmRoomB.Links
-						}
+			if farmRoomA.Name == splitDataLink[0] {
+				for _, farmRoomB := range farm.Rooms {
+					if farmRoomB.Name == splitDataLink[1] {
+						roomAVar := farmRoomA.Links
+						roomAVar = append(roomAVar, farmRoomB)
+						farmRoomA.Links = roomAVar
+						roomBVar := farmRoomB.Links
+						roomBVar = append(roomBVar, farmRoomA)
+						farmRoomB.Links = roomBVar
+						linksToAdd = roomBVar
 					}
 				}
 			}
