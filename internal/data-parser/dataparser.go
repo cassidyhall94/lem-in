@@ -3,10 +3,11 @@ package dataparser
 import (
 	"bufio"
 	"fmt"
-	structs "lem-in/structs"
 	"os"
 	"strconv"
 	"strings"
+
+	structs "git.learn.01founders.co/Cassidy.Hall94/lem-in/internal/structs"
 )
 
 // Loads data from the file and saves it into variable

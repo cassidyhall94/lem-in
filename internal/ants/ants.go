@@ -2,7 +2,8 @@ package ants
 
 import (
 	"fmt"
-	"lem-in/structs"
+
+	"git.learn.01founders.co/Cassidy.Hall94/lem-in/internal/structs"
 )
 
 // Make a list of ants with their own path, current room and id

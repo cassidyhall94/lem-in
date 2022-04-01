@@ -3,10 +3,11 @@ package main
 import (
 	// "fmt"
 
-	"lem-in/farm"
-	dataparser "lem-in/internal/data-parser"
 	"log"
 	"os"
+
+	"git.learn.01founders.co/Cassidy.Hall94/lem-in/internal/farm"
+	"git.learn.01founders.co/Cassidy.Hall94/lem-in/internal/data-parser"
 )
 
 // // Graph represents an adjaceny list graph

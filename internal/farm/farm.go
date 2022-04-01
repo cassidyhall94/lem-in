@@ -1,7 +1,7 @@
 package farm
 
 import (
-	structs "lem-in/structs"
+	structs "git.learn.01founders.co/Cassidy.Hall94/lem-in/internal/structs"
 )
 
 // Generate farm based on generation data

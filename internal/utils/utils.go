@@ -2,8 +2,9 @@ package utils
 
 import (
 	"fmt"
-	structs "lem-in/structs"
 	"log"
+
+	structs "git.learn.01founders.co/Cassidy.Hall94/lem-in/internal/structs"
 )
 
 func CheckError(err error) {

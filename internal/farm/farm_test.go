@@ -1,9 +1,10 @@
 package farm
 
 import (
-	structs "lem-in/structs"
 	"reflect"
 	"testing"
+
+	structs "git.learn.01founders.co/Cassidy.Hall94/lem-in/internal/structs"
 )
 
 func TestGenerateFarm(t *testing.T) {

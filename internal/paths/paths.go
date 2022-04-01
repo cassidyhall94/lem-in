@@ -1,7 +1,7 @@
 package paths
 
 import (
-	"lem-in/structs"
+	"git.learn.01founders.co/Cassidy.Hall94/lem-in/internal/structs"
 )
 
 // Find all paths from start to end
