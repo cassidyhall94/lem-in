@@ -1,15 +1,25 @@
 package paths
 
 import (
+	"fmt"
+
 	"git.learn.01founders.co/Cassidy.Hall94/lem-in/internal/structs"
 )
 
-// make an ordered slice of rooms in PathStruct, such that the order is from first room to last room with the fewest hops (hop is moving from one linked room to another)
 // https://www.google.com/search?q=golang+depth+first+search&rlz=1C1GCEA_enGB836GB836&sxsrf=APq-WBvYPQdQxobvj7KLhFfbFA1YYjclaw%3A1648817105896&ei=0fNGYt2bNsXB8gKjpI3gCw&oq=golang+depth+first+sear&gs_lcp=Cgdnd3Mtd2l6EAMYADIFCAAQgAQ6BwgjELADECc6BwgAELADEB46BAgjECc6BQgAEJECOgoIABCABBCHAhAUOg0IABCABBCHAhDJAxAUOgUIABCSAzoGCAAQFhAeOggIABAWEAoQHjoFCCEQoAE6BwghEAoQoAFKBAhBGAFKBAhGGABQ6QZY50RgkExoB3AAeACAAVWIAecKkgECMjKYAQCgAQHIAQLAAQE&sclient=gws-wiz
-// func for finding all the paths from start to end using farm.room, room.Links(take in farm.rooms and loop over it and its links), and gives you [][]*Room
-// func for finding the shortest path from all valid paths
 
+// make an ordered slice of rooms in PathStruct, such that the order is from first room to last room with the fewest hops (hop is moving from one linked room to another)
+// func for finding all the paths from start to end using farm.room, room.Links(take in farm.rooms and loop over it and its links), and gives you [][]*Room
+
+// func for finding the shortest path from all valid paths
 func findAllPaths(farm structs.Farm) [][]*structs.Room {
+	// visited := []*structs.Room
+	for _, farmRooms := range farm.Rooms {
+		for _, farmLinks := range farmRooms.Links {
+			fmt.Printf("farmLinks: %+v\n", farmLinks)
+		}
+	}
+
 	return [][]*structs.Room{}
 }
 
