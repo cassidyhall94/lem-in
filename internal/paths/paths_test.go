@@ -25,91 +25,34 @@ func Test_findAllPaths(t *testing.T) {
 	tests := []struct {
 		name string
 		args args
-		want [][]*structs.Room
+		want []*structs.PathStruct
 	}{
 		{
 			name: "pass",
 			args: args{
 				farm: linkedFarm,
 			},
-			want: [][]*structs.Room{
+			want: []*structs.PathStruct{
 				{
-					{
-						Name:    "0",
-						IsStart: true,
-						Links: []*structs.Room{
-							{
-								Name:    "2",
-								IsEnd:   false,
-								IsStart: false,
-							},
+					PathName: "1",
+					Paths: []*structs.Room{
+						{
+							Name:    "0",
+							IsStart: true,
 						},
-					},
-				},
-				{
-					{
-						Name:    "2",
-						IsStart: false,
-						IsEnd:   false,
-						Links: []*structs.Room{
-							{
-								Name:    "0",
-								IsStart: true,
-							},
+						{
+							Name:    "2",
+							IsStart: false,
+							IsEnd:   false,
 						},
-					},
-				},
-				{
-					{
-						Name:    "2",
-						IsStart: false,
-						IsEnd:   false,
-						Links: []*structs.Room{
-							{
-								Name:    "3",
-								IsEnd:   false,
-								IsStart: false,
-							},
+						{
+							Name:    "3",
+							IsStart: false,
+							IsEnd:   false,
 						},
-					},
-				},
-				{
-					{
-						Name:    "3",
-						IsStart: false,
-						IsEnd:   false,
-						Links: []*structs.Room{
-							{
-								Name:    "2",
-								IsEnd:   false,
-								IsStart: false,
-							},
-						},
-					},
-				},
-				{
-					{
-						Name:    "3",
-						IsStart: false,
-						IsEnd:   false,
-						Links: []*structs.Room{
-							{
-								Name:  "1",
-								IsEnd: true,
-							},
-						},
-					},
-				},
-				{
-					{
-						Name:  "1",
-						IsEnd: true,
-						Links: []*structs.Room{
-							{
-								Name:    "3",
-								IsEnd:   false,
-								IsStart: false,
-							},
+						{
+							Name:  "1",
+							IsEnd: true,
 						},
 					},
 				},
@@ -120,7 +63,12 @@ func Test_findAllPaths(t *testing.T) {
 			args: args{
 				farm: linkedFarm,
 			},
-			want: [][]*structs.Room{},
+			want: []*structs.PathStruct{
+				{
+					PathName: "",
+					Paths:    []*structs.Room{},
+				},
+			},
 		},
 	}
 	for _, tt := range tests {
