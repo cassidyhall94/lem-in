@@ -7,6 +7,9 @@ import (
 // make an ordered slice of rooms in PathStruct, such that the order is from first room to last room with the fewest hops (hop is moving from one linked room to another)
 // func for finding all the paths from start to end using farm.room, room.Links(take in farm.rooms and loop over it and its links), and gives you []*structs.PathStruct (use make)
 
+// recursion:
+// https://www.cloudhadoop.com/2018/12/golang-recursion-recursive-function.html
+
 // func for finding the shortest path from all valid paths
 func findAllPaths(farm structs.Farm) []*structs.PathStruct {
 	// visited := []*structs.Room
@@ -15,11 +18,9 @@ func findAllPaths(farm structs.Farm) []*structs.PathStruct {
 		for _, farmLinks := range farmRooms.Links {
 			// fmt.Printf("farmLinks: %+v\n", farmLinks)
 			if farmLinks.IsStart {
-				var n string
 				path = []*structs.PathStruct{
 					{
-						PathName: n,
-						Paths: []*structs.Room{
+						Path: []*structs.Room{
 							{
 								Name: farmLinks.Name,
 							},
@@ -29,7 +30,6 @@ func findAllPaths(farm structs.Farm) []*structs.PathStruct {
 			}
 		}
 	}
-
 	return path
 }
 

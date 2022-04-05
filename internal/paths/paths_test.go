@@ -34,8 +34,8 @@ func Test_findAllPaths(t *testing.T) {
 			},
 			want: []*structs.PathStruct{
 				{
-					PathName: "1",
-					Paths: []*structs.Room{
+					// PathName: "1",
+					Path: []*structs.Room{
 						{
 							Name:    "0",
 							IsStart: true,
@@ -65,8 +65,7 @@ func Test_findAllPaths(t *testing.T) {
 			},
 			want: []*structs.PathStruct{
 				{
-					PathName: "",
-					Paths:    []*structs.Room{},
+					Path: []*structs.Room{},
 				},
 			},
 		},
