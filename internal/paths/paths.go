@@ -7,30 +7,35 @@ import (
 // make an ordered slice of rooms in PathStruct, such that the order is from first room to last room with the fewest hops (hop is moving from one linked room to another)
 // func for finding all the paths from start to end using farm.room, room.Links(take in farm.rooms and loop over it and its links), and gives you []*structs.PathStruct (use make)
 
-// recursion:
-// https://www.cloudhadoop.com/2018/12/golang-recursion-recursive-function.html
+// https://libgen.rocks/ads.php?md5=1a699911f1094229b4d6c5df601a09ad
+// https://en.wikipedia.org/wiki/Edmonds%E2%80%93Karp_algorithm
+// https://medium.com/@jamierobertdawson/lem-in-finding-all-the-paths-and-deciding-which-are-worth-it-2503dffb893
+// https://en.wikipedia.org/wiki/Dijkstra%27s_algorithm#Practical_optimizations_and_infinite_graphs
+// https://kalkicode.com/print-all-the-paths-from-the-source-to-destination-in-directed-graph-in-go
+// https://github.com/e-tinkers/shortest-path-algorithm/blob/master/shortest.go
+
+// see if rooms has been visited
+//  node = room
+// edge = link
+// append rooms to the var if they are not the end room
+// we have an undirected graph
 
 // func for finding the shortest path from all valid paths
 func findAllPaths(farm structs.Farm) []*structs.PathStruct {
-	// visited := []*structs.Room
-	path := []*structs.PathStruct{}
+	pathStruct := []*structs.PathStruct{}
 	for _, farmRooms := range farm.Rooms {
 		for _, farmLinks := range farmRooms.Links {
-			// fmt.Printf("farmLinks: %+v\n", farmLinks)
+			// fmt.Printf("farmLinks: %+v\n", farmLinks.Name)
 			if farmLinks.IsStart {
-				path = []*structs.PathStruct{
-					{
-						Path: []*structs.Room{
-							{
-								Name: farmLinks.Name,
-							},
-						},
-					},
+				for _, path := range pathStruct {
+					for _, pathRoom := range path.Path {
+						pathRoom.Name = farmLinks.Name
+					}
 				}
 			}
 		}
 	}
-	return path
+	return pathStruct
 }
 
 // Find all paths from start to end
