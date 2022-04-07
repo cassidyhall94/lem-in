@@ -7,7 +7,7 @@ import (
 // make an ordered slice of rooms in PathStruct, such that the order is from first room to last room with the fewest hops (hop is moving from one linked room to another)
 // func for finding all the paths from start to end using farm.room, room.Links(take in farm.rooms and loop over it and its links), and gives you []*structs.PathStruct (use make)
 
-// https://libgen.rocks/ads.php?md5=1a699911f1094229b4d6c5df601a09ad
+// https://edu.anarcho-copy.org/Algorithm/grokking-algorithms-illustrated-programmers-curious.pdf
 // https://en.wikipedia.org/wiki/Edmonds%E2%80%93Karp_algorithm
 // https://medium.com/@jamierobertdawson/lem-in-finding-all-the-paths-and-deciding-which-are-worth-it-2503dffb893
 // https://en.wikipedia.org/wiki/Dijkstra%27s_algorithm#Practical_optimizations_and_infinite_graphs
@@ -20,22 +20,19 @@ import (
 // append rooms to the var if they are not the end room
 // we have an undirected graph
 
-// func for finding the shortest path from all valid paths
+// Find all paths from start to end
 func findAllPaths(farm structs.Farm) []*structs.PathStruct {
 	pathStruct := []*structs.PathStruct{}
+
 	for _, farmRooms := range farm.Rooms {
-		for _, farmLinks := range farmRooms.Links {
-			// fmt.Printf("farmLinks: %+v\n", farmLinks.Name)
-			if farmLinks.IsStart {
-				for _, path := range pathStruct {
-					for _, pathRoom := range path.Path {
-						pathRoom.Name = farmLinks.Name
-					}
-				}
-			}
+		if farmRooms.IsEnd {
+			ps := structs.PathStruct{Path: farm.Rooms}
+			pathStruct = append(pathStruct, &ps)
+			return pathStruct
 		}
 	}
-	return pathStruct
+	// return pathStruct
+	return []*structs.PathStruct{}
 }
 
 // Find all paths from start to end

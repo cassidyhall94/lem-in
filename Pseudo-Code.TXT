@@ -1,0 +1,274 @@
+The LEM-IN → Pseudo Code (Top Down Design Methodology) !
+___________________________________________________________________________________________
+
+• The LEM-IN (Ants farm) System Project;
+filename: Pseudo-Code.txt; author: Kamal H. Zada; Date: 23 March 2022;
+
+• The LEM-IN System consists of 5 source code modules (5 files):
+main.go, and Pseudo-Code.txt (documentation)!
+
+• Entry point → File: main.go; Function main.go;
+
+• The Program consists of the following Global variables:
+
+• Function Main → this function is the entry point for the Lem-In Application;
+_________________________________________________________________________________________________________________________________________________________________________________________________
+• LEM-IN Example Input Text Files:
+https://github.com/01-edu/public/tree/master/subjects/lem-in/examples
+
+• Notes:
+Name of room is a word or number (int); so name1 - name2 could be RoomA - RoomC.
+#start 1 23 3 means the Start room - room 1; coord-x: 23; coord-y: 3
+after #end: 0 9 5 means room 0 has x-coord: 9 and y-coord:5
+0 - 4: a tunnel from room 0 to room 4.
+
+• Algorithm:
+  I utilised the Breadth First Search (BFS: https://en.wikipedia.org/wiki/Breadth-first_search)
+  method for finding all the shortest paths in a graph.
+
+  Next I used Jamie Dawson's algorithm → Lem-in: Finding all the paths and deciding which are worth it:
+  https://medium.com/@jamierobertdawson/lem-in-finding-all-the-paths-and-deciding-which-are-worth-it-2503dffb893
+
+  Next is that knowing the paths the program decides in which path ants will go through.
+  Finally the program decides which algorithm is faster and outputs the answer.
+  Breadth First Search is a Graph traversal algorithm:  https://www.javatpoint.com/breadth-first-search-algorithm
+_________________________________________________________________________________________________________________________________________________________________________________________________
+• Breadth First Search (BFS) Structures:
+
+// Vertex structure
+type Vertex struct {
+     Name     string
+     Adjacent []*Vertex
+     Dist     int     // Distance from start
+     Prev     *Vertex // Previous vertex
+     Nofants  int     // number of ants in the room
+     Busy     bool    // shows if the room is occupied by an ant
+     Nofant   []int   // shows the Name of the ant that is in each of the rooms
+     Room     string  // shows what type of room it is
+}
+
+// BFS Graph struct
+type Graph struct {
+     Vertices []*Vertex
+}
+
+/*The Paths Map - consist of a BFS Graph of Rooms (Vertex). A path start at the start room and finishes at the end room.*/
+var paths map[string][]*graph.Vertex
+_________________________________________________________________________________________________________________________________________________________________________________________________
+• Function: CheckInput → checks Input file for valid input;
+
+1. Opens the Input file (e.g. example00.TXT)
+2. Reads the Input file into two arrays (slices) of strings: Example and input.
+3. Check that there is exactly one start room and one end room.
+   Check for duplicate rooms. Also check the connections (links) between rooms.
+   Check for rooms with the same coordinates.
+   
+4. Call function AddNodes → finds and saves rooms in the global map, also finds the starting and ending rooms and marks them.
+   e.g. for example00.TXT global map is: [0:start 1:end 2:r 3:r]
+
+5. Call function checkLrooms → checks for validity of the edges between the vertices (the room connections).
+
+6. Call function AddConnection → to add connections to the Global Map of Connections.
+   e.g. for example00.TXT global Connections map is: [0:2 2:3 3:1]
+
+• Function Main → this function is the entry point for the Application;
+1. It calls CheckInput to validate the Input file (check for valid input).
+2. it also calls New Vertexes and New Edges.
+3. it calls BFSS to Finds paths using the BFS (Breadth First Search) method.
+
+4. It saves the found paths into the paths map (see definition above).
+
+5. Call graph → SortAnts to sort ants between paths. Sort the paths for BFS structures.
+   Utilise Jamie Dawson's algorithm to find the most otpimal paths;
+   I.e we have to make sure that we are sending all the ants from start to end in the most optimized way possible.
+   Send the first ant on the shortest first journey. Next send the next Ant on it's journey, etc.
+   Until all Ants have reached the End room.
+
+6. Call graph → MoveAnts which moves ants between rooms from start room to the end room.
+   There exists a queue for active ants that have not reached the end.
+   An Ant can only move into the next room (on it's path) if that room is empty.
+   The Ants are moved using the Paths found using the BFS (Breadth First Search) method.
+   This Iteration is repeated until all Ants are in the End Room.
+
+• Function BFSS → this function finds paths with BFS (Breadth First Search) method.
+1. It calls Find Path to find a path from the Start room until the End room,
+   by the traversing the GFS graph using the tunnels to travel from one room to the next room,
+   and saving the rooms on it's path in it's Path map.
+_________________________________________________________________________________________________________________________________________________________________________________________________
+• Objectives
+
+This project is meant to make you code a digital version of an ant farm.
+
+Create a program lem-in that will read from a file (describing the ants and the colony) given in the arguments.
+
+Upon successfully finding the quickest path, lem-in will display the content of the file passed as argument and each move the ants make from room to room.
+
+How does it work?
+
+    You make an ant farm with tunnels and rooms.
+    You place the ants on one side and look at how they find the exit.
+
+You need to find the quickest way to get n ants across a colony (composed of rooms and tunnels).
+
+    At the beginning of the game, all the ants are in the room ##start. The goal is to bring them to the room ##end with as few moves as possible.
+    The shortest path is not necessarily the simplest.
+    Some colonies will have many rooms and many links, but no path between ##start and ##end.
+    Some will have rooms that link to themselves, sending your path-search spinning in circles. Some will have too many/too few ants, no ##start or ##end, duplicated rooms, links to unknown rooms, rooms with invalid coordinates and a variety of other invalid or poorly-formatted input. In those cases the program will return an error message ERROR: invalid data format. If you wish, you can elaborate a more specific error message (example: ERROR: invalid data format, invalid number of Ants or ERROR: invalid data format, no start room found).
+
+• You must display your results on the standard output in the following format :
+number_of_ants
+the_rooms
+the_links
+
+Lx-y Lz-w Lr-o ...
+    x, z, r represents the ants numbers (going from 1 to number_of_ants) and y, w, o represents the rooms names.
+    A room is defined by "name coord_x coord_y", and will usually look like "Room 1 2", "nameoftheroom 1 6", "4 6 7".
+    The coordinates of the rooms are only important for the Bonus task: ant farm visualizer.
+    The links (tunnels) are defined by "name1-name2" and will usually look like "1-2", "2-5".
+    The L is for Lem-in.
+
+• Here is an example of this in practice:
+
+##start
+1 23 3
+2 16 7
+#comment
+3 16 3
+4 16 5
+5 9 3
+6 1 5
+7 4 8
+##end
+0 9 5
+0-4
+0-6
+1-3
+4-3
+5-2
+3-5
+#another comment
+4-2
+2-1
+7-6
+7-2
+7-4
+6-5
+
+Which corresponds to the following representation:
+
+        _________________
+       /                 \
+  ____[5]----[3]--[1]     |
+ /            |    /      |
+[6]---[0]----[4]  /       |
+ \   ________/|  /        |
+  \ /        [2]/________/
+  [7]_________/
+
+
+• Instructions:
+    You need to create tunnels and rooms.
+    A room will never start with the letter L or with # and must have no spaces.
+    You join the rooms together with as many tunnels as you need.
+    A tunnel joins only two rooms together never more than that.
+    A room can be linked to an infinite number of rooms and by as many tunnels as deemed necessary.
+    Each room can only contain one ant at a time (except at ##start and ##end which can contain as many ants as necessary).
+    To be the first to arrive, ants will need to take the shortest path or paths. They will also need to avoid traffic jams as well as walking all over their fellow ants.
+    You will only display the ants that moved at each turn, and you can move each ant only once and through a tunnel (the room at the receiving end must be empty).
+    The rooms names will not necessarily be numbers, and in order.
+    Any unknown command will be ignored.
+    The program must handle errors carefully. In no way can it quit in an unexpected manner.
+    The coordinates of the rooms will always be int.
+    Your project must be written in Go.
+    The code must respect the good practices.
+    It is recommended to have test files for unit testing.
+
+Allowed packages
+
+    Only the standard Go packages are allowed.
+    Usage:
+Example 1:
+
+$ go run . test0.txt
+3 - number of Ants which initially are all in the Start Room 1
+##start
+1 23 3    !Room 1 is at x-coord:23 and y-coord:3
+2 16 7
+3 16 3
+4 16 5
+5 9 3
+6 1 5
+7 4 8    !Room 7 is at x-coord:4 and y-coord:8
+##end
+The following are the Tunnels connecting the rooms:
+0 9 5     !Start room 0 has x-coord: 9 and y-coord: 5
+0-4       !there exists a tunnel connecting room 0 to room 4
+0-6       !there exists a tunnel connecting room 0 to room 6
+1-3       !there exists a tunnel connecting room 1 to room 3
+4-3       !there exists a tunnel connecting room 4 to room 3
+5-2       !there exists a tunnel connecting room 5 to room 6
+3-5
+4-2
+2-1       !there exists a tunnel connecting room 1 to room 2
+7-6
+7-2
+7-4       !there exists a tunnel connecting room 4 to room 7
+6-5       !there exists a tunnel connecting room 6 to room 5
+My program must do the following processing (calculations) which moves the 3 Ants from Start Room 1 to End Room 0:
+L1-3 L2-2        Ant 1 moves to room 3; and Ant 2 moves from to room 2
+L1-4 L2-5 L3-3   Ant 1 moves to room 4; Ant 2 moves to room 5; Ant 3 moves to room 3
+L1-0 L2-6 L3-4   Ant 1 moves to room 0 (#end room); Ant 2 moves to room 6; Ant 3 moves to room 4;
+L2-0 L3-0        Ant 2 goes to room 0 (#end room); Ant 3 goes to room 0 (#end room).
+$
+
+Example 2:
+
+$ go run . test1.txt
+3
+##start
+0 1 0
+##end
+1 5 0
+2 9 0
+3 13 0
+0-2
+2-3
+3-1
+
+L1-2
+L1-3 L2-2
+L1-1 L2-3 L3-2
+L2-1 L3-3
+L3-1
+$
+
+Example 3:
+
+$ go run . test1.txt
+3
+2 5 0
+##start
+0 1 2
+##end
+1 9 2
+3 5 4
+0-2
+0-3
+2-1
+3-1
+2-3
+
+L1-2 L2-3
+L1-1 L2-1 L3-2
+L3-1
+$
+
+• Bonus:
+As a bonus you can create an ant farm visualiser that shows the ants moving trough the colony.
+Here is an usage example : ./lem-in ant-farm.txt | ./visualizer
+The coordinates of the room will be useful only here.
+
+This project will help you learn about:
+    Algorithmic algorithms; Ways to receive data; Ways to output data; Manipulation of strings; Manipulation of structures.
+_________________________________________________________________________________________________________________________________________________________________________________________________
+
