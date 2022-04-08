@@ -25,14 +25,12 @@ func findAllPaths(farm structs.Farm) []*structs.PathStruct {
 	pathStruct := []*structs.PathStruct{}
 
 	for _, farmRooms := range farm.Rooms {
-		if farmRooms.IsEnd {
+		if farmRooms.IsStart {
 			ps := structs.PathStruct{Path: farm.Rooms}
 			pathStruct = append(pathStruct, &ps)
-			return pathStruct
 		}
 	}
-	// return pathStruct
-	return []*structs.PathStruct{}
+	return pathStruct
 }
 
 // Find all paths from start to end

@@ -1,6 +1,7 @@
 package paths
 
 import (
+	"reflect"
 	"testing"
 
 	dataparser "git.learn.01founders.co/Cassidy.Hall94/lem-in/internal/data-parser"
@@ -10,35 +11,14 @@ import (
 )
 
 func Test_findAllPaths(t *testing.T) {
-	data, err := dataparser.LoadData("../data-parser/fixtures/test4.txt")
-	if err != nil {
-		t.Errorf("dataparser.LoadData error: %+v", err)
-	}
-	generationData := dataparser.ReadData(data)
-	filledFarm := farm.GenerateFarm(generationData)
-	linkedFarm := farm.ConnectRooms(filledFarm, generationData)
-
-	data1, err := dataparser.LoadData("../data-parser/fixtures/test5.txt")
-	if err != nil {
-		t.Errorf("dataparser.LoadData error: %+v", err)
-	}
-	generationData1 := dataparser.ReadData(data1)
-	filledFarm1 := farm.GenerateFarm(generationData1)
-	linkedFarm1 := farm.ConnectRooms(filledFarm1, generationData1)
-
-	type args struct {
-		farm structs.Farm
-	}
 	tests := []struct {
-		name string
-		args args
-		want []*structs.PathStruct
+		name    string
+		fixture string
+		want    []*structs.PathStruct
 	}{
 		{
 			name: "pass - easy",
-			args: args{
-				farm: linkedFarm,
-			},
+			fixture: "../data-parser/fixtures/test4.txt",
 			want: []*structs.PathStruct{
 				{
 					Path: []*structs.Room{
@@ -66,9 +46,7 @@ func Test_findAllPaths(t *testing.T) {
 		},
 		{
 			name: "pass - more paths",
-			args: args{
-				farm: linkedFarm1,
-			},
+			fixture: "../data-parser/fixtures/test5.txt",
 			want: []*structs.PathStruct{
 				{
 					Path: []*structs.Room{
@@ -123,21 +101,53 @@ func Test_findAllPaths(t *testing.T) {
 		},
 		{
 			name: "empty",
-			args: args{
-				farm: structs.Farm{},
-			},
+			fixture: "../data-parser/fixtures/test3.txt",
 			want: []*structs.PathStruct{},
 		},
 	}
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			got := findAllPaths(tt.args.farm)
-			for _, gotType := range got {
-				for i, gotPath := range gotType.Path {
-					t.Errorf("findAllPaths() testname: %s, index: %d, name: %+v, isStart: %+v, isEnd: %+v, want: %+v\n", tt.name, i, gotPath.Name, gotPath.IsStart, gotPath.IsEnd, tt.want)
+			data, err := dataparser.LoadData(tt.fixture)
+			if err != nil {
+				t.Errorf("dataparser.LoadData error: %+v", err)
+			}
+			generationData := dataparser.ReadData(data)
+			filledFarm := farm.GenerateFarm(generationData)
+			linkedFarm := farm.ConnectRooms(filledFarm, generationData)
+
+			got := findAllPaths(linkedFarm)
+			sliceOfAllGotRooms := [][]string{}
+			for _, gotRooms := range got {
+				sliceOfAllGotRooms = append(sliceOfAllGotRooms, getSliceOfRoomNames(gotRooms.Path))
+			}
+			if len(got) < len(tt.want) {
+				t.Fatalf("findAllPaths() returned %d paths, wanted %d, here's all the paths we got: %+v", len(got), len(tt.want), sliceOfAllGotRooms)
+			}
+			for _, gotRooms := range got {
+				foundMatchingPath := false
+				gotRoomNames := getSliceOfRoomNames(gotRooms.Path)
+				for _, wantRooms := range tt.want {
+					wantRoomNames := getSliceOfRoomNames(wantRooms.Path)
+					if !reflect.DeepEqual(gotRoomNames, wantRoomNames) {
+						t.Logf("wanted %+v, here's all the paths we got: %+v", wantRoomNames, sliceOfAllGotRooms)
+					} else {
+						foundMatchingPath = true
+						break
+					}
+				}
+				if !foundMatchingPath {
+					t.Error("unable to find matching path for gotPath, see log lines.")
 				}
 			}
 		})
 	}
+}
+
+func getSliceOfRoomNames(rooms []*structs.Room) []string {
+	ret := make([]string, 0, len(rooms))
+	for _, r := range rooms {
+		ret = append(ret, r.Name)
+	}
+	return ret
 }
