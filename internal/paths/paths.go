@@ -1,6 +1,9 @@
 package paths
 
 import (
+	"fmt"
+	"os"
+
 	"git.learn.01founders.co/Cassidy.Hall94/lem-in/internal/structs"
 )
 
@@ -24,13 +27,77 @@ import (
 func findAllPaths(farm structs.Farm) []*structs.PathStruct {
 	pathStruct := []*structs.PathStruct{}
 
-	for _, farmRooms := range farm.Rooms {
-		if farmRooms.IsStart {
-			ps := structs.PathStruct{Path: farm.Rooms}
-			pathStruct = append(pathStruct, &ps)
+	for _, farmRoom := range farm.Rooms {
+		if farmRoom.IsStart {
+			_, paths, _ := findValidPath(farmRoom, []string{}, [][]*structs.Room{}, []*structs.Room{})
+			for _, p := range paths {
+				pathStruct = append(pathStruct, &structs.PathStruct{Path: p})
+			}
 		}
 	}
 	return pathStruct
+}
+
+var counter int
+
+// find valid path looks in a room for its links, it then asks itself about those links returning a slice of visited rooms and a slice of paths
+// setting the returned bool indicates that we're winding up
+
+// we pass in a room
+// if it hasn't been visited we need to look at its links
+// we want to ignore links that lead to a dead end
+// we want to add a new path to paths and return from everything when we find the end
+// when adding to visited or path we need to make copies of them to make sure we don't overwrite the underlying path/visited slice
+// we want to call findValidPath on each link that isn't a dead end
+// eventually this will return paths that is a slice of each path
+func findValidPath(room *structs.Room, visited []string, paths [][]*structs.Room, path []*structs.Room) ([]string, [][]*structs.Room, []*structs.Room) {
+	counter++
+	fmt.Printf("room.Name %s; len(room.Links) %d, room.Links[0] %s, visited %+v\n", room.Name, len(room.Links), room.Links[0].Name, visited)
+	if counter > 20 {
+		os.Exit(1)
+	}
+
+	if room.IsEnd {
+		return nil, append(paths, path), nil
+	}
+	
+	visited = append(visited, room.Name)
+	newVisited := make([]string, 0)
+	copy(newVisited, visited)
+
+	path = append(path, room)
+
+	for _, l := range room.Links {
+		// find out if this is a dead end
+		if len(l.Links) == 1 && l.Links[0].Name == room.Name {
+			continue
+		} else if visitedRoom(visited, l) {
+			continue
+		}
+
+		newPath := make([]*structs.Room, 0)
+		copy(newPath, path)
+		_, ps, p := findValidPath(l, newVisited, paths, newPath)
+		if p == nil {
+			path = nil
+			paths = append(paths, ps...)
+		}
+	}
+
+	if visitedRoom(visited, room) {
+		return visited, paths, path
+	}
+
+	return visited, paths, path
+}
+
+func visitedRoom(visited []string, roomNames *structs.Room) bool {
+	for _, roomsVisited := range visited {
+		if roomsVisited == roomNames.Name {
+			return true
+		}
+	}
+	return false
 }
 
 // Find all paths from start to end
