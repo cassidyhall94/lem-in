@@ -21,7 +21,7 @@ type Path struct {
 	RoomsInPath []string
 }
 
-func CreateAnts() Ant {
+func CreateAnts() []Ant {
 	rooms := []Room{
 		{
 
@@ -48,13 +48,12 @@ func CreateAnts() Ant {
 		},
 	}
 
+	var antToAdd []Ant
+
 	noOfPaths := lenPathStruct(paths)
 
 	for i := 1; i <= 3; i++ {
-		var antToAdd Ant
-		//var noOfAntsCurrentRoom int
 		noOfRooms := 0
-		antToAdd.Id = i
 
 		var j int
 
@@ -63,39 +62,26 @@ func CreateAnts() Ant {
 		} else {
 			j = i - 1
 		}
+		var pathToAdd []string
 		for _, p := range paths[j].RoomsInPath {
+
 			for r := range rooms {
 				if p == rooms[r].Name && rooms[r].IsEnd == true {
-					antToAdd.Path = append(antToAdd.Path, rooms[r].Name)
+					pathToAdd = append(pathToAdd, rooms[r].Name)
 					noOfRooms = noOfRooms + 1
-					continue
 				} else if p == rooms[r].Name {
-					antToAdd.Path = append(antToAdd.Path, rooms[r].Name)
+					pathToAdd = append(pathToAdd, rooms[r].Name)
 					noOfRooms = noOfRooms + 1
 				}
 			}
-		}
-		antToAdd.RoomsPassed = noOfRooms
-		fmt.Println(antToAdd.Id, antToAdd.Path, antToAdd.RoomsPassed)
 
+		}
+		antToAdd = append(antToAdd, Ant{Id: i, Path: pathToAdd, RoomsPassed: noOfRooms})
 	}
 
-	fmt.Println()
+	fmt.Println(antToAdd)
 
-	return Ant{}
-}
-
-func lenRoomStruct(rooms []Room) int {
-	lenRoomCounter := 0
-
-	for _, room := range rooms {
-		if room.Name != "" {
-			lenRoomCounter = lenRoomCounter + 1
-		}
-	}
-
-	return lenRoomCounter
-
+	return antToAdd
 }
 
 func lenPathStruct(paths []Path) int {
@@ -116,17 +102,13 @@ func lenPathStruct(paths []Path) int {
 	var result []structs.Ant
 	for i := 1; i < structs.ANTCOUNTER+1; i++ {
 		var antToAdd structs.Ant
-
 		antToAdd.Id = i
 		antToAdd.CurrentRoom = &structs.FARM[structs.STARTROOMID]
 		antToAdd.Path = paths[i-1]
-
 		result = append(result, antToAdd)
 	}
-
 	return result
 }
-
 // Create ants to move from start to end and print each ant step
 func CreateStep(ants []structs.Ant) {
 	var ANTCOUNTER int
@@ -136,19 +118,16 @@ func CreateStep(ants []structs.Ant) {
 			continue
 		}
 		nextRoomId := ants[i].RoomsPassed
-
 		if ants[i].Path[nextRoomId].Ants != 0 {
 			if !ants[i].Path[nextRoomId].IsEnd {
 				continue
 			}
 		}
-
 		ants[i].CurrentRoom.Ants--
 		ants[i].CurrentRoom = ants[i].Path[nextRoomId]
 		ants[i].CurrentRoom.Ants++
 		ants[i].RoomsPassed++
 		passed = false
-
 		fmt.Print("L", ants[i].Id, "-", ants[i].CurrentRoom.Name, " ")
 	}
 	if passed && structs.FARM[structs.ENDROOMID].Ants == ANTCOUNTER {
