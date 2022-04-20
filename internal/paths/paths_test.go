@@ -43,67 +43,66 @@ func Test_findAllPaths(t *testing.T) {
 					},
 				},
 			},
-		// },
-		// {
-		// 	name: "pass - more paths",
-		// 	fixture: "../data-parser/fixtures/test5.txt",
-		// 	want: []*structs.PathStruct{
-		// 		{
-		// 			Path: []*structs.Room{
-		// 				{
-		// 					Name:    "0",
-		// 					IsStart: true,
-		// 				},
-		// 				{
-		// 					Name:    "2",
-		// 					IsStart: false,
-		// 					IsEnd:   false,
-		// 				},
-		// 				{
-		// 					Name:    "3",
-		// 					IsStart: false,
-		// 					IsEnd:   false,
-		// 				},
-		// 				{
-		// 					Name:  "1",
-		// 					IsEnd: true,
-		// 				},
-		// 			},
-		// 		},
-		// 		{
-		// 			Path: []*structs.Room{
-		// 				{
-		// 					Name:    "0",
-		// 					IsStart: true,
-		// 				},
-		// 				{
-		// 					Name:    "2",
-		// 					IsStart: false,
-		// 					IsEnd:   false,
-		// 				},
-		// 				{
-		// 					Name:    "3",
-		// 					IsStart: false,
-		// 					IsEnd:   false,
-		// 				},
-		// 				{
-		// 					Name:    "4",
-		// 					IsStart: false,
-		// 					IsEnd:   false,
-		// 				},
-		// 				{
-		// 					Name:  "1",
-		// 					IsEnd: true,
-		// 				},
-		// 			},
-		// 		},
-		// 	},
-		// },
-		// {
-		// 	name: "empty",
-		// 	fixture: "../data-parser/fixtures/test3.txt",
-		// 	want: []*structs.PathStruct{},
-		// },
+		},
+		{
+			name: "pass - more paths",
+			fixture: "../data-parser/fixtures/test5.txt",
+			want: []*structs.PathStruct{
+				{
+					Path: []*structs.Room{
+						{
+							Name:    "0",
+							IsStart: true,
+						},
+						{
+							Name:    "2",
+							IsStart: false,
+							IsEnd:   false,
+						},
+						{
+							Name:    "3",
+							IsStart: false,
+							IsEnd:   false,
+						},
+						{
+							Name:  "1",
+							IsEnd: true,
+						},
+					},
+				},
+				{
+					Path: []*structs.Room{
+						{
+							Name:    "0",
+							IsStart: true,
+						},
+						{
+							Name:    "2",
+							IsStart: false,
+							IsEnd:   false,
+						},
+						{
+							Name:    "3",
+							IsStart: false,
+							IsEnd:   false,
+						},
+						{
+							Name:    "4",
+							IsStart: false,
+							IsEnd:   false,
+						},
+						{
+							Name:  "1",
+							IsEnd: true,
+						},
+					},
+				},
+			},
+		},
+		{
+			name: "empty",
+			fixture: "../data-parser/fixtures/test3.txt",
+			want: []*structs.PathStruct{},
 		},
 	}
 
