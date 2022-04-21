@@ -22,7 +22,6 @@ type Room struct {
 	Y_pos   int
 	IsStart bool
 	IsEnd   bool
-	// links do not have to start in the start room, 0-1 and 1-0 are interchangable
 	Links []*Room
 }
 
@@ -35,15 +34,7 @@ type GenerationData struct {
 	EndIndex     int
 }
 
-// Structurized paths by links in start room
+// Structurised paths by links in start room
 type PathStruct struct {
-	// PathName string
 	Path []*Room
 }
-
-var (
-	ANTCOUNTER  int
-	STARTROOMID int
-	ENDROOMID   int
-	FARM        []Room
-)

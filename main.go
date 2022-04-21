@@ -8,6 +8,7 @@ import (
 
 	dataparser "git.learn.01founders.co/Cassidy.Hall94/lem-in/internal/data-parser"
 	"git.learn.01founders.co/Cassidy.Hall94/lem-in/internal/farm"
+	"git.learn.01founders.co/Cassidy.Hall94/lem-in/internal/paths"
 )
 
 // // Graph represents an adjaceny list graph
@@ -90,7 +91,9 @@ func main() {
 	data, _ := dataparser.LoadData(os.Args[1])
 	generationData := dataparser.ReadData(data)
 	filledFarm := farm.GenerateFarm(generationData)
-	farm.ConnectRooms(filledFarm, generationData)
+	connectedFarm := farm.ConnectRooms(filledFarm, generationData)
+	allPaths := paths.FindAllPaths(connectedFarm)
+	paths.FindShortestPath(allPaths)
 
 	// var allPaths [][]*structs.Room
 	// paths.FindPaths(make([]*structs.Room, 0), structs.FARM[structs.STARTROOMID], 0, &allPaths, &structs.FARM[structs.STARTROOMID])
