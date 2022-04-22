@@ -8,27 +8,27 @@ import (
 
 func TestCreateAnts(t *testing.T) {
 	type args struct {
-		ants Ant
+		ants *Ant
 	}
 	tests := []struct {
 		name string
 		args args
-		want Ant
+		want *Ant
 	}{
 		{
 			name: "Ant1",
 			args: args{
-				ants: Ant{
+				ants: &Ant{
 					Id:          1,
 					Path:        []string{"1", "0"},
 					RoomsPassed: 2,
 				},
 			},
 		},
-		{
+		/*{
 			name: "Ant2",
 			args: args{
-				ants: Ant{
+				ants: &Ant{
 					Id:          2,
 					Path:        []string{"1", "0"},
 					RoomsPassed: 2,
@@ -38,13 +38,13 @@ func TestCreateAnts(t *testing.T) {
 		{
 			name: "Ant3",
 			args: args{
-				ants: Ant{
+				ants: &Ant{
 					Id:          3,
 					Path:        []string{"1", "0"},
 					RoomsPassed: 2,
 				},
 			},
-		},
+		},*/
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {

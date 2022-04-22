@@ -21,46 +21,63 @@ type Path struct {
 	RoomsInPath []string
 }
 
-func CreateAnts() []Ant {
+func CreateAnts() *Ant {
 	rooms := []Room{
+		{
+
+			Name:    "0",
+			Ants:    20,
+			IsStart: true,
+			IsEnd:   false,
+			Links:   []string{"0", "1", "3"},
+		},
 		{
 
 			Name:    "1",
 			Ants:    0,
-			IsStart: true,
+			IsStart: false,
 			IsEnd:   false,
-			Links:   []string{"1", "0"},
+			Links:   []string{"1", "0", "2"},
 		},
 		{
 
-			Name:    "0",
+			Name:    "2",
+			Ants:    0,
+			IsStart: false,
+			IsEnd:   false,
+			Links:   []string{"2", "1", "3"},
+		},
+		{
+
+			Name:    "3",
 			Ants:    0,
 			IsStart: false,
 			IsEnd:   true,
-			Links:   []string{"0", "1"},
+			Links:   []string{"3", "0", "2"},
 		},
 	}
 
 	paths := []Path{
 		{
 			Id:          1,
-			RoomsInPath: []string{"1", "0"},
+			RoomsInPath: []string{"0", "3"},
+		},
+		{
+			Id:          2,
+			RoomsInPath: []string{"0", "1", "2", "3"},
 		},
 	}
 
-	var antToAdd []Ant
-
 	noOfPaths := lenPathStruct(paths)
+	var j int
 
-	for i := 1; i <= 3; i++ {
+	for i := 1; i <= 20; i++ {
+		var antToAdd *Ant = new(Ant)
 		noOfRooms := 0
-
-		var j int
 
 		if i > noOfPaths {
 			j = 0
-		} else {
-			j = i - 1
+			noOfPaths = noOfPaths + 2
 		}
 		var pathToAdd []string
 		for _, p := range paths[j].RoomsInPath {
@@ -74,27 +91,38 @@ func CreateAnts() []Ant {
 					noOfRooms = noOfRooms + 1
 				}
 			}
-
 		}
-		antToAdd = append(antToAdd, Ant{Id: i, Path: pathToAdd, RoomsPassed: noOfRooms})
+		j = j + 1
+		antToAdd.Id = i
+		antToAdd.Path = pathToAdd
+		antToAdd.RoomsPassed = noOfRooms
+		fmt.Println(antToAdd)
 	}
 
-	fmt.Println(antToAdd)
-
-	return antToAdd
+	return &(Ant{})
 }
 
 func lenPathStruct(paths []Path) int {
-	lenRoomCounter := 0
+	lenPathCounter := 0
 
 	for _, path := range paths {
 		if path.Id != 0 {
-			lenRoomCounter = lenRoomCounter + 1
+			lenPathCounter = lenPathCounter + 1
 		}
 	}
 
-	return lenRoomCounter
+	return lenPathCounter
 
+}
+
+func pathMaxRooms(paths []Path) int {
+	for i, _ := range paths {
+		if len(paths[i].RoomsInPath) < len(paths[i+1].RoomsInPath) {
+			return paths[i+1].Id
+		}
+	}
+
+	return 0
 }
 
 // Make a list of ants with their own path, current room and id
@@ -135,5 +163,4 @@ func CreateStep(ants []structs.Ant) {
 	} else {
 		fmt.Println("")
 		CreateStep(ants)
-	}
-}*/
+	}*/
