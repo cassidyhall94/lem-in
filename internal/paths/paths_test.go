@@ -99,6 +99,719 @@ func TestFindAllPaths(t *testing.T) {
 			},
 		},
 		{
+			name:    "pass - hard",
+			fixture: "../data-parser/fixtures/test0.txt",
+			want: []*structs.PathStruct{
+				{
+					Path: []*structs.Room{
+						{
+							Name:    "1",
+							IsStart: true,
+						},
+						{
+							Name:    "2",
+							IsStart: false,
+							IsEnd:   false,
+						},
+						{
+							Name:    "4",
+							IsStart: false,
+							IsEnd:   false,
+						},
+						{
+							Name:  "0",
+							IsEnd: true,
+						},
+					},
+				},
+				{
+					Path: []*structs.Room{
+						{
+							Name:    "1",
+							IsStart: true,
+						},
+						{
+							Name:    "2",
+							IsStart: false,
+							IsEnd:   false,
+						},
+						{
+							Name:    "5",
+							IsStart: false,
+							IsEnd:   false,
+						},
+						{
+							Name:    "6",
+							IsStart: false,
+							IsEnd:   false,
+						},
+						{
+							Name:  "0",
+							IsEnd: true,
+						},
+					},
+				},
+				{
+					Path: []*structs.Room{
+						{
+							Name:    "1",
+							IsStart: true,
+						},
+						{
+							Name:    "3",
+							IsStart: false,
+							IsEnd:   false,
+						},
+						{
+							Name:    "5",
+							IsStart: false,
+							IsEnd:   false,
+						},
+						{
+							Name:    "6",
+							IsStart: false,
+							IsEnd:   false,
+						},
+						{
+							Name:  "0",
+							IsEnd: true,
+						},
+					},
+				},
+				{
+					Path: []*structs.Room{
+						{
+							Name:    "1",
+							IsStart: true,
+						},
+						{
+							Name:    "3",
+							IsStart: false,
+							IsEnd:   false,
+						},
+						{
+							Name:    "5",
+							IsStart: false,
+							IsEnd:   false,
+						},
+						{
+							Name:    "2",
+							IsStart: false,
+							IsEnd:   false,
+						},
+						{
+							Name:    "4",
+							IsStart: false,
+							IsEnd:   false,
+						},
+						{
+							Name:  "0",
+							IsEnd: true,
+						},
+					},
+				},
+				{
+					Path: []*structs.Room{
+						{
+							Name:    "1",
+							IsStart: true,
+						},
+						{
+							Name:    "3",
+							IsStart: false,
+							IsEnd:   false,
+						},
+						{
+							Name:    "5",
+							IsStart: false,
+							IsEnd:   false,
+						},
+						{
+							Name:    "6",
+							IsStart: false,
+							IsEnd:   false,
+						},
+						{
+							Name:    "7",
+							IsStart: false,
+							IsEnd:   false,
+						},
+						{
+							Name:    "2",
+							IsStart: false,
+							IsEnd:   false,
+						},
+						{
+							Name:    "4",
+							IsStart: false,
+							IsEnd:   false,
+						},
+						{
+							Name:  "0",
+							IsEnd: true,
+						},
+					},
+				},
+				{
+					Path: []*structs.Room{
+						{
+							Name:    "1",
+							IsStart: true,
+						},
+						{
+							Name:    "2",
+							IsStart: false,
+							IsEnd:   false,
+						},
+						{
+							Name:    "4",
+							IsStart: false,
+							IsEnd:   false,
+						},
+						{
+							Name:    "7",
+							IsStart: false,
+							IsEnd:   false,
+						},
+						{
+							Name:    "6",
+							IsStart: false,
+							IsEnd:   false,
+						},
+						{
+							Name:  "0",
+							IsEnd: true,
+						},
+					},
+				},
+				{
+					Path: []*structs.Room{
+						{
+							Name:    "1",
+							IsStart: true,
+						},
+						{
+							Name:    "2",
+							IsStart: false,
+							IsEnd:   false,
+						},
+						{
+							Name:    "7",
+							IsStart: false,
+							IsEnd:   false,
+						},
+						{
+							Name:    "6",
+							IsStart: false,
+							IsEnd:   false,
+						},
+						{
+							Name:  "0",
+							IsEnd: true,
+						},
+					},
+				},
+				{
+					Path: []*structs.Room{
+						{
+							Name:    "1",
+							IsStart: true,
+						},
+						{
+							Name:    "3",
+							IsStart: false,
+							IsEnd:   false,
+						},
+						{
+							Name:    "4",
+							IsStart: false,
+							IsEnd:   false,
+						},
+						{
+							Name:  "0",
+							IsEnd: true,
+						},
+					},
+				},
+				{
+					Path: []*structs.Room{
+						{
+							Name:    "1",
+							IsStart: true,
+						},
+						{
+							Name:    "3",
+							IsStart: false,
+							IsEnd:   false,
+						},
+						{
+							Name:    "4",
+							IsStart: false,
+							IsEnd:   false,
+						},
+						{
+							Name:    "7",
+							IsStart: false,
+							IsEnd:   false,
+						},
+						{
+							Name:    "6",
+							IsStart: false,
+							IsEnd:   false,
+						},
+						{
+							Name:  "0",
+							IsEnd: true,
+						},
+					},
+				},
+				{
+					Path: []*structs.Room{
+						{
+							Name:    "1",
+							IsStart: true,
+						},
+						{
+							Name:    "3",
+							IsStart: false,
+							IsEnd:   false,
+						},
+						{
+							Name:    "4",
+							IsStart: false,
+							IsEnd:   false,
+						},
+						{
+							Name:    "2",
+							IsStart: false,
+							IsEnd:   false,
+						},
+						{
+							Name:    "7",
+							IsStart: false,
+							IsEnd:   false,
+						},
+						{
+							Name:    "6",
+							IsStart: false,
+							IsEnd:   false,
+						},
+						{
+							Name:  "0",
+							IsEnd: true,
+						},
+					},
+				},
+				{
+					Path: []*structs.Room{
+						{
+							Name:    "1",
+							IsStart: true,
+						},
+						{
+							Name:    "2",
+							IsStart: false,
+							IsEnd:   false,
+						},
+						{
+							Name:    "7",
+							IsStart: false,
+							IsEnd:   false,
+						},
+						{
+							Name:    "4",
+							IsStart: false,
+							IsEnd:   false,
+						},
+						{
+							Name:  "0",
+							IsEnd: true,
+						},
+					},
+				},
+				{
+					Path: []*structs.Room{
+						{
+							Name:    "1",
+							IsStart: true,
+						},
+						{
+							Name:    "2",
+							IsStart: false,
+							IsEnd:   false,
+						},
+						{
+							Name:    "5",
+							IsStart: false,
+							IsEnd:   false,
+						},
+						{
+							Name:    "3",
+							IsStart: false,
+							IsEnd:   false,
+						},
+						{
+							Name:    "4",
+							IsStart: false,
+							IsEnd:   false,
+						},
+						{
+							Name:  "0",
+							IsEnd: true,
+						},
+					},
+				},
+				{
+					Path: []*structs.Room{
+						{
+							Name:    "1",
+							IsStart: true,
+						},
+						{
+							Name:    "3",
+							IsStart: false,
+							IsEnd:   false,
+						},
+						{
+							Name:    "5",
+							IsStart: false,
+							IsEnd:   false,
+						},
+						{
+							Name:    "2",
+							IsStart: false,
+							IsEnd:   false,
+						},
+						{
+							Name:    "7",
+							IsStart: false,
+							IsEnd:   false,
+						},
+						{
+							Name:    "4",
+							IsStart: false,
+							IsEnd:   false,
+						},
+						{
+							Name:  "0",
+							IsEnd: true,
+						},
+					},
+				},
+				{
+					Path: []*structs.Room{
+						{
+							Name:    "1",
+							IsStart: true,
+						},
+						{
+							Name:    "3",
+							IsStart: false,
+							IsEnd:   false,
+						},
+						{
+							Name:    "5",
+							IsStart: false,
+							IsEnd:   false,
+						},
+						{
+							Name:    "2",
+							IsStart: false,
+							IsEnd:   false,
+						},
+						{
+							Name:    "7",
+							IsStart: false,
+							IsEnd:   false,
+						},
+						{
+							Name:    "6",
+							IsStart: false,
+							IsEnd:   false,
+						},
+						{
+							Name:  "0",
+							IsEnd: true,
+						},
+					},
+				},
+				{
+					Path: []*structs.Room{
+						{
+							Name:    "1",
+							IsStart: true,
+						},
+						{
+							Name:    "3",
+							IsStart: false,
+							IsEnd:   false,
+						},
+						{
+							Name:    "4",
+							IsStart: false,
+							IsEnd:   false,
+						},
+						{
+							Name:    "2",
+							IsStart: false,
+							IsEnd:   false,
+						},
+						{
+							Name:    "5",
+							IsStart: false,
+							IsEnd:   false,
+						},
+						{
+							Name:    "6",
+							IsStart: false,
+							IsEnd:   false,
+						},
+						{
+							Name:  "0",
+							IsEnd: true,
+						},
+					},
+				},
+				{
+					Path: []*structs.Room{
+						{
+							Name:    "1",
+							IsStart: true,
+						},
+						{
+							Name:    "3",
+							IsStart: false,
+							IsEnd:   false,
+						},
+						{
+							Name:    "4",
+							IsStart: false,
+							IsEnd:   false,
+						},
+						{
+							Name:    "7",
+							IsStart: false,
+							IsEnd:   false,
+						},
+						{
+							Name:    "2",
+							IsStart: false,
+							IsEnd:   false,
+						},
+						{
+							Name:    "5",
+							IsStart: false,
+							IsEnd:   false,
+						},
+						{
+							Name:    "6",
+							IsStart: false,
+							IsEnd:   false,
+						},
+						{
+							Name:  "0",
+							IsEnd: true,
+						},
+					},
+				},
+				{
+					Path: []*structs.Room{
+						{
+							Name:    "1",
+							IsStart: true,
+						},
+						{
+							Name:    "3",
+							IsStart: false,
+							IsEnd:   false,
+						},
+						{
+							Name:    "5",
+							IsStart: false,
+							IsEnd:   false,
+						},
+						{
+							Name:    "2",
+							IsStart: false,
+							IsEnd:   false,
+						},
+						{
+							Name:    "4",
+							IsStart: false,
+							IsEnd:   false,
+						},
+						{
+							Name:    "7",
+							IsStart: false,
+							IsEnd:   false,
+						},
+						{
+							Name:    "6",
+							IsStart: false,
+							IsEnd:   false,
+						},
+						{
+							Name:  "0",
+							IsEnd: true,
+						},
+					},
+				},
+				{
+					Path: []*structs.Room{
+						{
+							Name:    "1",
+							IsStart: true,
+						},
+						{
+							Name:    "3",
+							IsStart: false,
+							IsEnd:   false,
+						},
+						{
+							Name:    "5",
+							IsStart: false,
+							IsEnd:   false,
+						},
+						{
+							Name:    "6",
+							IsStart: false,
+							IsEnd:   false,
+						},
+						{
+							Name:    "7",
+							IsStart: false,
+							IsEnd:   false,
+						},
+						{
+							Name:    "4",
+							IsStart: false,
+							IsEnd:   false,
+						},
+						{
+							Name:  "0",
+							IsEnd: true,
+						},
+					},
+				},
+				{
+					Path: []*structs.Room{
+						{
+							Name:    "1",
+							IsStart: true,
+						},
+						{
+							Name:    "2",
+							IsStart: false,
+							IsEnd:   false,
+						},
+						{
+							Name:    "5",
+							IsStart: false,
+							IsEnd:   false,
+						},
+						{
+							Name:    "3",
+							IsStart: false,
+							IsEnd:   false,
+						},
+						{
+							Name:    "4",
+							IsStart: false,
+							IsEnd:   false,
+						},
+						{
+							Name:    "7",
+							IsStart: false,
+							IsEnd:   false,
+						},
+						{
+							Name:    "6",
+							IsStart: false,
+							IsEnd:   false,
+						},
+						{
+							Name:  "0",
+							IsEnd: true,
+						},
+					},
+				},
+				{
+					Path: []*structs.Room{
+						{
+							Name:    "1",
+							IsStart: true,
+						},
+						{
+							Name:    "2",
+							IsStart: false,
+							IsEnd:   false,
+						},
+						{
+							Name:    "5",
+							IsStart: false,
+							IsEnd:   false,
+						},
+						{
+							Name:    "6",
+							IsStart: false,
+							IsEnd:   false,
+						},
+						{
+							Name:    "7",
+							IsStart: false,
+							IsEnd:   false,
+						},
+						{
+							Name:    "4",
+							IsStart: false,
+							IsEnd:   false,
+						},
+						{
+							Name:  "0",
+							IsEnd: true,
+						},
+					},
+				},
+				{
+					Path: []*structs.Room{
+						{
+							Name:    "1",
+							IsStart: true,
+						},
+						{
+							Name:    "2",
+							IsStart: false,
+							IsEnd:   false,
+						},
+						{
+							Name:    "4",
+							IsStart: false,
+							IsEnd:   false,
+						},
+						{
+							Name:    "3",
+							IsStart: false,
+							IsEnd:   false,
+						},
+						{
+							Name:    "5",
+							IsStart: false,
+							IsEnd:   false,
+						},
+						{
+							Name:    "6",
+							IsStart: false,
+							IsEnd:   false,
+						},
+						{
+							Name:  "0",
+							IsEnd: true,
+						},
+					},
+				},
+			},
+		},
+		{
 			name:    "empty",
 			fixture: "../data-parser/fixtures/test3.txt",
 			want:    []*structs.PathStruct{},
@@ -123,32 +836,25 @@ func TestFindAllPaths(t *testing.T) {
 			if len(got) < len(tt.want) {
 				t.Fatalf("findAllPaths() returned %d paths, wanted %d, here's all the paths we got: %+v", len(got), len(tt.want), sliceOfAllGotRooms)
 			}
-			for _, gotRooms := range got {
+
+			for _, wantPath := range tt.want {
 				foundMatchingPath := false
-				gotRoomNames := getSliceOfRoomNames(gotRooms.Path)
-				for _, wantRooms := range tt.want {
-					wantRoomNames := getSliceOfRoomNames(wantRooms.Path)
-					if !reflect.DeepEqual(gotRoomNames, wantRoomNames) {
-						t.Logf("wanted %+v, here's all the paths we got: %+v", wantRoomNames, sliceOfAllGotRooms)
-					} else {
+				wantPathNames := getSliceOfRoomNames(wantPath.Path)
+				gotPathNamesTotal := [][]string{}
+				for _, gotPath := range got {
+					gotPathNames := getSliceOfRoomNames(gotPath.Path)
+					gotPathNamesTotal = append(gotPathNamesTotal, gotPathNames)
+					if reflect.DeepEqual(wantPathNames, gotPathNames) {
 						foundMatchingPath = true
 						break
 					}
 				}
 				if !foundMatchingPath {
-					t.Error("unable to find matching path for gotPath, see log lines.")
+					t.Errorf("unable to find path %+v in got: %+v", wantPathNames, gotPathNamesTotal)
 				}
 			}
 		})
 	}
-}
-
-func getSliceOfRoomNames(rooms []*structs.Room) []string {
-	ret := make([]string, 0, len(rooms))
-	for _, r := range rooms {
-		ret = append(ret, r.Name)
-	}
-	return ret
 }
 
 func TestFindShortestPath(t *testing.T) {

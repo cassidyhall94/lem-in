@@ -1,9 +1,6 @@
 package paths
 
 import (
-	"fmt"
-	"os"
-
 	"git.learn.01founders.co/Cassidy.Hall94/lem-in/internal/structs"
 )
 
@@ -28,13 +25,14 @@ var counter int
 // setting the returned bool indicates that we're rolling back up the tree or graph
 func findValidPath(room *structs.Room, visited []string, paths [][]*structs.Room, path []*structs.Room) ([]string, [][]*structs.Room, []*structs.Room, bool) {
 	counter++
-	fmt.Printf("room.Name %s; len(room.Links) %d, room.Links[0] %s, visited %+v\n", room.Name, len(room.Links), room.Links[0].Name, visited)
-	if counter > 20 {
-		os.Exit(1)
-	}
+	// fmt.Printf("room.Name %s; len(room.Links) %d, room.Links[0] %s, visited %+v\n", room.Name, len(room.Links), room.Links[0].Name, visited)
+	// fmt.Println(counter)
+	// if counter > 200 {
+	// 	os.Exit(1)
+	// }
 
 	path = append(path, room)
-	fmt.Printf("path: %s\n", getAllNamesFromSliceOfRooms(path))
+	// fmt.Printf("path: %s\n", getAllNamesFromSliceOfRooms(path))
 
 	visited = append(visited, room.Name)
 	// fmt.Printf("visited: %s\n", visited)
@@ -46,7 +44,6 @@ func findValidPath(room *structs.Room, visited []string, paths [][]*structs.Room
 	rollup := false
 
 	for _, l := range room.Links {
-		// find out if this is a dead end
 		if len(l.Links) == 1 && l.Links[0].Name == room.Name && !l.IsEnd {
 			continue
 		} else if visitedRoom(visited, l) {
@@ -61,13 +58,14 @@ func findValidPath(room *structs.Room, visited []string, paths [][]*structs.Room
 		_, ps, _, r := findValidPath(l, newVisited, paths, newPath)
 		if r {
 			rollup = r
-			paths = append(paths, ps...)
+			paths = ps
 		}
 	}
+
 	return visited, paths, path, rollup
 }
 
-func getAllNamesFromSliceOfRooms(rooms []*structs.Room) []string {
+func getSliceOfRoomNames(rooms []*structs.Room) []string {
 	ret := []string{}
 	for _, r := range rooms {
 		ret = append(ret, r.Name)
@@ -85,7 +83,6 @@ func visitedRoom(visited []string, room *structs.Room) bool {
 }
 
 func FindShortestPath(allPaths []*structs.PathStruct) *structs.PathStruct {
-	// store path length in helper variable to compare with the next path in the loop
 	p := -1
 	shortestPath := &structs.PathStruct{}
 	for _, path := range allPaths {
