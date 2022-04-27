@@ -2,13 +2,14 @@ package ants
 
 import (
 	"fmt"
+	//"strconv"
 )
 
 type Room struct {
 	Name    string
-	Ants    int
 	IsStart bool
 	IsEnd   bool
+	IsEmpty bool
 	Links   []string
 }
 type Ant struct {
@@ -21,38 +22,34 @@ type Path struct {
 	RoomsInPath []string
 }
 
-func CreateAnts() *Ant {
+func CreateAnts() ([]string, []int) {
 	rooms := []Room{
 		{
-
 			Name:    "0",
-			Ants:    20,
 			IsStart: true,
 			IsEnd:   false,
+			IsEmpty: true,
 			Links:   []string{"0", "1", "3"},
 		},
 		{
-
 			Name:    "1",
-			Ants:    0,
 			IsStart: false,
 			IsEnd:   false,
+			IsEmpty: true,
 			Links:   []string{"1", "0", "2"},
 		},
 		{
-
 			Name:    "2",
-			Ants:    0,
 			IsStart: false,
 			IsEnd:   false,
+			IsEmpty: true,
 			Links:   []string{"2", "1", "3"},
 		},
 		{
-
 			Name:    "3",
-			Ants:    0,
 			IsStart: false,
 			IsEnd:   true,
+			IsEmpty: true,
 			Links:   []string{"3", "0", "2"},
 		},
 	}
@@ -60,46 +57,63 @@ func CreateAnts() *Ant {
 	paths := []Path{
 		{
 			Id:          1,
-			RoomsInPath: []string{"0", "3"},
+			RoomsInPath: []string{"3"},
 		},
 		{
 			Id:          2,
-			RoomsInPath: []string{"0", "1", "2", "3"},
+			RoomsInPath: []string{"1", "2", "3"},
 		},
 	}
 
-	noOfPaths := lenPathStruct(paths)
-	var j int
+	antCounter := 5
+	antsEndRoom := []int{}
+	roomsTravelled := []string{}
 
-	for i := 1; i <= 20; i++ {
-		var antToAdd *Ant = new(Ant)
-		noOfRooms := 0
-
-		if i > noOfPaths {
-			j = 0
-			noOfPaths = noOfPaths + 2
-		}
-		var pathToAdd []string
-		for _, p := range paths[j].RoomsInPath {
-
-			for r := range rooms {
-				if p == rooms[r].Name && rooms[r].IsEnd == true {
-					pathToAdd = append(pathToAdd, rooms[r].Name)
-					noOfRooms = noOfRooms + 1
-				} else if p == rooms[r].Name {
-					pathToAdd = append(pathToAdd, rooms[r].Name)
-					noOfRooms = noOfRooms + 1
+	for i := 1; i <= antCounter; {
+		for j := 0; j < lenPathStruct(paths); j++ {
+			for _, p := range paths[j].RoomsInPath {
+				for r := 0; r < len(rooms); r++ {
+					rooms[r].IsEmpty = *setTrue()
+					if p == rooms[r].Name && rooms[r].IsEnd == true {
+						antsEndRoom = append(antsEndRoom, i)
+						roomsTravelled = append(roomsTravelled, rooms[r].Name)
+						i = i + 1
+						break
+					} else if p == rooms[r].Name && rooms[r].IsEmpty == true {
+						rooms[r].IsEmpty = *setFalse()
+						antsEndRoom = append(antsEndRoom, i)
+						roomsTravelled = append(roomsTravelled, rooms[r].Name)
+					}
 				}
+				continue
 			}
 		}
-		j = j + 1
-		antToAdd.Id = i
-		antToAdd.Path = pathToAdd
-		antToAdd.RoomsPassed = noOfRooms
-		fmt.Println(antToAdd)
+	}
+	fmt.Println(antsEndRoom, roomsTravelled)
+
+	return roomsTravelled, antsEndRoom
+}
+
+func setFalse() *bool {
+	b := false
+	return &b
+}
+
+func setTrue() *bool {
+	b := true
+	return &b
+}
+
+func remove(ants []int, item int) []int {
+	newitems := []int{}
+
+	for _, i := range ants {
+		if i != item {
+			newitems = append(newitems, i)
+		}
 	}
 
-	return &(Ant{})
+	return newitems
 }
 
 func lenPathStruct(paths []Path) int {
@@ -113,16 +127,6 @@ func lenPathStruct(paths []Path) int {
 
 	return lenPathCounter
 
-}
-
-func pathMaxRooms(paths []Path) int {
-	for i, _ := range paths {
-		if len(paths[i].RoomsInPath) < len(paths[i+1].RoomsInPath) {
-			return paths[i+1].Id
-		}
-	}
-
-	return 0
 }
 
 // Make a list of ants with their own path, current room and id
