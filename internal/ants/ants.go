@@ -22,7 +22,7 @@ type Path struct {
 }
 
 func CreateAnts() *Ant {
-	rooms := []Room{
+	/*rooms := []Room{
 		{
 
 			Name:    "0",
@@ -55,7 +55,7 @@ func CreateAnts() *Ant {
 			IsEnd:   true,
 			Links:   []string{"3", "0", "2"},
 		},
-	}
+	}*/
 
 	paths := []Path{
 		{
@@ -69,43 +69,34 @@ func CreateAnts() *Ant {
 	}
 
 	noOfPaths := lenPathStruct(paths)
-	var j int
+	//var j int
 
 	antsPath := antsPerPath(paths)
 
 	fmt.Println(antsPath)
 
-	for i := 1; i <= 20; {
-		var antToAdd *Ant = new(Ant)
-		noOfRooms := 0
+	for p := 0; p < noOfPaths; p++ {
+		var i int
+		for i = p + 1; i <= 20-p; {
+			var antToAdd *Ant = new(Ant)
+			noOfRooms := 0
 
-		if i > noOfPaths {
-			j = 0
-			noOfPaths = noOfPaths + 2
-		}
-		var pathToAdd []string
-		for _, p := range paths[j].RoomsInPath {
-			for r := range rooms {
-				if p == rooms[r].Name && rooms[r].IsEnd == true {
-					pathToAdd = append(pathToAdd, rooms[r].Name)
-					noOfRooms = noOfRooms + 1
-				} else if p == rooms[r].Name {
-					pathToAdd = append(pathToAdd, rooms[r].Name)
-					noOfRooms = noOfRooms + 1
-				}
+			/*	if i > noOfPaths {
+				j = 0
+				noOfPaths = noOfPaths + 2
+			}*/
+
+			antToAdd.Id = i
+			antToAdd.Path = paths[p].RoomsInPath
+			antToAdd.RoomsPassed = noOfRooms
+
+			fmt.Println(antToAdd)
+
+			if i < 19 {
+				i = i + 2
+			} else {
+				i = i + 1
 			}
-		}
-		j = j + 1
-		antToAdd.Id = i
-		antToAdd.Path = pathToAdd
-		antToAdd.RoomsPassed = noOfRooms
-
-		fmt.Println(antToAdd)
-
-		if i < 19 {
-			i = i + 2
-		} else {
-			i = i + 1
 		}
 	}
 
