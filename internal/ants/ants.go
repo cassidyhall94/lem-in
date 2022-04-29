@@ -2,6 +2,7 @@ package ants
 
 import (
 	"fmt"
+	"sort"
 )
 
 type Room struct {
@@ -12,9 +13,8 @@ type Room struct {
 	Links   []string
 }
 type Ant struct {
-	Id          int
-	Path        []string
-	RoomsPassed int
+	Id   int
+	Path []string
 }
 type Path struct {
 	Id          int
@@ -22,40 +22,6 @@ type Path struct {
 }
 
 func CreateAnts() *Ant {
-	/*rooms := []Room{
-		{
-
-			Name:    "0",
-			Ants:    20,
-			IsStart: true,
-			IsEnd:   false,
-			Links:   []string{"0", "1", "3"},
-		},
-		{
-
-			Name:    "1",
-			Ants:    0,
-			IsStart: false,
-			IsEnd:   false,
-			Links:   []string{"1", "0", "2"},
-		},
-		{
-
-			Name:    "2",
-			Ants:    0,
-			IsStart: false,
-			IsEnd:   false,
-			Links:   []string{"2", "1", "3"},
-		},
-		{
-
-			Name:    "3",
-			Ants:    0,
-			IsStart: false,
-			IsEnd:   true,
-			Links:   []string{"3", "0", "2"},
-		},
-	}*/
 
 	paths := []Path{
 		{
@@ -69,38 +35,49 @@ func CreateAnts() *Ant {
 	}
 
 	noOfPaths := lenPathStruct(paths)
-	//var j int
 
-	antsPath := antsPerPath(paths)
-
-	fmt.Println(antsPath)
+	antToAdd := make(map[int][]string)
 
 	for p := 0; p < noOfPaths; p++ {
+
 		var i int
 		for i = p + 1; i <= 20-p; {
-			var antToAdd *Ant = new(Ant)
-			noOfRooms := 0
 
-			/*	if i > noOfPaths {
-				j = 0
-				noOfPaths = noOfPaths + 2
-			}*/
-
-			antToAdd.Id = i
-			antToAdd.Path = paths[p].RoomsInPath
-			antToAdd.RoomsPassed = noOfRooms
-
-			fmt.Println(antToAdd)
+			antToAdd[i] = paths[p].RoomsInPath
+			//antToAdd.Path = paths[p].RoomsInPath
 
 			if i < 19 {
 				i = i + 2
 			} else {
 				i = i + 1
 			}
+			//fmt.Println(antToAdd)
 		}
 	}
 
-	return &(Ant{})
+	//fmt.Println(antToAdd)
+
+	keys := make([]int, 0, len(antToAdd))
+	for k := range antToAdd {
+		keys = append(keys, k)
+	}
+	sort.Ints(keys)
+
+	//fmt.Println(len(value))
+
+	for i := 0; i < 3; i++ {
+		for _, k := range keys {
+			if len(antToAdd[k]) > i {
+				fmt.Printf("L%v-%v ", k, antToAdd[k][i])
+			} else {
+				continue
+			}
+		}
+
+		//fmt.Println(key, value[0])
+	}
+
+	return &Ant{}
 }
 
 func lenPathStruct(paths []Path) int {

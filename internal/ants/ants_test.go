@@ -19,9 +19,8 @@ func TestCreateAnts(t *testing.T) {
 			name: "Ant1",
 			args: args{
 				ants: &Ant{
-					Id:          1,
-					Path:        []string{"1", "0"},
-					RoomsPassed: 2,
+					Id:   1,
+					Path: []string{"3"},
 				},
 			},
 		},
@@ -31,7 +30,6 @@ func TestCreateAnts(t *testing.T) {
 				ants: &Ant{
 					Id:          2,
 					Path:        []string{"1", "0"},
-					RoomsPassed: 2,
 				},
 			},
 		},
@@ -41,7 +39,6 @@ func TestCreateAnts(t *testing.T) {
 				ants: &Ant{
 					Id:          3,
 					Path:        []string{"1", "0"},
-					RoomsPassed: 2,
 				},
 			},
 		},*/
