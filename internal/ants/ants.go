@@ -44,14 +44,12 @@ func CreateAnts() *Ant {
 		for i = p + 1; i <= 20-p; {
 
 			antToAdd[i] = paths[p].RoomsInPath
-			//antToAdd.Path = paths[p].RoomsInPath
 
 			if i < 19 {
 				i = i + 2
 			} else {
 				i = i + 1
 			}
-			//fmt.Println(antToAdd)
 		}
 	}
 
@@ -63,17 +61,25 @@ func CreateAnts() *Ant {
 	}
 	sort.Ints(keys)
 
-	//fmt.Println(len(value))
+	roomsEmpty := make(map[string]bool)
+
+	roomsEmpty["1"] = true
+	roomsEmpty["2"] = true
+	roomsEmpty["3"] = true
 
 	for i := 0; i < 3; i++ {
-		for _, k := range keys {
-			if len(antToAdd[k]) > i {
-				fmt.Printf("L%v-%v ", k, antToAdd[k][i])
+		for ant := 0; ant < len(keys); ant++ {
+			if len(antToAdd[ant]) > i && roomsEmpty[antToAdd[ant][i]] == true {
+				fmt.Printf("L%v-%v ", ant, antToAdd[ant][i])
+				roomsEmpty[antToAdd[ant][i]] = false
 			} else {
 				continue
 			}
 		}
-
+		fmt.Println()
+		roomsEmpty["1"] = true
+		roomsEmpty["2"] = true
+		roomsEmpty["3"] = true
 		//fmt.Println(key, value[0])
 	}
 
