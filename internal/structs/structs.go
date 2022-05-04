@@ -9,7 +9,6 @@ type Farm struct {
 // Ant
 type Ant struct {
 	Id          int
-	Path        []*Room
 	CurrentRoom *Room
 	RoomsPassed int
 }
@@ -18,8 +17,6 @@ type Ant struct {
 type Room struct {
 	Name    string
 	Ants    int
-	X_pos   int
-	Y_pos   int
 	IsStart bool
 	IsEnd   bool
 	Links []*Room

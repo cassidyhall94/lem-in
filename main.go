@@ -6,6 +6,7 @@ import (
 	"log"
 	"os"
 
+	"git.learn.01founders.co/Cassidy.Hall94/lem-in/internal/ants"
 	dataparser "git.learn.01founders.co/Cassidy.Hall94/lem-in/internal/data-parser"
 	"git.learn.01founders.co/Cassidy.Hall94/lem-in/internal/farm"
 	"git.learn.01founders.co/Cassidy.Hall94/lem-in/internal/paths"
@@ -93,7 +94,9 @@ func main() {
 	filledFarm := farm.GenerateFarm(generationData)
 	connectedFarm := farm.ConnectRooms(filledFarm, generationData)
 	allPaths := paths.FindAllPaths(connectedFarm)
-	paths.FindShortestPath(allPaths)
+	shortestPath := paths.FindShortestPath(allPaths)
+
+	ants.MoveAnts(connectedFarm.Ants, shortestPath)
 
 	// var allPaths [][]*structs.Room
 	// paths.FindPaths(make([]*structs.Room, 0), structs.FARM[structs.STARTROOMID], 0, &allPaths, &structs.FARM[structs.STARTROOMID])

@@ -1,14 +1,10 @@
 package utils
 
-import (
-	"log"
-)
-
-func CheckError(err error) {
-	if err != nil {
-		log.Fatal("Invalid data format!")
-	}
-}
+// func CheckError(err error) {
+// 	if err != nil {
+// 		log.Fatal("Invalid data format!")
+// 	}
+// }
 
 // // Reset farm to defaults
 // func ResetFarm() {
