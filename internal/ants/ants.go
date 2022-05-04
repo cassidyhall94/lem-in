@@ -11,21 +11,48 @@ import (
 // ants will move through the shortest path, we can use current room and rooms passed to measure their movement
 // loop through all the ants and move them a room, one ant at a time
 // store information in variable to be printed at a later time
-func MoveAnts(ants []*structs.Ant, path *structs.PathStruct) []*structs.Ant {
+
+// Lx-y Lz-w Lr-o ...
+//     x, z, r represents the ants numbers (going from 1 to number_of_ants) and y, w, o represents the rooms names.
+//     A room is defined by "name coord_x coord_y", and will usually look like "Room 1 2", "nameoftheroom 1 6", "4 6 7".
+//     The coordinates of the rooms are only important for the Bonus task: ant farm visualizer.
+//     The links (tunnels) are defined by "name1-name2" and will usually look like "1-2", "2-5".
+//     The L is for Lem-in.
+// L1-2
+// L1-3 L2-2
+// L1-1 L2-3 L3-2
+// L2-1 L3-3
+// L3-1
+func MoveAnts(ants []*structs.Ant, path *structs.PathStruct) []string {
+	result := []string{}
 	for _, oneAntStruct := range ants {
-		// fmt.Printf("oneAntStruct: %+v\n", oneAntStruct)
+		// oneAntStruct: &{Id:1 CurrentRoom:<nil> RoomsPassed:0}
 		for _, oneRoom := range path.Path {
-			// fmt.Printf("oneRoom: %+v\n", oneRoom)
-			if oneRoom.IsStart {
-				oneAntStruct.CurrentRoom.Name = oneRoom.Name
-				// fmt.Printf("oneAntStruct: %+v\n", oneAntStruct)
-				// fmt.Printf("oneRoom: %+v\n", oneRoom)
+			// oneRoom: &{Name:0 Ants:0 IsStart:true IsEnd:false Links:[]}
+			if oneRoom.IsStart || oneRoom.IsEnd {
+				oneRoom.Ants = len(ants)
+				if !oneRoom.IsStart {
+					oneAntStruct.RoomsPassed += 1
+				}
+				oneAntStruct.CurrentRoom = oneRoom
+				// START: oneAntStruct.CurrentRoom: &{Name:0 Ants:3 IsStart:true IsEnd:false Links:[]}
+				// END: oneAntStruct.CurrentRoom: &{Name:1 Ants:3 IsStart:false IsEnd:true Links:[]}
+
+				// fmt.Printf("oneAntStruct.CurrentRoom: %+v\n", oneAntStruct.CurrentRoom)
+			} else if !oneRoom.IsStart && !oneRoom.IsEnd {
+				oneAntStruct.RoomsPassed += 1
+				oneRoom.Ants = +1
+				oneAntStruct.CurrentRoom = oneRoom
+				// oneAntStruct.CurrentRoom: &{Name:3 Ants:1 IsStart:false IsEnd:false Links:[]}
+				// oneAntStruct.CurrentRoom: &{Name:2 Ants:1 IsStart:false IsEnd:false Links:[]}
+
+				// fmt.Printf("oneAntStruct.CurrentRoom: %+v\n", oneAntStruct.CurrentRoom)
+				// fmt.Printf("oneAntStruct %+v\n", oneAntStruct)
 			}
+			fmt.Printf("oneAntStruct: %+v\n, CurrentRoom: %+v\n", oneAntStruct, oneAntStruct.CurrentRoom)
 		}
-
 	}
-
-	return []*structs.Ant{}
+	return result
 }
 
 // func lenPathStruct(paths []*structs.PathStruct) int {

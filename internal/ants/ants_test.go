@@ -8,33 +8,27 @@ import (
 )
 
 func TestMoveAnts(t *testing.T) {
-	ants := []structs.Ant{
-		{
-			Id: 1,
-		},
-		{
-			Id: 2,
-		},
-		{
-			Id: 3,
-		},
-		{
-			Id: 4,
-		},
-	}
 
 	rooms := []structs.Room{
 		{
-			Name: "0",
+			Name:    "0",
+			IsStart: true,
+			IsEnd:   false,
 		},
 		{
-			Name: "1",
+			Name:    "1",
+			IsStart: false,
+			IsEnd:   true,
 		},
 		{
-			Name: "2",
+			Name:    "2",
+			IsStart: false,
+			IsEnd:   false,
 		},
 		{
-			Name: "3",
+			Name:    "3",
+			IsStart: false,
+			IsEnd:   false,
 		},
 		// {
 		// 	Name: "4",
@@ -56,6 +50,18 @@ func TestMoveAnts(t *testing.T) {
 		// },
 	}
 
+	ants := []structs.Ant{
+		{
+			Id: 1,
+		},
+		{
+			Id: 2,
+		},
+		{
+			Id: 3,
+		},
+	}
+
 	type args struct {
 		ants []*structs.Ant
 		path *structs.PathStruct
@@ -63,7 +69,7 @@ func TestMoveAnts(t *testing.T) {
 	tests := []struct {
 		name string
 		args args
-		want []*structs.Ant
+		want []string
 	}{
 		{
 			name: "pass - easy",
@@ -72,46 +78,22 @@ func TestMoveAnts(t *testing.T) {
 					&ants[0],
 					&ants[1],
 					&ants[2],
-					&ants[3],
 				},
 				path: &structs.PathStruct{
 					Path: []*structs.Room{
 						&rooms[0],
-						&rooms[3],
 						&rooms[2],
+						&rooms[3],
 						&rooms[1],
 					},
 				},
 			},
-			want: []*structs.Ant{
-				{
-					Id: 1,
-					CurrentRoom: &structs.Room{
-						Name: "1",
-					},
-					RoomsPassed: 3,
-				},
-				{
-					Id: 2,
-					CurrentRoom: &structs.Room{
-						Name: "1",
-					},
-					RoomsPassed: 3,
-				},
-				{
-					Id: 3,
-					CurrentRoom: &structs.Room{
-						Name: "1",
-					},
-					RoomsPassed: 3,
-				},
-				{
-					Id: 4,
-					CurrentRoom: &structs.Room{
-						Name: "1",
-					},
-					RoomsPassed: 3,
-				},
+			want: []string{
+				"L1-2",
+				"L1-3 L2-2",
+				"L1-1 L2-3 L3-2",
+				"L2-1 L3-3",
+				"L3-1",
 			},
 		},
 	}

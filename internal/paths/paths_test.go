@@ -905,8 +905,8 @@ func TestFindShortestPath(t *testing.T) {
 					{
 						Path: []*structs.Room{
 							&rooms[0],
-							&rooms[3],
 							&rooms[2],
+							&rooms[3],
 							&rooms[1],
 						},
 					},
