@@ -3,6 +3,8 @@ package ants
 import (
 	"fmt"
 	"sort"
+	"strconv"
+	//"git.learn.01founders.co/Cassidy.Hall94/lem-in/internal/structs"
 )
 
 type Room struct {
@@ -10,6 +12,7 @@ type Room struct {
 	Ants    int
 	IsStart bool
 	IsEnd   bool
+	IsEmpty bool
 	Links   []string
 }
 type Ant struct {
@@ -21,7 +24,33 @@ type Path struct {
 	RoomsInPath []string
 }
 
-func CreateAnts() *Ant {
+func CreateAnts() []*Ant {
+	rooms := []Room{
+		{
+			Name:    "1",
+			Ants:    0,
+			IsStart: false,
+			IsEnd:   false,
+			IsEmpty: true,
+			Links:   []string{"1", "0", "2"},
+		},
+		{
+			Name:    "2",
+			Ants:    0,
+			IsStart: false,
+			IsEnd:   false,
+			IsEmpty: true,
+			Links:   []string{"2", "1", "3"},
+		},
+		{
+			Name:    "3",
+			Ants:    0,
+			IsStart: false,
+			IsEnd:   true,
+			IsEmpty: true,
+			Links:   []string{"3", "0", "2"},
+		},
+	}
 
 	paths := []Path{
 		{
@@ -36,54 +65,57 @@ func CreateAnts() *Ant {
 
 	noOfPaths := lenPathStruct(paths)
 
-	antToAdd := make(map[int][]string)
+	var newAntToAdd = []*Ant{}
 
 	for p := 0; p < noOfPaths; p++ {
-
 		var i int
 		for i = p + 1; i <= 20-p; {
+			var antToAdd *Ant = new(Ant)
 
-			antToAdd[i] = paths[p].RoomsInPath
+			antToAdd.Id = i
+			antToAdd.Path = paths[p].RoomsInPath
 
 			if i < 19 {
 				i = i + 2
 			} else {
 				i = i + 1
 			}
+
+			newAntToAdd = append(newAntToAdd, antToAdd)
+			sort.Slice(newAntToAdd, func(i, j int) bool {
+				return newAntToAdd[i].Id < newAntToAdd[j].Id
+			})
 		}
 	}
 
-	//fmt.Println(antToAdd)
-
-	keys := make([]int, 0, len(antToAdd))
-	for k := range antToAdd {
-		keys = append(keys, k)
-	}
-	sort.Ints(keys)
-
-	roomsEmpty := make(map[string]bool)
-
-	roomsEmpty["1"] = true
-	roomsEmpty["2"] = true
-	roomsEmpty["3"] = true
-
-	for i := 0; i < 3; i++ {
-		for ant := 0; ant < len(keys); ant++ {
-			if len(antToAdd[ant]) > i && roomsEmpty[antToAdd[ant][i]] == true {
-				fmt.Printf("L%v-%v ", ant, antToAdd[ant][i])
-				roomsEmpty[antToAdd[ant][i]] = false
-			} else {
-				continue
+	for i := 0; i < len(newAntToAdd); i++ {
+		for p := 0; p < len(newAntToAdd[i].Path); p++ {
+			roomsName, _ := strconv.Atoi(newAntToAdd[i].Path[p])
+			if roomsName-1 != 0 {
+				rooms[roomsName-2].IsEmpty = *setTrue()
+			}
+			if rooms[roomsName-1].IsEmpty == true && rooms[roomsName-1].IsEnd == false {
+				fmt.Printf("L%d-%s ", newAntToAdd[i].Id, newAntToAdd[i].Path[p])
+				rooms[roomsName-1].IsEmpty = *setFalse()
+				break
+			} else if rooms[roomsName-1].IsEmpty == true && rooms[roomsName-1].IsEnd == true {
+				fmt.Printf("L%d-%s ", newAntToAdd[i].Id, newAntToAdd[i].Path[p])
+				break
 			}
 		}
-		fmt.Println()
-		roomsEmpty["1"] = true
-		roomsEmpty["2"] = true
-		roomsEmpty["3"] = true
-		//fmt.Println(key, value[0])
 	}
 
-	return &Ant{}
+	return newAntToAdd
+}
+
+func setFalse() *bool {
+	b := false
+	return &b
+}
+
+func setTrue() *bool {
+	b := true
+	return &b
 }
 
 func lenPathStruct(paths []Path) int {
@@ -134,43 +166,3 @@ func antsPerPath(paths []Path) []int {
 
 	return antsPerPath
 }
-
-// Make a list of ants with their own path, current room and id
-/*func CreateAnts(paths [][]*structs.Room) []structs.Ant {
-	var result []structs.Ant
-	for i := 1; i < structs.ANTCOUNTER+1; i++ {
-		var antToAdd structs.Ant
-		antToAdd.Id = i
-		antToAdd.CurrentRoom = &structs.FARM[structs.STARTROOMID]
-		antToAdd.Path = paths[i-1]
-		result = append(result, antToAdd)
-	}
-	return result
-}
-// Create ants to move from start to end and print each ant step
-func CreateStep(ants []structs.Ant) {
-	var ANTCOUNTER int
-	var passed bool = true
-	for i := 0; i < len(ants); i++ {
-		if ants[i].CurrentRoom.IsEnd {
-			continue
-		}
-		nextRoomId := ants[i].RoomsPassed
-		if ants[i].Path[nextRoomId].Ants != 0 {
-			if !ants[i].Path[nextRoomId].IsEnd {
-				continue
-			}
-		}
-		ants[i].CurrentRoom.Ants--
-		ants[i].CurrentRoom = ants[i].Path[nextRoomId]
-		ants[i].CurrentRoom.Ants++
-		ants[i].RoomsPassed++
-		passed = false
-		fmt.Print("L", ants[i].Id, "-", ants[i].CurrentRoom.Name, " ")
-	}
-	if passed && structs.FARM[structs.ENDROOMID].Ants == ANTCOUNTER {
-		return
-	} else {
-		fmt.Println("")
-		CreateStep(ants)
-	}*/

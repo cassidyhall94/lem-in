@@ -7,47 +7,19 @@ import (
 )
 
 func TestCreateAnts(t *testing.T) {
-	type args struct {
-		ants *Ant
-	}
+
 	tests := []struct {
 		name string
-		args args
-		want *Ant
+		want []string
 	}{
 		{
-			name: "Ant1",
-			args: args{
-				ants: &Ant{
-					Id:   1,
-					Path: []string{"3"},
-				},
-			},
+			name: "pass - easy",
 		},
-		/*{
-			name: "Ant2",
-			args: args{
-				ants: &Ant{
-					Id:          2,
-					Path:        []string{"1", "0"},
-				},
-			},
-		},
-		{
-			name: "Ant3",
-			args: args{
-				ants: &Ant{
-					Id:          3,
-					Path:        []string{"1", "0"},
-				},
-			},
-		},*/
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			if got := CreateAnts(); !reflect.DeepEqual(got, tt.args.ants) {
-				t.Errorf("CreateAnts() = %v, want %v", got, tt.args.ants)
-
+			if got := CreateAnts(); !reflect.DeepEqual(got, tt.want) {
+				t.Errorf("CreateAnts() = %v, want %v", got, tt.want)
 			}
 		})
 	}
