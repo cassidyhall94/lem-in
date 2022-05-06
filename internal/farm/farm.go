@@ -22,7 +22,7 @@ func GenerateFarm(data structs.GenerationData) structs.Farm {
 	}
 
 	ants := []*structs.Ant{}
-	for i := 0; i < data.NumberOfAnts; i++ {
+	for i := 1; i < data.NumberOfAnts; i++ {
 		ants = append(ants, &structs.Ant{
 			Id: i,
 		})

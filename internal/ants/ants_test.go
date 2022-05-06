@@ -1,6 +1,7 @@
 package ants
 
 import (
+	"fmt"
 	"reflect"
 	"testing"
 
@@ -99,7 +100,9 @@ func TestMoveAnts(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			if got := MoveAnts(tt.args.ants, tt.args.path); !reflect.DeepEqual(got, tt.want) {
+			got := MoveAnts(tt.args.ants, tt.args.path)
+			fmt.Printf("got: %+v, want: %+v", len(got), len(tt.want))
+			if !reflect.DeepEqual(got, tt.want) {
 				t.Errorf("MoveAnts() = %v, want %v", got, tt.want)
 			}
 		})
