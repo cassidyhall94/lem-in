@@ -1,6 +1,8 @@
 package paths
 
 import (
+	"sort"
+
 	"git.learn.01founders.co/Cassidy.Hall94/lem-in/internal/structs"
 )
 
@@ -19,23 +21,11 @@ func FindAllPaths(farm structs.Farm) []*structs.PathStruct {
 	return pathStruct
 }
 
-var counter int
-
 // func findValidPath looks in a room for its links, it then asks itself about those links returning a slice of visited rooms and a slice of paths
 // setting the returned bool indicates that we're rolling back up the tree or graph
 func findValidPath(room *structs.Room, visited []string, paths [][]*structs.Room, path []*structs.Room) ([]string, [][]*structs.Room, []*structs.Room, bool) {
-	counter++
-	// fmt.Printf("room.Name %s; len(room.Links) %d, room.Links[0] %s, visited %+v\n", room.Name, len(room.Links), room.Links[0].Name, visited)
-	// fmt.Println(counter)
-	// if counter > 200 {
-	// 	os.Exit(1)
-	// }
-
 	path = append(path, room)
-	// fmt.Printf("path: %s\n", getAllNamesFromSliceOfRooms(path))
-
 	visited = append(visited, room.Name)
-	// fmt.Printf("visited: %s\n", visited)
 
 	if room.IsEnd {
 		return nil, append(paths, path), nil, true
@@ -94,4 +84,16 @@ func FindShortestPath(allPaths []*structs.PathStruct) *structs.PathStruct {
 		}
 	}
 	return shortestPath
+}
+
+func SortPaths(allPaths []*structs.PathStruct) []*structs.PathStruct {
+	sort.Slice(allPaths, func(i, j int) bool {
+		shortToLong := len(allPaths[i].Path) < len(allPaths[j].Path)
+		return shortToLong
+	})
+	return allPaths
+}
+
+func TrimPaths(allPaths []*structs.PathStruct) []*structs.PathStruct {
+	return []*structs.PathStruct{}
 }

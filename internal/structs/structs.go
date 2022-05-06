@@ -34,4 +34,5 @@ type GenerationData struct {
 // Structurised paths by links in start room
 type PathStruct struct {
 	Path []*Room
+	Ants []*Ant
 }

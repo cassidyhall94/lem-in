@@ -1002,3 +1002,190 @@ func TestFindShortestPath(t *testing.T) {
 		})
 	}
 }
+
+func Test_SortPaths(t *testing.T) {
+	rooms := []structs.Room{
+		{
+			Name: "0",
+		},
+		{
+			Name: "1",
+		},
+		{
+			Name: "2",
+		},
+		{
+			Name: "3",
+		},
+		{
+			Name: "4",
+		},
+		{
+			Name: "5",
+		},
+		{
+			Name: "6",
+		},
+		{
+			Name: "7",
+		},
+		{
+			Name: "8",
+		},
+		{
+			Name: "9",
+		},
+	}
+
+	type args struct {
+		allPaths []*structs.PathStruct
+	}
+	tests := []struct {
+		name string
+		args args
+		want []*structs.PathStruct
+	}{
+		{
+			name: "pass - easy",
+			args: args{
+				allPaths: []*structs.PathStruct{
+					{
+						Path: []*structs.Room{
+							&rooms[0],
+							&rooms[2],
+							&rooms[3],
+							&rooms[1],
+						},
+					},
+					{
+						Path: []*structs.Room{
+							&rooms[0],
+							&rooms[1],
+						},
+					},
+				},
+			},
+			want: []*structs.PathStruct{
+				{
+					Path: []*structs.Room{
+						&rooms[0],
+						&rooms[1],
+					},
+				},
+				{
+					Path: []*structs.Room{
+						&rooms[0],
+						&rooms[2],
+						&rooms[3],
+						&rooms[1],
+					},
+				},
+			},
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if got := SortPaths(tt.args.allPaths); !reflect.DeepEqual(got, tt.want) {
+				t.Errorf("sortPaths() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}
+
+func TestTrimPaths(t *testing.T) {
+
+	rooms := []structs.Room{
+		{
+			Name: "0",
+		},
+		{
+			Name: "1",
+		},
+		{
+			Name: "2",
+		},
+		{
+			Name: "3",
+		},
+		{
+			Name: "4",
+		},
+		{
+			Name: "5",
+		},
+		{
+			Name: "6",
+		},
+		{
+			Name: "7",
+		},
+		{
+			Name: "8",
+		},
+		{
+			Name: "9",
+		},
+	}
+	type args struct {
+		allPaths []*structs.PathStruct
+	}
+	tests := []struct {
+		name string
+		args args
+		want []*structs.PathStruct
+	}{
+		{
+			name: "pass - easy",
+			args: args{
+				allPaths: []*structs.PathStruct{
+					{
+						Path: []*structs.Room{
+							&rooms[0],
+							&rooms[1],
+						},
+					},
+					{
+						Path: []*structs.Room{
+							&rooms[0],
+							&rooms[2],
+							&rooms[3],
+							&rooms[1],
+						},
+					},
+					{
+						Path: []*structs.Room{
+							&rooms[0],
+							&rooms[2],
+							&rooms[3],
+							&rooms[4],
+							&rooms[1],
+						},
+					},
+				},
+			},
+			want: []*structs.PathStruct{
+				{
+					Path: []*structs.Room{
+						&rooms[0],
+						&rooms[1],
+					},
+				},
+				{
+					Path: []*structs.Room{
+						&rooms[0],
+						&rooms[2],
+						&rooms[3],
+						&rooms[1],
+					},
+				},
+			},
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if got := TrimPaths(tt.args.allPaths); !reflect.DeepEqual(got, tt.want) {
+				t.Errorf("TrimPaths() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}
