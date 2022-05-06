@@ -30,13 +30,13 @@ func TestGenerateFarm(t *testing.T) {
 			want: structs.Farm{
 				Ants: []*structs.Ant{
 					{
-						Id: 0,
-					},
-					{
 						Id: 1,
 					},
 					{
 						Id: 2,
+					},
+					{
+						Id: 3,
 					},
 				},
 				Rooms: []*structs.Room{
