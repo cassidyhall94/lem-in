@@ -62,6 +62,15 @@ func getSliceOfRoomNames(rooms []*structs.Room) []string {
 	}
 	return ret
 }
+func getSliceOfPathNames(paths []*structs.PathStruct) []string {
+	ret := []string{}
+	for _, path := range paths {
+		for _, pathInfo := range path.Path {
+			ret = append(ret, pathInfo.Name)
+		}
+	}
+	return ret
+}
 
 func visitedRoom(visited []string, room *structs.Room) bool {
 	for _, roomsVisited := range visited {
@@ -94,6 +103,40 @@ func SortPaths(allPaths []*structs.PathStruct) []*structs.PathStruct {
 	return allPaths
 }
 
+// func to remove overlapping paths (except start/end rooms)
+// loop over allPaths for each path, store path in helper variable and then in next loop compare path with helper variable.
+// if helper variable does match path, don't return path
 func TrimPaths(allPaths []*structs.PathStruct) []*structs.PathStruct {
-	return []*structs.PathStruct{}
+	trimmedPaths := []*structs.PathStruct{}
+	helper := []*structs.Room{}
+	for _, path := range allPaths {
+		if len(path.Path) == 2 {
+			trimmedPaths = append(trimmedPaths, path)
+			continue
+		}
+		pathToAppend := true
+		for _, room := range path.Path {
+			if contains(helper, room) {
+				pathToAppend = false
+				break
+			}
+			if !room.IsStart && !room.IsEnd {
+				helper = append(helper, room)
+			}
+		}
+		if pathToAppend {
+			trimmedPaths = append(trimmedPaths, path)
+		}
+	}
+	return trimmedPaths
+}
+
+func contains(s []*structs.Room, str *structs.Room) bool {
+	for _, v := range s {
+		if v == str {
+			return true
+		}
+	}
+
+	return false
 }

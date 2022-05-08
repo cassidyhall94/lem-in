@@ -1003,7 +1003,7 @@ func TestFindShortestPath(t *testing.T) {
 	}
 }
 
-func Test_SortPaths(t *testing.T) {
+func TestSortPaths(t *testing.T) {
 	rooms := []structs.Room{
 		{
 			Name: "0",
@@ -1043,7 +1043,7 @@ func Test_SortPaths(t *testing.T) {
 	tests := []struct {
 		name string
 		args args
-		want []*structs.PathStruct
+		want []int
 	}{
 		{
 			name: "pass - easy",
@@ -1065,28 +1065,234 @@ func Test_SortPaths(t *testing.T) {
 					},
 				},
 			},
-			want: []*structs.PathStruct{
-				{
-					Path: []*structs.Room{
-						&rooms[0],
-						&rooms[1],
+			want: []int{
+				2,
+				4,
+			},
+		},
+		{
+			name: "pass - hard",
+			args: args{
+				allPaths: []*structs.PathStruct{
+					{
+						Path: []*structs.Room{
+							&rooms[1],
+							&rooms[3],
+							&rooms[4],
+							&rooms[0],
+						},
 					},
-				},
-				{
-					Path: []*structs.Room{
-						&rooms[0],
-						&rooms[2],
-						&rooms[3],
-						&rooms[1],
+					{
+						Path: []*structs.Room{
+							&rooms[1],
+							&rooms[3],
+							&rooms[4],
+							&rooms[2],
+							&rooms[5],
+							&rooms[6],
+							&rooms[0],
+						},
+					},
+					{
+						Path: []*structs.Room{
+							&rooms[1],
+							&rooms[3],
+							&rooms[4],
+							&rooms[2],
+							&rooms[7],
+							&rooms[6],
+							&rooms[0],
+						},
+					},
+					{
+						Path: []*structs.Room{
+							&rooms[1],
+							&rooms[3],
+							&rooms[4],
+							&rooms[7],
+							&rooms[6],
+							&rooms[0],
+						},
+					},
+					{
+						Path: []*structs.Room{
+							&rooms[1],
+							&rooms[3],
+							&rooms[4],
+							&rooms[7],
+							&rooms[2],
+							&rooms[5],
+							&rooms[6],
+							&rooms[0],
+						},
+					},
+					{
+						Path: []*structs.Room{
+							&rooms[1],
+							&rooms[3],
+							&rooms[5],
+							&rooms[4],
+							&rooms[0],
+						},
+					},
+					{
+						Path: []*structs.Room{
+							&rooms[1],
+							&rooms[3],
+							&rooms[5],
+							&rooms[2],
+							&rooms[4],
+							&rooms[7],
+							&rooms[6],
+							&rooms[0],
+						},
+					},
+					{
+						Path: []*structs.Room{
+							&rooms[1],
+							&rooms[3],
+							&rooms[5],
+							&rooms[2],
+							&rooms[7],
+							&rooms[6],
+							&rooms[0],
+						},
+					},
+					{
+						Path: []*structs.Room{
+							&rooms[1],
+							&rooms[3],
+							&rooms[5],
+							&rooms[2],
+							&rooms[7],
+							&rooms[4],
+							&rooms[0],
+						},
+					},
+					{
+						Path: []*structs.Room{
+							&rooms[1],
+							&rooms[3],
+							&rooms[5],
+							&rooms[6],
+							&rooms[0],
+						},
+					},
+					{
+						Path: []*structs.Room{
+							&rooms[1],
+							&rooms[3],
+							&rooms[5],
+							&rooms[6],
+							&rooms[7],
+							&rooms[2],
+							&rooms[4],
+							&rooms[0],
+						},
+					},
+					{
+						Path: []*structs.Room{
+							&rooms[1],
+							&rooms[3],
+							&rooms[5],
+							&rooms[6],
+							&rooms[7],
+							&rooms[4],
+							&rooms[0],
+						},
+					},
+					{
+						Path: []*structs.Room{
+							&rooms[1],
+							&rooms[2],
+							&rooms[5],
+							&rooms[3],
+							&rooms[4],
+							&rooms[0],
+						},
+					},
+					{
+						Path: []*structs.Room{
+							&rooms[1],
+							&rooms[2],
+							&rooms[5],
+							&rooms[3],
+							&rooms[4],
+							&rooms[7],
+							&rooms[6],
+							&rooms[0],
+						},
+					},
+					{
+						Path: []*structs.Room{
+							&rooms[1],
+							&rooms[2],
+							&rooms[5],
+							&rooms[6],
+							&rooms[0],
+						},
+					},
+					{
+						Path: []*structs.Room{
+							&rooms[1],
+							&rooms[2],
+							&rooms[5],
+							&rooms[6],
+							&rooms[7],
+							&rooms[4],
+							&rooms[0],
+						},
+					},
+					{
+						Path: []*structs.Room{
+							&rooms[1],
+							&rooms[2],
+							&rooms[4],
+							&rooms[0],
+						},
+					},
+					{
+						Path: []*structs.Room{
+							&rooms[1],
+							&rooms[2],
+							&rooms[4],
+							&rooms[3],
+							&rooms[5],
+							&rooms[6],
+							&rooms[0],
+						},
 					},
 				},
 			},
+			want: []int{
+				4,
+				4,
+				5,
+				5,
+				5,
+				6,
+				6,
+				7,
+				7,
+				7,
+				7,
+				7,
+				7,
+				7,
+				8,
+				8,
+				8,
+				8,
+			},
 		},
 	}
+
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			if got := SortPaths(tt.args.allPaths); !reflect.DeepEqual(got, tt.want) {
-				t.Errorf("sortPaths() = %v, want %v", got, tt.want)
+			for i, gotPath := range SortPaths(tt.args.allPaths) {
+				if len(gotPath.Path) != tt.want[i] {
+					t.Errorf("SortPaths() = %v, want %v", len(gotPath.Path) , tt.want[i])
+				}
 			}
 		})
 	}

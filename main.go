@@ -23,8 +23,9 @@ func main() {
 	filledFarm := farm.GenerateFarm(generationData)
 	connectedFarm := farm.ConnectRooms(filledFarm, generationData)
 	allPaths := paths.FindAllPaths(connectedFarm)
-	shortestPath := paths.FindShortestPath(allPaths)
-	antsMoved := ants.MoveAnts(connectedFarm.Ants, shortestPath)
+	sortedPaths := paths.SortPaths(allPaths)
+	trimmedPaths := paths.TrimPaths(sortedPaths)
+	antsMoved := ants.MoveAnts(connectedFarm.Ants, trimmedPaths)
 	for _, move := range antsMoved {
 		fmt.Println(move)
 	}
