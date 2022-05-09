@@ -1,6 +1,7 @@
 package paths
 
 import (
+	"fmt"
 	"sort"
 
 	"git.learn.01founders.co/Cassidy.Hall94/lem-in/internal/structs"
@@ -55,14 +56,15 @@ func findValidPath(room *structs.Room, visited []string, paths [][]*structs.Room
 	return visited, paths, path, rollup
 }
 
-func getSliceOfRoomNames(rooms []*structs.Room) []string {
+func GetSliceOfRoomNames(rooms []*structs.Room) []string {
 	ret := []string{}
 	for _, r := range rooms {
 		ret = append(ret, r.Name)
 	}
 	return ret
 }
-func getSliceOfPathNames(paths []*structs.PathStruct) []string {
+
+func GetSliceOfPathNames(paths []*structs.PathStruct) []string {
 	ret := []string{}
 	for _, path := range paths {
 		for _, pathInfo := range path.Path {
@@ -81,20 +83,6 @@ func visitedRoom(visited []string, room *structs.Room) bool {
 	return false
 }
 
-func FindShortestPath(allPaths []*structs.PathStruct) *structs.PathStruct {
-	p := -1
-	shortestPath := &structs.PathStruct{}
-	for _, path := range allPaths {
-		if p == -1 {
-			p = len(path.Path)
-		} else if len(path.Path) < p {
-			p = len(path.Path)
-			shortestPath = path
-		}
-	}
-	return shortestPath
-}
-
 func SortPaths(allPaths []*structs.PathStruct) []*structs.PathStruct {
 	sort.Slice(allPaths, func(i, j int) bool {
 		shortToLong := len(allPaths[i].Path) < len(allPaths[j].Path)
@@ -110,6 +98,7 @@ func TrimPaths(allPaths []*structs.PathStruct) []*structs.PathStruct {
 	trimmedPaths := []*structs.PathStruct{}
 	helper := []*structs.Room{}
 	for _, path := range allPaths {
+		fmt.Println(GetSliceOfRoomNames(path.Path))
 		if len(path.Path) == 2 {
 			trimmedPaths = append(trimmedPaths, path)
 			continue

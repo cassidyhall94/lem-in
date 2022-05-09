@@ -7,21 +7,30 @@ import (
 	"git.learn.01founders.co/Cassidy.Hall94/lem-in/internal/structs"
 )
 
-// fmt.Printf("oneAntStruct: %+v\n, CurrentRoom: %+v\n", oneAntStruct, oneAntStruct.CurrentRoom)
-// fmt.Printf("Ant ID: %+v CurrentRoom: %+v RoomsPassed: %+v\n", oneAntStruct.Id, oneAntStruct.CurrentRoom.Name, oneAntStruct.RoomsPassed)
+// fmt.Printf("Length of paths[i+1].Path: %+v paths[i+1].Ants: %+v\n", len(getSliceOfRoomNames(paths[i+1].Path)), getSliceOfAntsNames(paths[i+1].Ants))
+
+// fmt.Printf("paths[i+1].Path: %+v paths[i+1].Ants: %+v\n", getSliceOfRoomNames(paths[i+1].Path), getSliceOfAntsNames(paths[i+1].Ants))
+
+// fmt.Printf("path.Path: %+v path.Ants: %+v ant: %+v\n", getSliceOfRoomNames(path.Path), getSliceOfAntsNames(path.Ants), ant)
 
 // func AssignAnts assigns a path to each ant
-// loop over paths to get each path, if the (length of rooms + number of ants currently in the path2) is greater than in path1, send the ant to path2, if not, send to path1
 func AssignAnts(ants []*structs.Ant, paths []*structs.PathStruct) []*structs.PathStruct {
 	for _, ant := range ants {
 		for i, path := range paths {
-			if (len(path.Path) + len(path.Ants)) > (len(paths[i+1].Path) + len(paths[i+1].Ants)) {
-
+			if i+1 == len(paths) {
+				if (len(path.Path) + len(path.Ants)) <= (len(paths[0].Path) + len(paths[0].Ants)) {
+					path.Ants = append(path.Ants, ant)
+					break
+				}
+			} else {
+				if (len(path.Path) + len(path.Ants)) <= (len(paths[i+1].Path) + len(paths[i+1].Ants)) {
+					path.Ants = append(path.Ants, ant)
+					break
+				}
 			}
 		}
 	}
-
-	return []*structs.PathStruct{}
+	return paths
 }
 
 // func MoveAnts take the ants one by one and move them through their path
@@ -59,3 +68,27 @@ func deleteEmpty(s []string) []string {
 	}
 	return r
 }
+
+// func getSliceOfAntNames(ants []*structs.Ant) []string {
+// 	ret := []string{}
+// 	for _, ant := range ants {
+// 		ret = append(ret, strconv.Itoa(ant.Id))
+// 	}
+// 	return ret
+// }
+
+// func getSliceOfRoomNames(rooms []*structs.Room) []string {
+// 	ret := []string{}
+// 	for _, r := range rooms {
+// 		ret = append(ret, r.Name)
+// 	}
+// 	return ret
+// }
+
+// func getSliceOfPathNames(paths *structs.PathStruct) []string {
+// 	ret := []string{}
+// 	for _, r := range paths.Path {
+// 		ret = append(ret, r.Name)
+// 	}
+// 	return ret
+// }

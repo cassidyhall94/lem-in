@@ -2,7 +2,6 @@ package main
 
 import (
 	"fmt"
-
 	"log"
 	"os"
 
@@ -18,15 +17,46 @@ func main() {
 		os.Exit(1)
 	}
 
-	data, _ := dataparser.LoadData(os.Args[1])
+	data, err := dataparser.LoadData(os.Args[1])
+	if err != nil {
+		log.Fatal(err)
+	}
 	generationData := dataparser.ReadData(data)
 	filledFarm := farm.GenerateFarm(generationData)
 	connectedFarm := farm.ConnectRooms(filledFarm, generationData)
 	allPaths := paths.FindAllPaths(connectedFarm)
 	sortedPaths := paths.SortPaths(allPaths)
 	trimmedPaths := paths.TrimPaths(sortedPaths)
-	antsMoved := ants.MoveAnts(connectedFarm.Ants, trimmedPaths)
-	for _, move := range antsMoved {
-		fmt.Println(move)
+	assignedAnts := ants.AssignAnts(connectedFarm.Ants, trimmedPaths)
+
+	for _, ps := range trimmedPaths {
+		fmt.Printf("%+v\n", paths.GetSliceOfRoomNames(ps.Path))
+	}
+
+	allMoves := [][]string{}
+	for _, ps := range assignedAnts {
+		antsMoved := ants.MoveAnts(ps.Ants, ps)
+		allMoves = append(allMoves, antsMoved)
+	}
+
+	longestMoveset := func() int {
+		l := 0
+		for _, moveset := range allMoves {
+			if len(moveset) > l {
+				l = len(moveset)
+			}
+		}
+		return l
+	}()
+	
+	out := make([]string, longestMoveset)
+	for _, moveset := range allMoves {
+		for i, move := range moveset {
+			out[i] = fmt.Sprintf("%s %s", out[i], move)
+		}
+	}
+
+	for _, o := range out {
+		fmt.Println(o)
 	}
 }
