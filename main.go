@@ -1,119 +1,62 @@
 package main
 
 import (
-	"net/http"
-	"text/template"
+	"fmt"
+	"log"
+	"os"
+
+	"git.learn.01founders.co/Cassidy.Hall94/lem-in/internal/ants"
+	dataparser "git.learn.01founders.co/Cassidy.Hall94/lem-in/internal/data-parser"
+	"git.learn.01founders.co/Cassidy.Hall94/lem-in/internal/farm"
+	"git.learn.01founders.co/Cassidy.Hall94/lem-in/internal/paths"
 )
 
-// Graph represents an adjaceny list graph
-/*type Graph struct {
-	vertices []*Vertex
-}
-
-// Vertex represents a graph vertex
-type Vertex struct {
-	key      int
-	adjacent []*Vertex
-}
-
-// AddVertex adds a Vertex to the Graph
-func (g *Graph) AddVertex(k int) {
-	if contains(g.vertices, k) {
-		err := fmt.Errorf("Vertex %v not aded because it is an existing key", k)
-		fmt.Println(err.Error())
-	} else {
-		g.vertices = append(g.vertices, &Vertex{key: k})
-	}
-}
-
-// AddEdge adds an edge to the graph
-func (g *Graph) AddEdge(from, to int) {
-	// get vertex
-	fromVertex := g.getVertex(from)
-	toVertex := g.getVertex(to)
-	// check error
-	if fromVertex == nil || toVertex == nil {
-		err := fmt.Errorf("Invalid edge (%v-->%v)", from, to)
-		fmt.Println(err.Error())
-	} else if contains(fromVertex.adjacent, to) {
-		err := fmt.Errorf("Existing edge (%v-->%v)", from, to)
-		fmt.Println(err.Error())
-	} else {
-		// add edge
-		fromVertex.adjacent = append(fromVertex.adjacent, toVertex)
-	}
-}
-
-// getVertex returns a pointer to the Vertex with a key integer
-func (g *Graph) getVertex(k int) *Vertex {
-	for i, v := range g.vertices {
-		if v.key == k {
-			return g.vertices[i]
-		}
-	}
-	return nil
-}
-
-// contains
-func contains(s []*Vertex, k int) bool {
-	for _, v := range s {
-		if k == v.key {
-			return true
-		}
-	}
-	return false
-}
-
-// Print will print the adjacent list for each vertex of the graph
-func (g *Graph) Print() {
-	for _, v := range g.vertices {
-		fmt.Printf("\nVertex %v:", v.key)
-		for _, v := range v.adjacent {
-			fmt.Printf("%v", v.key)
-		}
-	}
-}
-
 func main() {
-	test := &Graph{}
+	if len(os.Args) != 2 {
+		log.Fatal("The file name is missing")
+		os.Exit(1)
+	}
 
-	antsList := ants.SpawnAnts(bestCombination)
-	ants.MakeStep(antsList)
+	data, err := dataparser.LoadData(os.Args[1])
+	if err != nil {
+		log.Fatal(err)
+	}
+	generationData := dataparser.ReadData(data)
+	filledFarm := farm.GenerateFarm(generationData)
+	connectedFarm := farm.ConnectRooms(filledFarm, generationData)
+	allPaths := paths.FindAllPaths(connectedFarm)
+	sortedPaths := paths.SortPaths(allPaths)
+	trimmedPaths := paths.TrimPaths(sortedPaths)
+	assignedAnts := ants.AssignAnts(connectedFarm.Ants, trimmedPaths)
 
-	// test := &Graph{}
+	for _, ps := range trimmedPaths {
+		fmt.Printf("%+v\n", paths.GetSliceOfRoomNames(ps.Path))
+	}
 
-	// for i := 0; i < 5; i++ {
-	// 	test.AddVertex(i)
-	// }
-	// test.AddEdge(1, 2)
-	// test.Print()
-}*/
+	allMoves := [][]string{}
+	for _, ps := range assignedAnts {
+		antsMoved := ants.MoveAnts(ps.Ants, ps)
+		allMoves = append(allMoves, antsMoved)
+	}
 
-type Todo struct {
-	Title string
-	Done  bool
-}
-
-type TodoPageData struct {
-	PageTitle string
-	Todos     []Todo
-}
-
-func main() {
-	fs := http.FileServer(http.Dir("web/static"))
-	http.Handle("/static/", http.StripPrefix("/static/", fs))
-
-	tmpl := template.Must(template.ParseFiles("index.html"))
-	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-		data := TodoPageData{
-			PageTitle: "My TODO list",
-			Todos: []Todo{
-				{Title: "Task 1", Done: false},
-				{Title: "Task 2", Done: true},
-				{Title: "Task 3", Done: true},
-			},
+	longestMoveset := func() int {
+		l := 0
+		for _, moveset := range allMoves {
+			if len(moveset) > l {
+				l = len(moveset)
+			}
 		}
-		tmpl.Execute(w, data)
-	})
-	http.ListenAndServe(":8080", nil)
+		return l
+	}()
+
+	out := make([]string, longestMoveset)
+	for _, moveset := range allMoves {
+		for i, move := range moveset {
+			out[i] = fmt.Sprintf("%s %s", out[i], move)
+		}
+	}
+
+	for _, o := range out {
+		fmt.Println(o)
+	}
 }
