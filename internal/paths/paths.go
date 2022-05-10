@@ -1,7 +1,6 @@
 package paths
 
 import (
-	"fmt"
 	"sort"
 
 	"git.learn.01founders.co/Cassidy.Hall94/lem-in/internal/structs"
@@ -89,6 +88,16 @@ func SortPaths(allPaths []*structs.PathStruct) []*structs.PathStruct {
 		return shortToLong
 	})
 	return allPaths
+	// allPaths:
+	// [start h n e end]
+	// [start h n m end]
+	// [start t E a m end]
+	// [start 0 o n m end]
+	// [start h A c k end]
+	// [start 0 o n e end]
+	// [start t E a m n e end]
+	// [start 0 o n h A c k end]
+	// [start t E a m n h A c k end]
 }
 
 // func to remove overlapping paths (except start/end rooms)
@@ -97,35 +106,69 @@ func SortPaths(allPaths []*structs.PathStruct) []*structs.PathStruct {
 func TrimPaths(allPaths []*structs.PathStruct) []*structs.PathStruct {
 	trimmedPaths := []*structs.PathStruct{}
 	helper := []*structs.Room{}
+	med := calcMedianPathLen(allPaths)
+	allPaths = rearrangePathsOnTheMedian(allPaths, med)
 	for _, path := range allPaths {
-		fmt.Println(GetSliceOfRoomNames(path.Path))
-		if len(path.Path) == 2 {
-			trimmedPaths = append(trimmedPaths, path)
-			continue
-		}
 		pathToAppend := true
-		for _, room := range path.Path {
-			if contains(helper, room) {
-				pathToAppend = false
-				break
-			}
-			if !room.IsStart && !room.IsEnd {
-				helper = append(helper, room)
-			}
+		var doesContain bool
+		if doesContain, helper = contains(helper, path.Path); doesContain {
+			pathToAppend = false
 		}
 		if pathToAppend {
 			trimmedPaths = append(trimmedPaths, path)
+			continue
+
 		}
 	}
 	return trimmedPaths
 }
 
-func contains(s []*structs.Room, str *structs.Room) bool {
+func contains(s []*structs.Room, path []*structs.Room) (bool, []*structs.Room) {
 	for _, v := range s {
-		if v == str {
-			return true
+		for _, r := range path {
+			if v.Name == r.Name {
+				return true, s
+			}
 		}
 	}
 
-	return false
+	return false, addPathToHelper(s, path)
+}
+
+func addPathToHelper(h []*structs.Room, path []*structs.Room) []*structs.Room {
+	for _, r := range path {
+		if !r.IsEnd && !r.IsStart {
+			h = append(h, r)
+		}
+	}
+	return h
+}
+
+func calcMedianPathLen(allPaths []*structs.PathStruct) int {
+	totalLengths := 0
+	for _, ps := range allPaths {
+		totalLengths = totalLengths + len(ps.Path)
+	}
+	if totalLengths == 0 || len(allPaths) == 0 {
+		return 0
+	}
+
+	return totalLengths / len(allPaths)
+}
+
+func rearrangePathsOnTheMedian(paths []*structs.PathStruct, med int) []*structs.PathStruct {
+	ret := []*structs.PathStruct{}
+	didAThing := false
+	for i, ps := range paths {
+		if len(ps.Path) == med {
+			didAThing = true
+			ret = append(ret, paths[i:]...)
+			ret = append(ret, paths[:i]...)
+			break
+		}
+	}
+	if didAThing == false {
+		return paths
+	}
+	return ret
 }

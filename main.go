@@ -29,9 +29,9 @@ func main() {
 	trimmedPaths := paths.TrimPaths(sortedPaths)
 	assignedAnts := ants.AssignAnts(connectedFarm.Ants, trimmedPaths)
 
-	for _, ps := range trimmedPaths {
-		fmt.Printf("%+v\n", paths.GetSliceOfRoomNames(ps.Path))
-	}
+	// for _, ps := range trimmedPaths {
+	// 	fmt.Printf("%+v\n", paths.GetSliceOfRoomNames(ps.Path))
+	// }
 
 	allMoves := [][]string{}
 	for _, ps := range assignedAnts {
@@ -48,7 +48,7 @@ func main() {
 		}
 		return l
 	}()
-	
+
 	out := make([]string, longestMoveset)
 	for _, moveset := range allMoves {
 		for i, move := range moveset {

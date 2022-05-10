@@ -3,6 +3,7 @@ package ants
 import (
 	"fmt"
 	"reflect"
+	"strconv"
 	"testing"
 
 	"git.learn.01founders.co/Cassidy.Hall94/lem-in/internal/structs"
@@ -29,24 +30,6 @@ var rooms = []structs.Room{
 		IsStart: false,
 		IsEnd:   false,
 	},
-	// {
-	// 	Name: "4",
-	// },
-	// {
-	// 	Name: "5",
-	// },
-	// {
-	// 	Name: "6",
-	// },
-	// {
-	// 	Name: "7",
-	// },
-	// {
-	// 	Name: "8",
-	// },
-	// {
-	// 	Name: "9",
-	// },
 }
 
 var ants = []structs.Ant{
@@ -67,6 +50,65 @@ var ants = []structs.Ant{
 	},
 	{
 		Id: 6,
+	},
+	{
+		Id: 7,
+	},
+	{
+		Id: 8,
+	},
+	{
+		Id: 9,
+	},
+	{
+		Id: 10,
+	},
+}
+
+var room = []structs.Room{
+	{
+		Name:    "start",
+		IsStart: true,
+	},
+	{
+		Name: "h",
+	},
+	{
+		Name: "n",
+	},
+	{
+		Name: "e",
+	},
+	{
+		Name:  "end",
+		IsEnd: true,
+	},
+	{
+		Name: "m",
+	},
+	{
+		Name: "t",
+	},
+	{
+		Name: "E",
+	},
+	{
+		Name: "a",
+	},
+	{
+		Name: "0",
+	},
+	{
+		Name: "o",
+	},
+	{
+		Name: "A",
+	},
+	{
+		Name: "c",
+	},
+	{
+		Name: "k",
 	},
 }
 
@@ -119,7 +161,7 @@ func TestMoveAnts(t *testing.T) {
 
 func TestAssignAnts(t *testing.T) {
 	type args struct {
-		ants []*structs.Ant
+		ants  []*structs.Ant
 		paths []*structs.PathStruct
 	}
 	tests := []struct {
@@ -127,8 +169,63 @@ func TestAssignAnts(t *testing.T) {
 		args args
 		want []*structs.PathStruct
 	}{
+		// {
+		// 	name: "pass - easy",
+		// 	args: args{
+		// 		ants: []*structs.Ant{
+		// 			&ants[0],
+		// 			&ants[1],
+		// 			&ants[2],
+		// 			&ants[3],
+		// 			&ants[4],
+		// 			&ants[5],
+		// 		},
+		// 		paths: []*structs.PathStruct{
+		// 			{
+		// 				Path: []*structs.Room{
+		// 					&rooms[0],
+		// 					&rooms[1],
+		// 				},
+		// 			},
+		// 			{
+		// 				Path: []*structs.Room{
+		// 					&rooms[0],
+		// 					&rooms[2],
+		// 					&rooms[3],
+		// 					&rooms[1],
+		// 				},
+		// 			},
+		// 		},
+		// 	},
+		// 	want: []*structs.PathStruct{
+		// 		{
+		// 			Path: []*structs.Room{
+		// 				&rooms[0],
+		// 				&rooms[1],
+		// 			},
+		// 			Ants: []*structs.Ant{
+		// 				&ants[0],
+		// 				&ants[1],
+		// 				&ants[2],
+		// 				&ants[4],
+		// 			},
+		// 		},
+		// 		{
+		// 			Path: []*structs.Room{
+		// 				&rooms[0],
+		// 				&rooms[2],
+		// 				&rooms[3],
+		// 				&rooms[1],
+		// 			},
+		// 			Ants: []*structs.Ant{
+		// 				&ants[3],
+		// 				&ants[5],
+		// 			},
+		// 		},
+		// 	},
+		// },
 		{
-			name: "pass - easy",
+			name: "pass - hard",
 			args: args{
 				ants: []*structs.Ant{
 					&ants[0],
@@ -137,57 +234,142 @@ func TestAssignAnts(t *testing.T) {
 					&ants[3],
 					&ants[4],
 					&ants[5],
+					&ants[6],
+					&ants[7],
+					&ants[8],
+					&ants[9],
 				},
 				paths: []*structs.PathStruct{
 					{
+						//[start t E a m end]
 						Path: []*structs.Room{
-							&rooms[0],
-							&rooms[1],
+							&room[0],
+							&room[6],
+							&room[7],
+							&room[8],
+							&room[5],
+							&room[4],
 						},
 					},
 					{
+						//[start h A c k end]
 						Path: []*structs.Room{
-							&rooms[0],
-							&rooms[2],
-							&rooms[3],
-							&rooms[1],
+							&room[0],
+							&room[1],
+							&room[11],
+							&room[12],
+							&room[13],
+							&room[4],
+						},
+					},
+					{
+						//[start 0 o n e end]
+						Path: []*structs.Room{
+							&room[0],
+							&room[9],
+							&room[10],
+							&room[2],
+							&room[3],
+							&room[4],
 						},
 					},
 				},
 			},
 			want: []*structs.PathStruct{
 				{
+					//[start t E a m end]
 					Path: []*structs.Room{
-						&rooms[0],
-						&rooms[1],
+						&room[0],
+						&room[6],
+						&room[7],
+						&room[8],
+						&room[5],
+						&room[4],
 					},
 					Ants: []*structs.Ant{
 						&ants[0],
-						&ants[1],
-						&ants[2],
-						&ants[4],
+						&ants[3],
+						&ants[6],
+						&ants[9],
 					},
 				},
 				{
+					//[start h A c k end]
 					Path: []*structs.Room{
-						&rooms[0],
-						&rooms[2],
-						&rooms[3],
-						&rooms[1],
+						&room[0],
+						&room[1],
+						&room[11],
+						&room[12],
+						&room[13],
+						&room[4],
 					},
 					Ants: []*structs.Ant{
-						&ants[3],
+						&ants[1],
+						&ants[4],
+						&ants[7],
+					},
+				},
+				{
+					//[start 0 o n e end]
+					Path: []*structs.Room{
+						&room[0],
+						&room[9],
+						&room[10],
+						&room[2],
+						&room[3],
+						&room[4],
+					},
+					Ants: []*structs.Ant{
+						&ants[2],
 						&ants[5],
+						&ants[8],
 					},
 				},
 			},
 		},
 	}
+
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			if got := AssignAnts(tt.args.ants, tt.args.paths); !reflect.DeepEqual(got, tt.want) {
-				t.Errorf("AssignAnts() = %v, want %v", got, tt.want)
+			for i, gotPaths := range AssignAnts(tt.args.ants, tt.args.paths) {
+				for j, wantPaths := range tt.want {
+					if i != j {
+						continue
+					}
+					if len(gotPaths.Ants) != len(wantPaths.Ants) {
+						t.Errorf("AssignAnts(Ants) = %v, want %v", len(gotPaths.Ants), len(wantPaths.Ants))
+					}
+					if !reflect.DeepEqual(gotPaths.Path, wantPaths.Path) {
+						t.Errorf("AssignAnts(Paths): %v\n want: %+v", GetSliceOfRoomNames(gotPaths.Path), GetSliceOfRoomNames(wantPaths.Path))
+					}
+				}
 			}
 		})
 	}
+}
+
+func GetSliceOfPathNames(paths []*structs.PathStruct) []string {
+	ret := []string{}
+	for _, path := range paths {
+		for _, pathInfo := range path.Path {
+			ret = append(ret, pathInfo.Name)
+		}
+	}
+	return ret
+}
+
+func GetSliceOfAntNames(ants []*structs.Ant) []string {
+	ret := []string{}
+	for _, ant := range ants {
+		ret = append(ret, strconv.Itoa(ant.Id))
+	}
+	return ret
+}
+
+func GetSliceOfRoomNames(rooms []*structs.Room) []string {
+	ret := []string{}
+	for _, r := range rooms {
+		ret = append(ret, r.Name)
+	}
+	return ret
 }

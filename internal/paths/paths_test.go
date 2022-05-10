@@ -1145,7 +1145,7 @@ func TestSortPaths(t *testing.T) {
 		t.Run(tt.name, func(t *testing.T) {
 			for i, gotPath := range SortPaths(tt.args.allPaths) {
 				if len(gotPath.Path) != tt.want[i] {
-					t.Errorf("SortPaths() = %v, want %v", len(gotPath.Path) , tt.want[i])
+					t.Errorf("SortPaths() = %v, want %v", len(gotPath.Path), tt.want[i])
 				}
 			}
 		})
@@ -1156,10 +1156,12 @@ func TestTrimPaths(t *testing.T) {
 
 	rooms := []structs.Room{
 		{
-			Name: "0",
+			Name:    "0",
+			IsStart: true,
 		},
 		{
-			Name: "1",
+			Name:  "1",
+			IsEnd: true,
 		},
 		{
 			Name: "2",
@@ -1170,20 +1172,51 @@ func TestTrimPaths(t *testing.T) {
 		{
 			Name: "4",
 		},
+	}
+	room := []structs.Room{
 		{
-			Name: "5",
+			Name:    "start",
+			IsStart: true,
 		},
 		{
-			Name: "6",
+			Name: "h",
 		},
 		{
-			Name: "7",
+			Name: "n",
 		},
 		{
-			Name: "8",
+			Name: "e",
 		},
 		{
-			Name: "9",
+			Name:  "end",
+			IsEnd: true,
+		},
+		{
+			Name: "m",
+		},
+		{
+			Name: "t",
+		},
+		{
+			Name: "E",
+		},
+		{
+			Name: "a",
+		},
+		{
+			Name: "0",
+		},
+		{
+			Name: "o",
+		},
+		{
+			Name: "A",
+		},
+		{
+			Name: "c",
+		},
+		{
+			Name: "k",
 		},
 	}
 	type args struct {
@@ -1240,11 +1273,160 @@ func TestTrimPaths(t *testing.T) {
 				},
 			},
 		},
+		{
+			name: "pass - hard",
+			args: args{
+				allPaths: []*structs.PathStruct{
+					{
+						//[start h n e end]
+						Path: []*structs.Room{
+							&room[0],
+							&room[1],
+							&room[2],
+							&room[3],
+							&room[4],
+						},
+					},
+					{
+						//[start h n m end]
+						Path: []*structs.Room{
+							&room[0],
+							&room[1],
+							&room[2],
+							&room[5],
+							&room[4],
+						},
+					},
+					{
+						//[start t E a m end]
+						Path: []*structs.Room{
+							&room[0],
+							&room[6],
+							&room[7],
+							&room[8],
+							&room[5],
+							&room[4],
+						},
+					},
+					{
+						//[start 0 o n m end]
+						Path: []*structs.Room{
+							&room[0],
+							&room[9],
+							&room[10],
+							&room[2],
+							&room[5],
+							&room[4],
+						},
+					},
+					{
+						//[start h A c k end]
+						Path: []*structs.Room{
+							&room[0],
+							&room[1],
+							&room[11],
+							&room[12],
+							&room[13],
+							&room[4],
+						},
+					},
+					{
+						//[start 0 o n e end]
+						Path: []*structs.Room{
+							&room[0],
+							&room[9],
+							&room[10],
+							&room[2],
+							&room[3],
+							&room[4],
+						},
+					},
+					{
+						//[start t E a m n e end]
+						Path: []*structs.Room{
+							&room[0],
+							&room[6],
+							&room[7],
+							&room[8],
+							&room[5],
+							&room[2],
+							&room[3],
+							&room[4],
+						},
+					},
+					{
+						//[start 0 o n h A c k end]
+						Path: []*structs.Room{
+							&room[0],
+							&room[9],
+							&room[10],
+							&room[2],
+							&room[1],
+							&room[11],
+							&room[12],
+							&room[13],
+							&room[4],
+						},
+					},
+					{
+						//[start t E a m n h A c k end]
+						Path: []*structs.Room{
+							&room[0],
+							&room[6],
+							&room[7],
+							&room[8],
+							&room[5],
+							&room[2],
+							&room[1],
+							&room[11],
+							&room[12],
+							&room[13],
+							&room[4],
+						},
+					},
+				},
+			},
+			want: []*structs.PathStruct{
+				{
+					////[start t E a m end]
+					Path: []*structs.Room{
+						&room[0],
+						&room[6],
+						&room[7],
+						&room[8],
+						&room[5],
+						&room[4],
+					},
+				},
+				{
+					//[start h A c k end]
+					Path: []*structs.Room{
+						&room[0],
+						&room[1],
+						&room[11],
+						&room[12],
+						&room[13],
+						&room[4],
+					},
+				},
+				{
+					//[start 0 o n e end]
+					Path: []*structs.Room{
+						&room[0],
+						&room[9],
+						&room[10],
+						&room[2],
+						&room[3],
+						&room[4],
+					},
+				},
+			},
+		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			if got := TrimPaths(tt.args.allPaths); !reflect.DeepEqual(got, tt.want) {
-				t.Errorf("TrimPaths() = %v, want %v", got, tt.want)
+				t.Errorf("TrimPaths(): %v, want: %v", GetSliceOfPathNames(got), GetSliceOfPathNames(tt.want))
 			}
 		})
 	}
