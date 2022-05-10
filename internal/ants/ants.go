@@ -30,6 +30,7 @@ func AssignAnts(ants []*structs.Ant, paths []*structs.PathStruct) []*structs.Pat
 			}
 		}
 	}
+
 	return paths
 }
 
@@ -56,6 +57,28 @@ func MoveAnts(ants []*structs.Ant, path *structs.PathStruct) []string {
 	for k, trimResult := range result {
 		result[k] = strings.TrimSpace(trimResult)
 	}
+	numberofRooms := []int{}
+	numberofRooms = append(numberofRooms, 1)
+	numberofRooms = append(numberofRooms, 2)
+	numberofRooms = append(numberofRooms, 3)
+	numberofRooms = append(numberofRooms, 2)
+	numberofRooms = append(numberofRooms, 1)
+
+	fmt.Println(result)
+	roomNumber := 1
+
+	for i := 0; i < len(numberofRooms); i++ {
+		for j := 0; j < numberofRooms[i]; j++ {
+			//fmt.Println(numberofRooms[i], j)
+			fmt.Println(result[roomNumber])
+			roomNumber = roomNumber + 1
+			if i < len(numberofRooms)-1 {
+				i = i + 1
+			}
+		}
+	}
+	fmt.Println(result[len(result)-1])
+
 	return deleteEmpty(result)
 }
 
@@ -67,6 +90,17 @@ func deleteEmpty(s []string) []string {
 		}
 	}
 	return r
+}
+
+func noOfMoves(ants []*structs.Ant, paths *structs.PathStruct) []int {
+	result := []int{}
+	//need to find a way to get number of paths - in this instance used 1
+	result = append(result, 1)
+
+	fmt.Println(len(ants))
+
+	//	fmt.Println(len(paths))
+	return result
 }
 
 // func getSliceOfAntNames(ants []*structs.Ant) []string {
