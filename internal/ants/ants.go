@@ -70,10 +70,11 @@ func MoveAnts(ants []*structs.Ant, path *structs.PathStruct) []string {
 			roomNumber = roomNumber + 1
 			if i < len(numberofRooms)-1 {
 				i = i + 1
+			} else {
+				fmt.Println(result[roomNumber])
 			}
 		}
 	}
-	fmt.Println(result[len(result)-1])
 
 	return deleteEmpty(result)
 }
@@ -133,6 +134,16 @@ func noOfMoves(ants []*structs.Ant, paths *structs.PathStruct) []int {
 		} else {
 			break
 		}
+	}
+
+	noOfRoomsAdded := 0
+
+	for i := 0; i < len(result); i++ {
+		noOfRoomsAdded = noOfRoomsAdded + result[i]
+	}
+
+	if noOfRoomsAdded < len(rooms) {
+		result = append(result, len(rooms)-noOfRoomsAdded)
 	}
 
 	//fmt.Println(noRooms)
