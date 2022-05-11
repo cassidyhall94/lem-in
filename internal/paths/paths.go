@@ -146,7 +146,7 @@ func join(ins []rune, c rune) (result []string) {
 	return
 }
 
-func Permutations(testStr string) []string {
+func PermutationsRec(testStr string) []string {
 	var n func(testStr []rune, p []string) []string
 	n = func(testStr []rune, p []string) []string {
 		if len(testStr) == 0 {
@@ -182,4 +182,68 @@ func GetPathsFromStrings(lookupMap map[string][]*structs.Room, sortString string
 		allPaths = append(allPaths, lookupMap[string(r)])
 	}
 	return allPaths
+}
+
+func PermutationsIter(str string) []string {
+	var count = 0
+	ret := []string{}
+	temp := []rune(str)
+	if len(temp) == 1 {
+		return []string{str}
+	}
+	sort.Slice(temp, func(i, j int) bool {
+		return temp[i] < temp[j]
+	})
+	index, lowest := 0, 0
+	for {
+		// 4 million permutions should be enough for anyone
+		if count > 4000000 {
+			break
+		}
+		count++
+		for i := 0; i < len(temp)-1; i++ {
+			if temp[i] < temp[i+1] {
+				lowest = i
+			}
+		}
+		index = lowest
+		j := findCeiling(temp, index)
+		if j == index {
+			break
+		}
+		swap(temp, index, j)
+		b := temp[index+1:]
+		sort.Slice(b, func(i, j int) bool {
+			return b[i] < b[j]
+		})
+		a := string(temp[0:index+1]) + string(b)
+		temp = []rune(a)
+		ret = append(ret, string(temp))
+	}
+	return ret
+}
+
+func swap(r []rune, i, j int) string {
+	r[i], r[j] = r[j], r[i]
+	return string(r)
+}
+
+func findCeiling(temp []rune, index int) int {
+	k := index
+	test := temp[index]
+	for k < len(temp)-1 {
+		if temp[index] < temp[k+1] {
+			index = k + 1
+			break
+		}
+		k++
+	}
+	k = index
+	for k < len(temp)-1 {
+		if (temp[index] > temp[k+1]) && (temp[k+1] > test) {
+			index = k + 1
+		}
+		k++
+	}
+	return index
 }

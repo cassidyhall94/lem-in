@@ -30,18 +30,21 @@ func main() {
 	connectedFarm := farm.ConnectRooms(filledFarm, generationData)
 	allPaths := paths.FindAllPaths(connectedFarm)
 
+	allPaths = reduceSlice(allPaths, 8)
+
 	pathsFlat := [][]*structs.Room{}
 	for _, p := range allPaths {
 		pathsFlat = append(pathsFlat, p.Path)
 	}
 	lookupMap, sortString := paths.MapPathsToStrings(pathsFlat)
-	permedStrings := paths.Permutations(sortString)
+	permedStrings := paths.PermutationsIter(sortString)
 
 	moveStore := moveData{}
 	m := sync.Mutex{}
 	wg := sync.WaitGroup{}
 
-	chunks := chunkSlice(permedStrings, 5)
+	// increasing the int in chunkslice will make the program run faster and use more RAM
+	chunks := chunkSlice(permedStrings, 50)
 
 	for _, c := range chunks {
 		for _, s := range c {
@@ -71,7 +74,6 @@ func main() {
 				m.Unlock()
 			}(s)
 		}
-
 		wg.Wait()
 	}
 
@@ -98,7 +100,7 @@ func printMoves(allMoves [][]string, longestMoveset int) {
 	}
 
 	for _, o := range out {
-		fmt.Println(o)
+		fmt.Printf("%s\n", o)
 	}
 }
 
@@ -128,4 +130,26 @@ func chunkSlice(slice []string, chunkSize int) [][]string {
 	}
 
 	return chunks
+}
+
+func reduceSlice(allPaths []*structs.PathStruct, reduceTo int) []*structs.PathStruct {
+	for i, ps := range allPaths {
+		if !(i+1 > len(allPaths)-1) {
+			if len(ps.Path) > reduceTo {
+				allPaths = append(allPaths[:i], allPaths[i+1:]...)
+			}
+		}
+	}
+	countAbove, countBelow := 0, 0
+	for _, ps := range allPaths {
+		if len(ps.Path) > reduceTo {
+			countAbove++
+		} else if len(ps.Path) < reduceTo {
+			countBelow++
+		}
+	}
+	if len(allPaths) > 10 && countAbove-countBelow > 0 {
+		return reduceSlice(allPaths, reduceTo-1)
+	}
+	return allPaths
 }
