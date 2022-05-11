@@ -4,16 +4,20 @@ import (
 	"fmt"
 	"log"
 	"os"
+	"sync"
 
 	"git.learn.01founders.co/Cassidy.Hall94/lem-in/internal/ants"
 	dataparser "git.learn.01founders.co/Cassidy.Hall94/lem-in/internal/data-parser"
 	"git.learn.01founders.co/Cassidy.Hall94/lem-in/internal/farm"
 	"git.learn.01founders.co/Cassidy.Hall94/lem-in/internal/paths"
+	"git.learn.01founders.co/Cassidy.Hall94/lem-in/internal/structs"
 )
+
+type moveData map[int][][]string
 
 func main() {
 	if len(os.Args) != 2 {
-		log.Fatal("The file name is missing")
+		log.Fatal("ERROR: File name missing")
 		os.Exit(1)
 	}
 
@@ -26,39 +30,63 @@ func main() {
 	connectedFarm := farm.ConnectRooms(filledFarm, generationData)
 	allPaths := paths.FindAllPaths(connectedFarm)
 
-	// instead of making a proper algorithm lets use randomness and brute force the problem
-	// 1. using a loop, randomise the order of allpaths n times (n is the number of possible ways to randomise len(allpaths) paths), collect all of the random path orders into a slice
-	// 2. in a loop 
-	// 2a. run trimpaths
-	// 2b. run sortpaths
-	// 2c. run antAssignments
-	// 2d. run moveants
-	// 2e. get the longestMoveset, append to a helper (this needs to be able to refer back to the allMoves that it came from)
-	// 3. printMoves() the shortest allMoves (determined by the smallest longestMoveset in the helper)
+	pathsFlat := [][]*structs.Room{}
+	for _, p := range allPaths {
+		pathsFlat = append(pathsFlat, p.Path)
+	}
+	lookupMap, sortString := paths.MapPathsToStrings(pathsFlat)
+	permedStrings := paths.Permutations(sortString)
 
+	moveStore := moveData{}
+	m := sync.Mutex{}
+	wg := sync.WaitGroup{}
 
-	sortedPaths := paths.SortPaths(allPaths)
-	trimmedPaths := paths.TrimPaths(sortedPaths)
-	assignedAnts := ants.AssignAnts(connectedFarm.Ants, trimmedPaths)
+	chunks := chunkSlice(permedStrings, 5)
 
-	allMoves := [][]string{}
-	for _, ps := range assignedAnts {
-		antsMoved := ants.MoveAnts(ps.Ants, ps)
-		allMoves = append(allMoves, antsMoved)
+	for _, c := range chunks {
+		for _, s := range c {
+			wg.Add(1)
+			go func(s string) {
+				defer wg.Done()
+				allPathsFlat := paths.GetPathsFromStrings(lookupMap, s)
+				allPaths := []*structs.PathStruct{}
+				for _, p := range allPathsFlat {
+					allPaths = append(allPaths, &structs.PathStruct{Path: p})
+				}
+				trimmedPaths := paths.TrimPaths(allPaths)
+				assignedAnts := ants.AssignAnts(connectedFarm.Ants, trimmedPaths)
+
+				allMoves := [][]string{}
+				for _, ps := range assignedAnts {
+					antsMoved := ants.MoveAnts(ps.Ants, ps)
+					allMoves = append(allMoves, antsMoved)
+				}
+
+				longestMoveset := getLongestMoveset(allMoves)
+
+				m.Lock()
+				if _, ok := moveStore[longestMoveset]; !ok {
+					moveStore[longestMoveset] = allMoves
+				}
+				m.Unlock()
+			}(s)
+		}
+
+		wg.Wait()
 	}
 
-	// longestMoveset is the number of turns (needs verifying)
-	longestMoveset := func() int {
-		l := 0
-		for _, moveset := range allMoves {
-			if len(moveset) > l {
-				l = len(moveset)
-			}
+	allMoves, numMoves := [][]string{}, 0
+	for n, m := range moveStore {
+		if numMoves == 0 {
+			allMoves = m
+			numMoves = n
+		} else if n < numMoves {
+			allMoves = m
+			numMoves = n
 		}
-		return l
-	}()
+	}
 
-	printMoves(allMoves, longestMoveset)
+	printMoves(allMoves, numMoves)
 }
 
 func printMoves(allMoves [][]string, longestMoveset int) {
@@ -72,4 +100,32 @@ func printMoves(allMoves [][]string, longestMoveset int) {
 	for _, o := range out {
 		fmt.Println(o)
 	}
+}
+
+// longestMoveset gets the number of turns (needs verifying)
+func getLongestMoveset(allMoves [][]string) int {
+	l := 0
+	for _, moveset := range allMoves {
+		if len(moveset) > l {
+			l = len(moveset)
+		}
+	}
+	return l
+}
+
+func chunkSlice(slice []string, chunkSize int) [][]string {
+	var chunks [][]string
+	for i := 0; i < len(slice); i += chunkSize {
+		end := i + chunkSize
+
+		// necessary check to avoid slicing beyond
+		// slice capacity
+		if end > len(slice) {
+			end = len(slice)
+		}
+
+		chunks = append(chunks, slice[i:end])
+	}
+
+	return chunks
 }

@@ -88,16 +88,6 @@ func SortPaths(allPaths []*structs.PathStruct) []*structs.PathStruct {
 		return shortToLong
 	})
 	return allPaths
-	// allPaths:
-	// [start h n e end]
-	// [start h n m end]
-	// [start t E a m end]
-	// [start 0 o n m end]
-	// [start h A c k end]
-	// [start 0 o n e end]
-	// [start t E a m n e end]
-	// [start 0 o n h A c k end]
-	// [start t E a m n h A c k end]
 }
 
 // func to remove overlapping paths (except start/end rooms)
@@ -106,33 +96,36 @@ func SortPaths(allPaths []*structs.PathStruct) []*structs.PathStruct {
 func TrimPaths(allPaths []*structs.PathStruct) []*structs.PathStruct {
 	trimmedPaths := []*structs.PathStruct{}
 	helper := []*structs.Room{}
-	med := calcMedianPathLen(allPaths)
-	allPaths = rearrangePathsOnTheMedian(allPaths, med)
 	for _, path := range allPaths {
+		if len(path.Path) == 2 {
+			trimmedPaths = append(trimmedPaths, path)
+			continue
+		}
 		pathToAppend := true
-		var doesContain bool
-		if doesContain, helper = contains(helper, path.Path); doesContain {
-			pathToAppend = false
+		for _, room := range path.Path {
+			if contains(helper, room) {
+				pathToAppend = false
+				break
+			}
+			if !room.IsStart && !room.IsEnd {
+				helper = append(helper, room)
+			}
 		}
 		if pathToAppend {
 			trimmedPaths = append(trimmedPaths, path)
-			continue
-
 		}
 	}
 	return trimmedPaths
 }
 
-func contains(s []*structs.Room, path []*structs.Room) (bool, []*structs.Room) {
+func contains(s []*structs.Room, str *structs.Room) bool {
 	for _, v := range s {
-		for _, r := range path {
-			if v.Name == r.Name {
-				return true, s
-			}
+		if v == str {
+			return true
 		}
 	}
 
-	return false, addPathToHelper(s, path)
+	return false
 }
 
 func addPathToHelper(h []*structs.Room, path []*structs.Room) []*structs.Room {
@@ -144,31 +137,49 @@ func addPathToHelper(h []*structs.Room, path []*structs.Room) []*structs.Room {
 	return h
 }
 
-func calcMedianPathLen(allPaths []*structs.PathStruct) int {
-	totalLengths := 0
-	for _, ps := range allPaths {
-		totalLengths = totalLengths + len(ps.Path)
-	}
-	if totalLengths == 0 || len(allPaths) == 0 {
-		return 0
-	}
+type mapOfStringsToPaths map[string][]*structs.Room
 
-	return totalLengths / len(allPaths)
+func join(ins []rune, c rune) (result []string) {
+	for i := 0; i <= len(ins); i++ {
+		result = append(result, string(ins[:i])+string(c)+string(ins[i:]))
+	}
+	return
 }
 
-func rearrangePathsOnTheMedian(paths []*structs.PathStruct, med int) []*structs.PathStruct {
-	ret := []*structs.PathStruct{}
-	didAThing := false
-	for i, ps := range paths {
-		if len(ps.Path) == med {
-			didAThing = true
-			ret = append(ret, paths[i:]...)
-			ret = append(ret, paths[:i]...)
-			break
+func Permutations(testStr string) []string {
+	var n func(testStr []rune, p []string) []string
+	n = func(testStr []rune, p []string) []string {
+		if len(testStr) == 0 {
+			return p
+		} else {
+			result := []string{}
+			for _, e := range p {
+				result = append(result, join([]rune(e), testStr[0])...)
+			}
+			return n(testStr[1:], result)
 		}
 	}
-	if didAThing == false {
-		return paths
+
+	output := []rune(testStr)
+	return n(output[1:], []string{string(output[0])})
+}
+
+func MapPathsToStrings(allPaths [][]*structs.Room) (map[string][]*structs.Room, string) {
+	lookupMap, sortString := map[string][]*structs.Room{}, ""
+	letter := func(i int) string {
+		return string(rune(i + 33))
 	}
-	return ret
+	for i, path := range allPaths {
+		lookupMap[letter(i)] = path
+		sortString = sortString + letter(i)
+	}
+	return lookupMap, sortString
+}
+
+func GetPathsFromStrings(lookupMap map[string][]*structs.Room, sortString string) [][]*structs.Room {
+	allPaths := [][]*structs.Room{}
+	for _, r := range sortString {
+		allPaths = append(allPaths, lookupMap[string(r)])
+	}
+	return allPaths
 }

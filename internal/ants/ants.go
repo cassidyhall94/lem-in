@@ -21,13 +21,11 @@ func AssignAnts(ants []*structs.Ant, paths []*structs.PathStruct) []*structs.Pat
 			if i+1 == len(paths) {
 				if (len(path.Path) + len(path.Ants)) <= (len(paths[0].Path) + len(paths[0].Ants)) {
 					path.Ants = append(path.Ants, ant)
-					// fmt.Printf("path.Path: %+v path.Ants: %+v ant: %+v\n", GetSliceOfRoomsNames(path.Path), GetSliceOfAntsNames(path.Ants), ant)
 					break
 				}
 			} else {
 				if (len(path.Path) + len(path.Ants)) <= (len(paths[i+1].Path) + len(paths[i+1].Ants)) {
 					path.Ants = append(path.Ants, ant)
-					// fmt.Printf("path.Path: %+v path.Ants: %+v ant: %+v\n", GetSliceOfRoomsNames(path.Path), GetSliceOfAntsNames(path.Ants), ant)
 					break
 				}
 			}
