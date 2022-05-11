@@ -2,6 +2,7 @@ package ants
 
 import (
 	"fmt"
+	//"regexp"
 	"strings"
 
 	"git.learn.01founders.co/Cassidy.Hall94/lem-in/internal/structs"
@@ -57,14 +58,9 @@ func MoveAnts(ants []*structs.Ant, path *structs.PathStruct) []string {
 	for k, trimResult := range result {
 		result[k] = strings.TrimSpace(trimResult)
 	}
-	numberofRooms := []int{}
-	numberofRooms = append(numberofRooms, 1)
-	numberofRooms = append(numberofRooms, 2)
-	numberofRooms = append(numberofRooms, 3)
-	numberofRooms = append(numberofRooms, 2)
-	numberofRooms = append(numberofRooms, 1)
 
-	fmt.Println(result)
+	numberofRooms := noOfMoves(ants, path)
+
 	roomNumber := 1
 
 	for i := 0; i < len(numberofRooms); i++ {
@@ -93,13 +89,57 @@ func deleteEmpty(s []string) []string {
 }
 
 func noOfMoves(ants []*structs.Ant, paths *structs.PathStruct) []int {
-	result := []int{}
 	//need to find a way to get number of paths - in this instance used 1
-	result = append(result, 1)
+	lenPaths := 1
+	rooms := []string{}
+	rooms = append(rooms, "2", "3", "2", "1", "3", "2", "1", "3", "1")
+	result := []int{}
 
-	fmt.Println(len(ants))
+	result = append(result, lenPaths)
 
-	//	fmt.Println(len(paths))
+	numberOfRooms := lenPaths
+	var numberToAdd int
+
+	for numberOfRooms < len(rooms) {
+		noRooms := 0
+
+		if numberToAdd < len(ants) {
+			numberToAdd = result[len(result)-1] + lenPaths
+			for i := numberOfRooms; i < numberOfRooms+numberToAdd; i++ {
+				if i < numberOfRooms+numberToAdd {
+					if rooms[i] == "1" || rooms[i] != rooms[i+1] {
+						noRooms = noRooms + 1
+					}
+				}
+			}
+			numberOfRooms = numberOfRooms + noRooms
+			result = append(result, noRooms)
+		} else if numberToAdd == len(ants) {
+			for i := numberOfRooms; i < numberOfRooms+numberToAdd; i++ {
+				if i < numberOfRooms+numberToAdd {
+					currentRoom := rooms[i]
+					for r := 1; r < numberToAdd; r++ {
+						if rooms[i+r] == currentRoom {
+							break
+						} else {
+							noRooms = noRooms + 1
+						}
+					}
+					numberToAdd = numberToAdd - 1
+				}
+			}
+			result = append(result, noRooms)
+			numberOfRooms = numberOfRooms + numberOfRooms
+		} else {
+			break
+		}
+	}
+
+	//fmt.Println(noRooms)
+
+	//loop through rooms from numberOfRooms i.e. numberOfRooms = 1 + len paths then go through the rooms
+	//i.e. look at rooms[1] and rooms[2] do they equal the same if not add number 2 to result if both rooms are end room then add 3 (len ants)
+
 	return result
 }
 
