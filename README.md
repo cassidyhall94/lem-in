@@ -8,7 +8,9 @@ Upon successfully finding the quickest path, lem-in will display the content of 
 
 <h1 align="center">USAGE</h1>
 
-Please type `bin/lem-in maps/example00.txt` into the terminal replacing the file name as needed.
+First, run `./build.sh`
+
+Then run `bin/lem-in maps/example00.txt` into the terminal replacing the file name as needed.
 
 There is also the ability to run the following commands in the terminal:
 
