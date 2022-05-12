@@ -824,7 +824,10 @@ func TestFindAllPaths(t *testing.T) {
 			if err != nil {
 				t.Errorf("dataparser.LoadData error: %+v", err)
 			}
-			generationData := dataparser.ReadData(data)
+			generationData, err := dataparser.ReadData(data)
+			if err != nil {
+				t.Errorf("ERROR: invalid data format, %v", err)
+			}
 			filledFarm := farm.GenerateFarm(generationData)
 			linkedFarm := farm.ConnectRooms(filledFarm, generationData)
 

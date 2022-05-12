@@ -169,61 +169,61 @@ func TestAssignAnts(t *testing.T) {
 		args args
 		want []*structs.PathStruct
 	}{
-		// {
-		// 	name: "pass - easy",
-		// 	args: args{
-		// 		ants: []*structs.Ant{
-		// 			&ants[0],
-		// 			&ants[1],
-		// 			&ants[2],
-		// 			&ants[3],
-		// 			&ants[4],
-		// 			&ants[5],
-		// 		},
-		// 		paths: []*structs.PathStruct{
-		// 			{
-		// 				Path: []*structs.Room{
-		// 					&rooms[0],
-		// 					&rooms[1],
-		// 				},
-		// 			},
-		// 			{
-		// 				Path: []*structs.Room{
-		// 					&rooms[0],
-		// 					&rooms[2],
-		// 					&rooms[3],
-		// 					&rooms[1],
-		// 				},
-		// 			},
-		// 		},
-		// 	},
-		// 	want: []*structs.PathStruct{
-		// 		{
-		// 			Path: []*structs.Room{
-		// 				&rooms[0],
-		// 				&rooms[1],
-		// 			},
-		// 			Ants: []*structs.Ant{
-		// 				&ants[0],
-		// 				&ants[1],
-		// 				&ants[2],
-		// 				&ants[4],
-		// 			},
-		// 		},
-		// 		{
-		// 			Path: []*structs.Room{
-		// 				&rooms[0],
-		// 				&rooms[2],
-		// 				&rooms[3],
-		// 				&rooms[1],
-		// 			},
-		// 			Ants: []*structs.Ant{
-		// 				&ants[3],
-		// 				&ants[5],
-		// 			},
-		// 		},
-		// 	},
-		// },
+		{
+			name: "pass - easy",
+			args: args{
+				ants: []*structs.Ant{
+					&ants[0],
+					&ants[1],
+					&ants[2],
+					&ants[3],
+					&ants[4],
+					&ants[5],
+				},
+				paths: []*structs.PathStruct{
+					{
+						Path: []*structs.Room{
+							&rooms[0],
+							&rooms[1],
+						},
+					},
+					{
+						Path: []*structs.Room{
+							&rooms[0],
+							&rooms[2],
+							&rooms[3],
+							&rooms[1],
+						},
+					},
+				},
+			},
+			want: []*structs.PathStruct{
+				{
+					Path: []*structs.Room{
+						&rooms[0],
+						&rooms[1],
+					},
+					Ants: []*structs.Ant{
+						&ants[0],
+						&ants[1],
+						&ants[2],
+						&ants[4],
+					},
+				},
+				{
+					Path: []*structs.Room{
+						&rooms[0],
+						&rooms[2],
+						&rooms[3],
+						&rooms[1],
+					},
+					Ants: []*structs.Ant{
+						&ants[3],
+						&ants[5],
+					},
+				},
+			},
+		},
 		{
 			name: "pass - hard",
 			args: args{

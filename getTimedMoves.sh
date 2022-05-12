@@ -2,7 +2,7 @@
 
 for m in $(ls maps | grep -v bad | grep example); do
     start=`date +%s`
-    moves=$(go run . maps/$m | wc -l)
+    moves=$(bin/lem-in maps/$m | wc -l)
     end=`date +%s`
 
     runtime=$((end-start))

@@ -6,8 +6,7 @@ import (
 	structs "git.learn.01founders.co/Cassidy.Hall94/lem-in/internal/structs"
 )
 
-// Generate farm based on generation data
-
+// GenerateFarm using GenerationData parsed by ReadData
 func GenerateFarm(data structs.GenerationData) structs.Farm {
 	rooms := []*structs.Room{}
 	for i := 0; i < len(data.Rooms); i++ {
@@ -34,13 +33,8 @@ func GenerateFarm(data structs.GenerationData) structs.Farm {
 	}
 }
 
-// Using farm(rooms) found from generateFarm func, connect the farms(rooms) together using data(links) structs.GenerationData
-
-// range over data.Links for each link
-// find corresponding rooms in farm.rooms, save the links in a helper variable before appending
-// append &RoomB to RoomA.Links and &RoomsA to RoomB.Links
-// add links back into the farm.Room after appending
-
+// ConnectRooms uses farm from GenerateFarm and data from GenerateFarm, to range over data.Links for each link
+// it finds the corresponding rooms in farm.rooms, saves the links in a helper variable before appending
 func ConnectRooms(farm structs.Farm, data structs.GenerationData) structs.Farm {
 	for _, dataLink := range data.Links {
 		for _, farmRoomA := range farm.Rooms {

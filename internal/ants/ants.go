@@ -8,13 +8,7 @@ import (
 	"git.learn.01founders.co/Cassidy.Hall94/lem-in/internal/structs"
 )
 
-// fmt.Printf("Length of paths[i+1].Path: %+v paths[i+1].Ants: %+v\n", len(getSliceOfRoomNames(paths[i+1].Path)), getSliceOfAntsNames(paths[i+1].Ants))
-
-// fmt.Printf("paths[i+1].Path: %+v paths[i+1].Ants: %+v\n", getSliceOfRoomNames(paths[i+1].Path), getSliceOfAntsNames(paths[i+1].Ants))
-
-// fmt.Printf("path.Path: %+v path.Ants: %+v ant: %+v\n", getSliceOfRoomNames(path.Path), getSliceOfAntsNames(path.Ants), ant)
-
-// func AssignAnts assigns a path to each ant
+// AssignAnts assigns a path to each ant
 func AssignAnts(ants []*structs.Ant, paths []*structs.PathStruct) []*structs.PathStruct {
 	for _, ant := range ants {
 		for i, path := range paths {
@@ -34,7 +28,7 @@ func AssignAnts(ants []*structs.Ant, paths []*structs.PathStruct) []*structs.Pat
 	return paths
 }
 
-// func MoveAnts take the ants one by one and move them through their path
+// MoveAnts take the ants one by one and moves them through their paths
 func MoveAnts(ants []*structs.Ant, path *structs.PathStruct) []string {
 	result := make([]string, (len(ants) + len(path.Path) - 1))
 	for i, oneAntStruct := range ants {

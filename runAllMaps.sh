@@ -1,7 +1,9 @@
 #!/bin/bash
 
-for m in $(ls maps | grep -v bad | grep example); do
+set +e
+
+for m in $(ls maps); do
     echo "-------maps/$m-------"
-    bin/lem-in maps/$m
+    bin/lem-in maps/$m 2>&1
     echo "--------------------------------"
 done

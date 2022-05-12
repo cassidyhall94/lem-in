@@ -10,7 +10,7 @@ import (
 	structs "git.learn.01founders.co/Cassidy.Hall94/lem-in/internal/structs"
 )
 
-// Loads data from the file and saves it into variable
+// LoadData loads data from the file and saves it into a variable
 func LoadData(fileName string) ([]string, error) {
 	file, err := os.Open(fileName)
 	if err != nil {
@@ -32,11 +32,11 @@ func LoadData(fileName string) ([]string, error) {
 	return ret, nil
 }
 
-// Reads and checks data from loaded data to make generation data for future farm
-func ReadData(fileLines []string) structs.GenerationData {
+// ReadData checks data from LoadData to make GenerationData for future farm
+func ReadData(fileLines []string) (structs.GenerationData, error) {
 	ants, rooms, links, start, end := 0, []string{}, []string{}, 0, 0
 	foundStart, foundEnd := false, false
-	for _, fileLine := range fileLines {
+	for i, fileLine := range fileLines {
 		// Ignore blank lines
 		if len(fileLine) == 0 {
 			continue
@@ -53,9 +53,14 @@ func ReadData(fileLines []string) structs.GenerationData {
 		}
 
 		a, err := strconv.Atoi(fileLine)
+		if i == 0 && a == 0 {
+			fmt.Println("ERROR: invalid number of ants")
+		}
 		if err == nil {
 			ants = a
 			continue
+		} else if err != nil && i == 0 {
+			return structs.GenerationData{}, fmt.Errorf("ERROR: parsing ants, got %s wanted int: %w", fileLine, err)
 		}
 
 		maybeRoom := strings.Split(fileLine, " ")
@@ -82,5 +87,5 @@ func ReadData(fileLines []string) structs.GenerationData {
 		Links:        links,
 		StartIndex:   start,
 		EndIndex:     end,
-	}
+	}, nil
 }

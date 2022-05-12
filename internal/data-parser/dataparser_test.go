@@ -91,7 +91,7 @@ func TestReadData(t *testing.T) {
 			if err != nil {
 				t.Errorf("unable to set up ReadData test: %+v", err)
 			}
-			got := ReadData(fileLines)
+			got, _ := ReadData(fileLines)
 			if !reflect.DeepEqual(got, tt.want) {
 				t.Errorf("ReadData() = %+v, want %+v", got, tt.want)
 			}
